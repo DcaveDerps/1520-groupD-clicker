@@ -1,13 +1,15 @@
-import datetime
+#import datetime
 
-from flask import Flask
+import flask
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
 
 @app.route('/')
+@app.route('/index')
+@app.route('/index.html')
 def root():
-    return ('Hello, world! The time is %s' % datetime.datetime.now())
+    return flask.render_template('index.html', page_title='Login')
 
 
 if __name__ == '__main__':
