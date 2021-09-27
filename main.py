@@ -1,16 +1,13 @@
-#import datetime
-
 import flask
 
 app = flask.Flask(__name__)
-
 
 @app.route('/')
 @app.route('/index')
 @app.route('/index.html')
 @app.route('/static-files/index.html')
 def root():
-    return flask.render_template('index.html', page_title='Login')
+    return flask.render_template('/s/index.html', page_title='Login')
 
 @app.route('/game')
 @app.route('/game.html')
