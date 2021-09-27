@@ -37,7 +37,7 @@ IF YOU HAVE NO LOCAL CHANGES YOU WANT TO KEEP
 
 "git checkout test -- ./*"  
 
-(Note that the above command doesn't create new folders if they don't exist, so if test has a folder your branch does, create an empty folder with the same name and run the command again)
+(Note that the above command doesn't create new folders if they don't exist, so if 'test' has a folder your branch doesn't, create an empty folder with the same name as the folder in 'test' and run the command again)
 
 IF YOU HAVE LOCAL CHANGES YOU WANT TO KEEP
 
