@@ -1,0 +1,40 @@
+{% extends '_base.html' %}
+{% block content %}
+    <br><br>
+    <div id="click-object">
+        <img src="/s/click-object.png" onclick="inc()" alt="click object" height="256em" width="256em">
+    </div>
+    <style>
+
+        #click-object {
+
+            display: flex;
+            justify-content: center;
+        }
+
+        #total {
+            display: flex;
+            justify-content: center;
+        }
+
+        body {
+            background-color: lightblue;
+        }
+
+    </style>
+
+
+    <script>
+        
+        var count = 0;
+
+        function inc(){
+            count = count + 1;
+            document.getElementById("total").textContent = count;
+        }
+
+    </script>
+
+    <h2 id="total">0</h2>
+
+{% endblock %}
