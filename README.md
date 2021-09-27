@@ -28,7 +28,7 @@ First, run these two commands:
 "git checkout test"
 "git pull"
 
-This updates the local test branch, which should be the most up to date stable version of everyone's changes
+This switches to and updates the local test branch, which should then be the most up to date stable version of everyone's changes
 
 Then switch back to your personal branch
 "git checkout (branch name)"
