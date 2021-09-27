@@ -1,11 +1,5 @@
-<html>
-    <head>
-        <title>Marketplace</title>
-        <h1>
-            Marketplace
-        </h1>
-    </head>
-    <body>
+{% extends '_base.html' %}
+{% block content %}
         <p>This is the place to make your cookies special. Create or search for a new design!</p>
         <input type="button" value = "Upload a new cookie design!">
         <br>
@@ -13,6 +7,4 @@
         <p>Search for a design made by another user!</p>
         <input type="text">
         <input type="button" value = "Search">
-    </body>
-
-</html>
+{% endblock %}

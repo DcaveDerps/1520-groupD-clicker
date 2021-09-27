@@ -1,12 +1,5 @@
-<html>
-    <head>
-        <title>Login</title>
-        <h1>
-            Login
-        </h1>
-    </head>
-    <body>
-        <form action="/action_page.php">
+{% extends '_base.html' %}
+{% block content %}
         <label for="uname">Username:</label><br>
         <input type="text" id="uname" name="uname"><br>
         <label for="password">Password:</label><br>
@@ -16,6 +9,4 @@
 
         Not registered? 
         <a href="create.html">Join now</a>
-    </body>
-
-</html>
+{% endblock %}

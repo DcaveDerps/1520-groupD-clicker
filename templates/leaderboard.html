@@ -1,24 +1,16 @@
-<html>
-    <head>
-        <title>Leaderboard</title>
-        <h1>
-            Leaderboard
-        </h1>
-    </head>
-    <body>
-        <p>See how other players are doing.</p>
-        <table style = "margin-left:auto;margin-right:auto">
-            <tr>
-                <td><strong>Name</strong></td>
-                <td><strong>Cookies</strong></td>
-                <td><strong>Cookies per Second</strong></td>
-            </tr>
-            <tr>
-                <td>Foo Guy</td>
-                <td>2021</td>
-                <td><strong>2</strong></td>
-            </tr>
-        </table>
-    </body>
-
-</html>
+{% extends '_base.html' %}
+{% block content %}
+    <p>See how other players are doing.</p>
+    <table style = "margin-left:auto;margin-right:auto">
+        <tr>
+            <td><strong>Name</strong></td>
+            <td><strong>Cookies</strong></td>
+            <td><strong>Cookies per Second</strong></td>
+        </tr>
+        <tr>
+            <td>Foo Guy</td>
+            <td>2021</td>
+            <td><strong>2</strong></td>
+        </tr>
+    </table>
+{% endblock %}
