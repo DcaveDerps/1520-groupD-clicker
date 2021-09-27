@@ -3,8 +3,22 @@ import flask
 app = flask.Flask(__name__)
 
 @app.route('/')
-def root():
-    return flask.redirect("/s/login.html",code=302)
 
+@app.route('/index')
+@app.route('/index.html')
+@app.route('/static-files/index.html')
+def root():
+    return flask.render_template('/s/index.html', page_title='Login')
+
+@app.route('/game')
+@app.route('/game.html')
+def game():
+    return flask.render_template('game.html', page_title='Game')
+
+@app.route('/login')
+@app.route('/login.html')
+def login():
+  return flask.redirect('/s/login.html', code=302)
+  
 if __name__ == '__main__':
-    app.run(host='127.0.0.1',port=8080,debug=True)
+    app.run(host='127.0.0.1', port=8080, debug=True)
