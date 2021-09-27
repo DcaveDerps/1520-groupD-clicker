@@ -34,9 +34,13 @@ Then switch back to your personal branch
 "git checkout (branch name)"
 
 IF YOU HAVE NO LOCAL CHANGES YOU WANT TO KEEP
+
 "git checkout test -- ./*"  
+
 (Note that the above command doesn't create new folders if they don't exist, so if test has a folder your branch does, create an empty folder with the same name and run the command again)
 
 IF YOU HAVE LOCAL CHANGES YOU WANT TO KEEP
+
 "git merge test"
+
 Above will merge the files from test into the current branch, but there may be some conflicts, which you will have to sort out yourself.
