@@ -21,4 +21,3 @@ Once git is set up, make sure you're on the branch you want to be on
 
 [git branch management](https://stackoverflow.com/questions/42820840/how-to-push-changes-to-branch)
 
-use "git checkout (branch name)" to switch branches
