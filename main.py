@@ -54,12 +54,20 @@ def create_entity(kind):
     key = ds_client.key(kind) # ID will be generated automatically. Will be an int.
     return datastore.Entity(key)
 
+# Creates and returns a new instance of an Entity that will hold account information
+def create_account_entity(username):
+
+    ds_client = get_datastore_client()
+
+    key = ds_client.key('user_account', username) # id will be the given username
+    return datastore.Entity(key)
+
 # Stores/Updates the entity in the cloud database
 def update_entity(entity):
     ds_client = get_datastore_client()
     ds_client.put(entity)
 
-# incredibly unsafe debug functions
+# incredibly unsafe debug function
 def list_account_entities():
 
     ds_client = get_datastore_client()
@@ -68,14 +76,15 @@ def list_account_entities():
     print('\nUSER ACCOUNTS:')
 
     for acc in query.fetch():
-        print('username: ' + acc['uname'] + ' | password: ' + acc['password'])
+        print('running')
+        print(f"username: {acc['uname']} | password: {acc['password']} | collectibles: {acc['collectibles']} | cps: {acc['cps']}")
     
     print('-=-=-=-=-=-=-=-=-=-=-=-=-\n')
 
 @app.route('/create-user', methods=['POST'])
 def handle_create_account_request():
 
-    if containsBlankField(flask.request.values):
+    if '' == flask.request.values['uname'] or '' == flask.request.values['password'] or '' == flask.request.values['password-confirm']:
         print("At least one field is blank!")
         return flask.render_template('/create.html', page_title = 'Create Account')
 
@@ -92,13 +101,16 @@ def handle_create_account_request():
         return flask.render_template('/create.html', page_title = 'Create Account') # if passwords don't match, abort account creation
 
     # Otherwise, create the new Entity
-    new_user = create_entity('user_account')
+    new_user = create_account_entity(user_name)
     new_user['uname'] = user_name
     new_user['password'] = user_password    # TODO hash the password before saving it
     new_user['collectibles'] = 0
     new_user['cps'] = 0    
+
+    print('Created the entity')
     
     # Could also add the date of account creation
+    # either going to have to add time of logout or time of last cps change
 
     # add the created entity to the database
     update_entity(new_user)
@@ -119,9 +131,11 @@ HELPER FUNCTIONS
 """
 # Returns true if there exists a blank field in values
 # Intended to be used with flask.response.values
+"""
 def containsBlankField(values):
-    print("Is there a blank in values?: %s" % "" in values)
-    return "" in values
+    print("Is there a blank in values?: %s" % '' in values)
+    return '' in values['uname'] or '' in values['password'] or '' in values['password-confirm']
+"""
 
 
 if __name__ == '__main__':
