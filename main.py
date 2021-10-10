@@ -67,6 +67,12 @@ def update_entity(entity):
     ds_client = get_datastore_client()
     ds_client.put(entity)
 
+# Removes an account entity from the cloud database
+def remove_account_entity(id):
+    ds_client = get_datastore_client()
+    key = ds_client.key('user_account', id)
+    ds_client.delete(key)
+
 # incredibly unsafe debug function
 def list_account_entities():
 
