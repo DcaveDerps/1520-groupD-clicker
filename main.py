@@ -74,6 +74,7 @@ def remove_account_entity(id):
     ds_client.delete(key)
 
 # Returns the database Entity whose id is 'username'
+# Returns None if the Entity does not exist
 def get_user_account(username):
     ds_client = get_datastore_client()
     key = ds_client.key('user_account', username)
@@ -104,6 +105,9 @@ def handle_create_account_request():
 
     # TODO enforce only having one account Entity per username
     #       - If there already exists an Entity (account) with a username, abort account creation
+    if get_user_account(user_name) == None:
+        print("Username taken!")
+        return flask.render_template('/create.html', page_title = 'Create Account')
 
     user_password = flask.request.values['password']
     if user_password != flask.request.values['password-confirm']:
@@ -148,22 +152,23 @@ def handle_login_request():
 
         return flask.render_template('/login.html', page_title='Login')
 
-    # ds_client = get_datastore_client()
-
     # check if there's an account for the given username
     user_account = get_user_account(flask.request.values['uname'])
 
-    print(f"Tried to get account data for user {flask.request.values['uname']} and got {type(user_account)}")
+    # print(f"Tried to get account data for user {flask.request.values['uname']} and got {type(user_account)}")
 
+    # if user_account is None, abort login. User doesn't exist
     if user_account == None:
         print("User doesn't exist!")
         return flask.render_template('/login.html', page_title='Login')
 
+    # If the user does exist, make sure they are using the right password
     if user_account['password'] != flask.request.values['password']:
         print('Password doesn\'t match!')
+        return flask.render_template('/login.html', page_title='Login')
 
     
-
+    # otherwise, the login is successful, pass the username to the game page
     print("Login successful!")
 
     return flask.render_template('/game.html', page_title='Game', uname=user_account['uname'])
