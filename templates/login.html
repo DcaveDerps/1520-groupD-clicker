@@ -1,10 +1,12 @@
 {% extends '_base.html' %}
 {% block content %}
-        <label for="uname">Username:</label><br>
-        <input type="text" id="uname" name="uname"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br><br> 
-        <input type="submit" value="Submit">
+        <form method = "post" action="/login">
+            <label for="uname">Username:</label><br>
+            <input type="text" id="uname" name="uname"><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password"><br><br> 
+            <input type="submit" value="Submit">
+        </form>
 
         Not registered? 
         <a href="create.html">Join now</a>
