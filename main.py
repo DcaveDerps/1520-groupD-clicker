@@ -73,6 +73,12 @@ def remove_account_entity(id):
     key = ds_client.key('user_account', id)
     ds_client.delete(key)
 
+# Returns the database Entity whose id is 'username'
+def get_user_account(username):
+    ds_client = get_datastore_client()
+    key = ds_client.key('user_account', username)
+    return ds_client.get(key)
+
 # incredibly unsafe debug function
 def list_account_entities():
 
@@ -131,6 +137,36 @@ def handle_create_account_request():
     # so you need to send them somewhere or else it will give a server error
 
     return flask.render_template('/game.html', page_title='Game')
+
+@app.route('/login', methods=['POST'])
+def handle_login_request():
+
+    # check if there are any empty fields
+    if flask.request.values['uname'] == '' or flask.request.values['password'] == '':
+        
+        print("At least one field was blank!")
+
+        return flask.render_template('/login.html', page_title='Login')
+
+    # ds_client = get_datastore_client()
+
+    # check if there's an account for the given username
+    user_account = get_user_account(flask.request.values['uname'])
+
+    print(f"Tried to get account data for user {flask.request.values['uname']} and got {type(user_account)}")
+
+    if user_account == None:
+        print("User doesn't exist!")
+        return flask.render_template('/login.html', page_title='Login')
+
+    if user_account['password'] != flask.request.values['password']:
+        print('Password doesn\'t match!')
+
+    
+
+    print("Login successful!")
+
+    return flask.render_template('/game.html', page_title='Game', uname=user_account['uname'])
 
 """
 HELPER FUNCTIONS
