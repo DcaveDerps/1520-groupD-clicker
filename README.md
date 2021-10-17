@@ -21,3 +21,26 @@ Once git is set up, make sure you're on the branch you want to be on
 
 [git branch management](https://stackoverflow.com/questions/42820840/how-to-push-changes-to-branch)
 
+use "git checkout (branch name)" to switch branches
+
+## Updating Local GCloud Repo to Reflect Github Changes
+First, run these two commands:
+"git checkout test"
+"git pull"
+
+This switches to and updates the local test branch, which should then be the most up to date stable version of everyone's changes
+
+Then switch back to your personal branch
+"git checkout (branch name)"
+
+IF YOU HAVE NO LOCAL CHANGES YOU WANT TO KEEP
+
+"git checkout test -- ./*"  
+
+(Note that the above command doesn't create new folders if they don't exist, so if 'test' has a folder your branch doesn't, create an empty folder with the same name as the folder in 'test' and run the command again)
+
+IF YOU HAVE LOCAL CHANGES YOU WANT TO KEEP
+
+"git merge test"
+
+Above will merge the files from test into the current branch, but there may be some conflicts, which you will have to sort out yourself.
