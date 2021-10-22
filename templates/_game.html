@@ -14,8 +14,10 @@
     </head>
     <body>
         <br>
-        <h2>Welcome{% if uname %} {{uname}}{% endif %}!</h2>
+        <h2>Welcome{% if user is defined and user['username'] is defined %} {{user['username']}}{% endif %}!</h2>
 
         {% block content %} {% endblock %}
+
+        <h2 id="total">{% if user is defined and user['collectibles'] %}{{user['collectibles']}}{% else %}0{% endif %}</h2>
     </body>
     </html>

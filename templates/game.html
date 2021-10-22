@@ -10,15 +10,15 @@
 
     <script>
         
-        var count = 0;
+        let count = 0;
 
         function inc(){
+            //alert("total: " + document.getElementById('total').textContent + " " + parseInt(document.getElementById('total').textContent));
             count = count + 1;
+            //alert(count);
             document.getElementById("total").textContent = count;
         }
 
     </script>
-
-    <h2 id="total">0</h2>
 
 {% endblock %}
