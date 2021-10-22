@@ -1,0 +1,13 @@
+   
+{% extends '_base.html' %}
+{% block content %}
+    <form method="post" action="/create-user">
+        <label for="uname">Username:</label><br>
+        <input type="text" id="uname" name="uname"><br>
+        <label for="password">Create a Password:</label><br>
+        <input type="password" id="password" name="password"><br>
+        <label for="password">Confirm Password:</label><br>
+        <input type="password" id="password-confirm" name="password-confirm"><br><br> 
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

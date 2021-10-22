@@ -1,27 +1,11 @@
-{% extends '_base.html' %}
+{% extends '_game.html' %}
 {% block content %}
+    </body>
+    <body id = "game-body">
     <br><br>
     <div id="click-object">
-        <img src="/static/click-object.png" onclick="inc()" alt="click object" height="256em" width="256em">
+        <img src="/s/click-object.png" onclick="inc()" alt="click object" height="256em" width="256em">
     </div>
-    <style>
-
-        #click-object {
-
-            display: flex;
-            justify-content: center;
-        }
-
-        #total {
-            display: flex;
-            justify-content: center;
-        }
-
-        body {
-            background-color: lightblue;
-        }
-
-    </style>
 
 
     <script>
