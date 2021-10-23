@@ -10,7 +10,13 @@
 
     <script>
         
-        let count = 0;
+        {% if user is defined %}
+            let count = {{ user|tojson }}.collectibles;
+        {% else %}
+            let count = 0;
+        {% endif %}
+
+        // Ignore the warnings, flask/jinja replaces above correctly
 
         function inc(){
             //alert("total: " + document.getElementById('total').textContent + " " + parseInt(document.getElementById('total').textContent));

@@ -147,7 +147,7 @@ def handle_create_account_request():
     # Essentially, when a request is processed, it takes the user away from the page,
     # so you need to send them somewhere or else it will give a server error
 
-    return flask.render_template('/game.html', page_title='Game', user=new_user)
+    return flask.render_template('/game.html', page_title='Game', user=ds.get_user_account(user_name))
 
 @app.route('/login', methods=['POST'])
 def handle_login_request():
@@ -178,7 +178,7 @@ def handle_login_request():
     # otherwise, the login is successful, pass the username to the game page
     print("Login successful!")
 
-    return flask.render_template('/game.html', page_title='Game', user=user_account)
+    return flask.render_template('/game.html', page_title='Game', user=ds.get_user_account(flask.request.values['uname']))
 
 """
 HELPER FUNCTIONS
