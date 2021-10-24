@@ -1,6 +1,7 @@
 import flask
 from google.cloud import datastore
 import ds
+import game
 import datetime
 
 app = flask.Flask(__name__)
@@ -17,7 +18,7 @@ def root():
 
 @app.route('/game')
 @app.route('/game.html')
-def game():
+def game_page():
     return flask.render_template('/game.html', page_title='Game')
 
 @app.route('/login')
@@ -191,6 +192,10 @@ def containsBlankField(values):
     return '' in values['uname'] or '' in values['password'] or '' in values['password-confirm']
 """
 
+
+@app.route('/updateUserAccount', methods=['POST'])
+def updateUserAccount():
+    return game.updateUserAccount()
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

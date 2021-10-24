@@ -15,7 +15,7 @@
     </head>
     <body>
         <br>
-        <h2>Welcome{% if user is defined and user['username'] is defined %} {{user['username']}}{% endif %}!</h2>
+        <h2>Welcome{% if user is defined and user['uname'] is defined %} {{user['uname']}}{% endif %}!</h2>
 
         {% block content %} {% endblock %}
 

@@ -1,5 +1,7 @@
 import math
 import ds
+import flask
+
 
 class Building():
 
@@ -30,3 +32,9 @@ def purchase(user, building):
         user['factories'][building.ID] += 1
     else:
         print("Can't afford the building!")
+
+def updateUserAccount():
+    print("\n\nThe update function in GAME the python runs!")
+    for val in flask.request.values:
+        print(f"{val} = {flask.request.values[val]}")
+    return flask.jsonify({'success': True, 'message': 'It ran'})

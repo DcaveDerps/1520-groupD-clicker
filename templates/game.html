@@ -1,7 +1,7 @@
 {% extends '_game.html' %}
 {% block content %}
     </body>
-    <body id = "game-body">
+    <body id = "game-body" onpagehide = "updateAccount()">
     <br><br>
     <div id="click-object">
         <img src="/s/click-object.png" onclick="inc()" alt="click object" height="256em" width="256em">
@@ -23,6 +23,38 @@
             count = count + 1;
             //alert(count);
             document.getElementById("total").textContent = count;
+        }
+
+        // updates the datastore entity with data from the the user's session
+        function updateAccount(){
+            
+            console.log("Well updateAccount() is being called at least");
+
+            {% if user is defined %}
+            //let count = {{ user|tojson }}.collectibles;
+
+                console.log("   before the post request");
+
+                /*
+                $.post("/updateUserAccount", {{user|tojson}},   function(response) {
+                                                                    console.log(response);
+                                                                });
+
+                console.log("   After the post request");
+                */
+                $.ajax({ url: "/updateUserAccount", type: "POST", data: {{user|tojson}}, 
+                success: function(response){
+                    console.log(response);
+                },
+                error: function(error){
+                    console.log(error);
+                }});
+
+                
+
+            {% else %}
+                // do nothing, doesn't have an account
+            {% endif %}
         }
 
     </script>
