@@ -192,10 +192,16 @@ def containsBlankField(values):
     return '' in values['uname'] or '' in values['password'] or '' in values['password-confirm']
 """
 
+"""
+GAME LOGIC REDIRECTION
+"""
+@app.route('/leaveGame', methods=['POST'])
+def leaveGame():
+    return game.leaveGame()
 
-@app.route('/updateUserAccount', methods=['POST'])
-def updateUserAccount():
-    return game.updateUserAccount()
+@app.route('/incCollectibles', methods=['POST'])
+def incCollectibles():
+    return game.incCollectibles()
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

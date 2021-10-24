@@ -33,8 +33,16 @@ def purchase(user, building):
     else:
         print("Can't afford the building!")
 
-def updateUserAccount():
+def leaveGame():
     print("\n\nThe update function in GAME the python runs!")
     for val in flask.request.values:
         print(f"{val} = {flask.request.values[val]}")
     return flask.jsonify({'success': True, 'message': 'It ran'})
+
+def incCollectibles():
+    acc = ds.get_user_account(flask.request.values['uname'])
+    acc['collectibles'] += 1
+    ds.update_entity(acc)
+    print(f"{acc['uname']} now has {acc['collectibles']} collectibles")
+    return flask.jsonify({'success': True, 'message': 'It ran'})
+
