@@ -7,10 +7,13 @@
             <td><strong>Cookies</strong></td>
             <td><strong>Cookies per Second</strong></td>
         </tr>
+        {% for player in players %}
         <tr>
-            <td>Foo Guy</td>
-            <td>2021</td>
-            <td><strong>2</strong></td>
+            <td>{{player['uname']}}</td>
+            <td>{{player['collectibles']}}</td>
+            <td>{{player['cps']}}</td>
         </tr>
+        <tr><td>No players found.</td></tr>
+        {% endfor %}
     </table>
 {% endblock %}
