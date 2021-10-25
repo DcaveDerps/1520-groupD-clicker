@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link rel="stylesheet" href="/s/style.css">
         <h1>{% if page_title %} {{page_title}}{% endif %}</h1>
         <nav>
@@ -14,8 +15,10 @@
     </head>
     <body>
         <br>
-        <h2>Welcome{% if uname %} {{uname}}{% endif %}!</h2>
+        <h2>Welcome{% if user is defined and user['uname'] is defined %} {{user['uname']}}{% endif %}!</h2>
 
         {% block content %} {% endblock %}
+
+        <h2 id="total">{% if user is defined and user['collectibles'] is defined %}{{user['collectibles']}}{% else %}-1{% endif %}</h2>
     </body>
     </html>

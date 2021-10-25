@@ -1,7 +1,7 @@
 {% extends '_game.html' %}
 {% block content %}
     </body>
-    <body id = "game-body">
+    <body id = "game-body" onpagehide = "leaveGame()">
     <br><br>
     <div id="click-object">
         <img src="/s/click-object.png" onclick="inc()" alt="click object" height="256em" width="256em">
@@ -10,15 +10,72 @@
 
     <script>
         
-        var count = 0;
+        {% if user is defined %}
+            let count = {{ user|tojson }}.collectibles;
+        {% else %}
+            let count = 0;
+        {% endif %}
+
+        // Ignore the warnings, flask/jinja replaces above correctly
 
         function inc(){
-            count = count + 1;
+            //alert("total: " + document.getElementById('total').textContent + " " + parseInt(document.getElementById('total').textContent));
+            //count = count + 1;
+            //alert(count);
+
+            {% if user is defined %}
+                // increment the datastore account entity's collectibles
+                $.ajax({ url: "/incCollectibles", type: "POST", data: {{user|tojson}}, 
+                success: function(response){
+                    console.log(response);
+                },
+                error: function(error){
+                    console.log(error);
+                }});
+                
+                // TEMP FIX, should make a function that gets the most recent collectibles value
+                count = count + 1;
+
+            {% else %}
+                // do nothing, doesn't have an account
+                count = count + 1;
+            {% endif %}
+
             document.getElementById("total").textContent = count;
         }
 
-    </script>
+        // updates the datastore entity with data from the the user's session
+        function leaveGame(){
+            
+            console.log("Well leaveGame() is being called at least");
 
-    <h2 id="total">0</h2>
+            {% if user is defined %}
+            //let count = {{ user|tojson }}.collectibles;
+
+                console.log("   before the post request");
+
+                /*
+                $.post("/updateUserAccount", {{user|tojson}},   function(response) {
+                                                                    console.log(response);
+                                                                });
+
+                console.log("   After the post request");
+                */
+                $.ajax({ url: "/leaveGame", type: "POST", data: {{user|tojson}}, 
+                success: function(response){
+                    console.log(response);
+                },
+                error: function(error){
+                    console.log(error);
+                }});
+
+                
+
+            {% else %}
+                // do nothing, doesn't have an account
+            {% endif %}
+        }
+
+    </script>
 
 {% endblock %}

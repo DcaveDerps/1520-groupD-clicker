@@ -1,5 +1,8 @@
 import flask
 from google.cloud import datastore
+import ds
+import game
+import datetime
 
 app = flask.Flask(__name__)
 
@@ -15,7 +18,7 @@ def root():
 
 @app.route('/game')
 @app.route('/game.html')
-def game():
+def game_page():
     return flask.render_template('/game.html', page_title='Game')
 
 @app.route('/login')
@@ -42,6 +45,7 @@ def createAcc():
 DATA STORAGE
 """
 
+"""
 # Returns an instance of the datastore Client for the application
 def get_datastore_client():
     return datastore.Client('cs1520-group-d')
@@ -94,6 +98,8 @@ def list_account_entities():
     
     print('-=-=-=-=-=-=-=-=-=-=-=-=-\n')
 
+"""
+
 @app.route('/create-user', methods=['POST'])
 def handle_create_account_request():
 
@@ -105,7 +111,7 @@ def handle_create_account_request():
 
     # TODO enforce only having one account Entity per username
     #       - If there already exists an Entity (account) with a username, abort account creation
-    if get_user_account(user_name) == None:
+    if ds.get_user_account(user_name) != None:
         print("Username taken!")
         return flask.render_template('/create.html', page_title = 'Create Account')
 
@@ -117,11 +123,13 @@ def handle_create_account_request():
         return flask.render_template('/create.html', page_title = 'Create Account') # if passwords don't match, abort account creation
 
     # Otherwise, create the new Entity
-    new_user = create_account_entity(user_name)
+    new_user = ds.create_account_entity(user_name)
     new_user['uname'] = user_name
     new_user['password'] = user_password    # TODO hash the password before saving it
     new_user['collectibles'] = 0
-    new_user['cps'] = 0    
+    new_user['cps'] = 0
+    new_user['left_game'] = datetime.datetime.now().isoformat(' ') # the exact time the player left the game screen
+    new_user['factories'] = [0, 0, 0, 0, 0]
 
     print('Created the entity')
     
@@ -129,18 +137,18 @@ def handle_create_account_request():
     # either going to have to add time of logout or time of last cps change
 
     # add the created entity to the database
-    update_entity(new_user)
+    ds.update_entity(new_user)
 
     print('New account for user %s created successfully!' % new_user['uname'])
 
-    list_account_entities()
+    ds.list_account_entities()
 
     # NEED a return statement that goes to another page (or the same page)
 
     # Essentially, when a request is processed, it takes the user away from the page,
     # so you need to send them somewhere or else it will give a server error
 
-    return flask.render_template('/game.html', page_title='Game')
+    return flask.render_template('/game.html', page_title='Game', user=ds.get_user_account(user_name))
 
 @app.route('/login', methods=['POST'])
 def handle_login_request():
@@ -153,7 +161,7 @@ def handle_login_request():
         return flask.render_template('/login.html', page_title='Login')
 
     # check if there's an account for the given username
-    user_account = get_user_account(flask.request.values['uname'])
+    user_account = ds.get_user_account(flask.request.values['uname'])
 
     # print(f"Tried to get account data for user {flask.request.values['uname']} and got {type(user_account)}")
 
@@ -171,7 +179,7 @@ def handle_login_request():
     # otherwise, the login is successful, pass the username to the game page
     print("Login successful!")
 
-    return flask.render_template('/game.html', page_title='Game', uname=user_account['uname'])
+    return flask.render_template('/game.html', page_title='Game', user=ds.get_user_account(flask.request.values['uname']))
 
 """
 HELPER FUNCTIONS
@@ -184,6 +192,16 @@ def containsBlankField(values):
     return '' in values['uname'] or '' in values['password'] or '' in values['password-confirm']
 """
 
+"""
+GAME LOGIC REDIRECTION
+"""
+@app.route('/leaveGame', methods=['POST'])
+def leaveGame():
+    return game.leaveGame()
+
+@app.route('/incCollectibles', methods=['POST'])
+def incCollectibles():
+    return game.incCollectibles()
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
