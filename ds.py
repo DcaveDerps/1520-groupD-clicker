@@ -58,9 +58,21 @@ def get_all_img_entities():
 
     ds_client = get_datastore_client()
     query = ds_client.query(kind='image')
+    
 
     for img in query.fetch():
         results.append(img)
+    
+    return results
+
+def del_all_img_entities():
+    results = []
+
+    ds_client = get_datastore_client()
+    query = ds_client.query(kind='image')
+
+    for img in query.fetch():
+        ds_client.delete(img)
     
     return results
 

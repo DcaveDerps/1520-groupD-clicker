@@ -18,6 +18,33 @@ button{
                 font-size: xx-large;
 }
 
+.market-image {
+    height: 20vw;
+    width: auto;
+    border-width: 40px 14px 40px 14px;
+    border-color: forestgreen;
+    border-style: solid;
+    border-radius: 8px;
+}
+
+.img-title{
+    text-align: center;
+    font-size: large;
+    padding-left: 25%;
+    padding-right: 25%;
+}
+
+.img-container {
+    width: 100%;    
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    gap: 5vw;
+    align-items: stretch;
+    background-color: rgb(127, 255, 53);
+    border-radius: 10px;
+}
+
 #click-object {
 
             display: flex;
@@ -31,4 +58,9 @@ button{
 
 body {
             background-color: lightblue;
+}
+
+table{
+    margin-left:auto;
+    margin-right:auto
 }

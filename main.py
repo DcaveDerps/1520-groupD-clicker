@@ -36,6 +36,7 @@ def leaderboard():
 @app.route('/marketplace')
 @app.route('/marketplace.html')
 def marketplace():
+    #ds.del_all_img_entities()
     return flask.render_template('/marketplace.html', page_title='Marketplace',status = None,items = ds.get_all_img_entities())
 
 @app.route('/create')
@@ -46,13 +47,18 @@ def createAcc():
 @app.route('/upload-image', methods=['POST'])
 def handle_upload_img():
     img_file = flask.request.files.get('img')
+
     if not img_file:
         return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'No Image Selected',items = ds.get_all_img_entities())
+    
     title = flask.request.form.get('name')
     if title=="":
-        return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'No Name Provided',items = ds.get_all_img_entities())
+        return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'No Name Provided',items = ds.get_all_img_entities())    
     
-    img_file.filename = (img_file.filename +" " +str(datetime.datetime.now()))
+    if not check_image(img_file.filename):
+        return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'Invalid file type (use png, jpg, jpeg, gif)',items = ds.get_all_img_entities())    
+    
+    img_file.filename = (str(datetime.datetime.now())+img_file.filename+" ")
 
     ds.upload_img(title,img_file)
 
@@ -146,6 +152,12 @@ def handle_login_request():
 """
 HELPER FUNCTIONS
 """
+def check_image(filename):
+    if filename.lower().endswith(('.jpg','.jpeg','.png','.gif','.tif','.pjp','.xbm','.jxl','.svgz','.ico','.tiff','.svg','.jfif','.webp','.bmp','.pjpeg','.avif')):
+        return True
+    else:
+        return False
+
 # Returns true if there exists a blank field in values
 # Intended to be used with flask.response.values
 """

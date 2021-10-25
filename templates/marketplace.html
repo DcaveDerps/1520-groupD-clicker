@@ -3,7 +3,6 @@
 
 {% if status %}
 <p>Status: {{status}}</p>
-{% else %}
 {% endif %}
 
         <p>This is the place to make your collectibles special. Create or search for a new design!</p>
@@ -20,14 +19,19 @@
         <input type="text">
         <input type="button" value = "Search">
         </form>
-
+        
+        <br><br>
+        
+        <h2>User Images</h2>
+        <div class = "img-container">
         {% for i in items %}
-            <p>Image Name: {{i['title']}} {{i['url']}}<br>
-            <image src="{{i['url']}}"></p>
+            <div>
+            <h2 align="center">{{i['title']}}</h2>
+            <image src="{{i['url']}}" class = "market-image">
+            </div>
         {% else %}
             <br>No Images Found.
         {% endfor %}
-       
-
+        </div>
 
 {% endblock %}
