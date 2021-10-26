@@ -26,22 +26,23 @@ def create_account_entity(username):
     key = ds_client.key('user_account', username) # id will be the given username
     return datastore.Entity(key)
 
-def create_img_entity(title,url):
+def create_img_entity(title,url,username):
     ds_client = get_datastore_client()
     key = ds_client.key('image',(url))
     entity = datastore.Entity(key)
     entity['url'] = url
     entity['title']=title
+    entity['username']=username
     ds_client.put(entity)
 
-def upload_img(title,img_file):
+def upload_img(title,img_file,username):
     gcs_client = storage.Client()
     bucket = gcs_client.get_bucket('1520-img-bucket')
     blob = bucket.blob(img_file.filename)
 
     c_type = img_file.content_type
     blob.upload_from_string(img_file.read(),content_type=c_type)
-    create_img_entity(title,blob.public_url)
+    create_img_entity(title,blob.public_url,username)
 
 
 def get_img_entity(filename):
@@ -52,6 +53,36 @@ def get_img_entity(filename):
         return entity
     else:
         return None
+
+def append_if_unique(list, newval):
+    for val in list:
+        if val==newval:
+            return
+    
+    list.append(newval)
+
+
+def get_img_entities_by_search(s):
+    results = []
+
+    ds_client = get_datastore_client()
+
+    #USERNAME QUERY
+    query = ds_client.query(kind='image')
+    
+    for img in query.fetch():
+        if(img['username'].lower().startswith(s)):
+            append_if_unique(results,img)
+
+    #TITLE QUERY
+    query = ds_client.query(kind='image')
+    
+    for img in query.fetch():
+        if(img['title'].lower().startswith(s)):
+            append_if_unique(results,img)
+    
+    
+    return results
 
 def get_all_img_entities():
     results = []

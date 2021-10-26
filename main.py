@@ -37,7 +37,7 @@ def leaderboard():
 @app.route('/marketplace.html')
 def marketplace():
     #ds.del_all_img_entities()
-    return flask.render_template('/marketplace.html', page_title='Marketplace',status = None,items = ds.get_all_img_entities())
+    return flask.render_template('/marketplace.html', page_title='Marketplace',status = None,imgheader='User Images',items = ds.get_all_img_entities())
 
 @app.route('/create')
 @app.route('/create.html')
@@ -49,20 +49,30 @@ def handle_upload_img():
     img_file = flask.request.files.get('img')
 
     if not img_file:
-        return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'No Image Selected',items = ds.get_all_img_entities())
+        return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'No Image Selected', imgheader='User Images',items = ds.get_all_img_entities())
     
     title = flask.request.form.get('name')
     if title=="":
-        return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'No Name Provided',items = ds.get_all_img_entities())    
+        return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'No Name Provided',imgheader='User Images',items = ds.get_all_img_entities())    
     
     if not check_image(img_file.filename):
-        return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'Invalid file type (use png, jpg, jpeg, gif)',items = ds.get_all_img_entities())    
+        return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'Invalid File Type (use png, jpg, jpeg, gif)',imgheader='User Images',items = ds.get_all_img_entities())    
     
     img_file.filename = (str(datetime.datetime.now())+img_file.filename+" ")
 
-    ds.upload_img(title,img_file)
+    tmp = flask.request.form.get('temp-username')
 
-    return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'Upload Success!',items = ds.get_all_img_entities())
+    ds.upload_img(title,img_file,tmp)
+
+    return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'Upload Success!',imgheader='User Images',items = ds.get_all_img_entities())
+
+
+@app.route('/image-search', methods=['GET'])
+def search_image():
+    search = flask.request.args['search']
+    if search=="":
+        return flask.render_template('/marketplace.html', page_title='Marketplace',status = None,imgheader='User Images',items = ds.get_all_img_entities())    
+    return flask.render_template('/marketplace.html', page_title='Marketplace',status = None,imgheader='Search Results For "'+search+'"',items = ds.get_img_entities_by_search(search.lower()))    
 
 
 
