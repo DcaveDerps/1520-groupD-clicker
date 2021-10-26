@@ -18,13 +18,23 @@ button{
                 font-size: xx-large;
 }
 
-.market-image {
+.market-image-inner {
     height: 20vw;
     width: auto;
-    border-width: 40px 14px 40px 14px;
-    border-color: forestgreen;
     border-style: solid;
-    border-radius: 8px;
+    border-color: darkgreen;
+    border-width: 2px;    
+    border-radius: 20px;
+}
+
+.market-image-outer {
+    height: 20vw;
+    width: auto;
+    border-width: 40px 14px 42px 14px;
+    border-color: forestgreen;
+    background-color: forestgreen;
+    border-style: solid;
+    border-radius: 20px;
 }
 
 .img-title{
@@ -34,16 +44,23 @@ button{
     padding-right: 25%;
 }
 
+.img{
+    text-align:center;
+}
+
 .img-container {
     width: 100%;    
     display: flex;
     justify-content: center;
     flex-flow: row wrap;
     row-gap: 4vw;
-    column-gap: 6vw;
+    column-gap: 7vw;
     align-items: stretch;
     background-color: rgb(127, 255, 53);
-    border-radius: 10px;
+    border-width:40px 0px 40px 0px;
+    border-radius: 40px;
+    border-style: solid;
+    border-color: rgb(127, 255, 53);
 }
 
 #click-object {
@@ -63,5 +80,5 @@ body {
 
 table{
     margin-left:auto;
-    margin-right:auto
+    margin-right:auto;
 }

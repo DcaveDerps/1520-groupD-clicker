@@ -168,6 +168,8 @@ def check_image(filename):
     else:
         return False
 
+
+
 # Returns true if there exists a blank field in values
 # Intended to be used with flask.response.values
 """

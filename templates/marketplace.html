@@ -23,13 +23,16 @@
         
         <br><br>
         
-        <h2>{{imgheader}}</h2>
-        <div class = "img-container">
+        <h2 name="imagedisplay">{{imgheader}}</h2>
+        <div class = "img-container">            
         {% for i in items %}
-            <div>
-            <h2 align="center">{{i['title']}}</h2>
-            <h4 align="center">Uploaded By {{i['username']}}</h4>            
-            <image src="{{i['url']}}" class = "market-image">
+            <div class = "img">
+            <h2>{{i['title']}}</h2>
+            <h4>Uploaded By {{i['username']}}</h4>
+            <div class = "market-image-outer">         
+            <image src="{{i['url']}}" class = "market-image-inner"></image>
+            </div>
+            <br><input type='button' value = 'Claim'>
             </div>
         {% else %}
             <br><h2>No Images Found.</h2>
