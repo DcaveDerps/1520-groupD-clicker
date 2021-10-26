@@ -71,15 +71,19 @@ def get_img_entities_by_search(s):
     query = ds_client.query(kind='image')
     
     for img in query.fetch():
-        if(img['username'].lower().startswith(s)):
-            append_if_unique(results,img)
+        imguser = img['username'].lower()
+        for u in imguser.split(' '):        
+            if(u.startswith(s)):
+                append_if_unique(results,img)
 
     #TITLE QUERY
     query = ds_client.query(kind='image')
     
     for img in query.fetch():
-        if(img['title'].lower().startswith(s)):
-            append_if_unique(results,img)
+        imgtitle = img['title'].lower()
+        for u in imgtitle.split(' '):
+            if(u.startswith(s)):
+                append_if_unique(results,img)
     
     
     return results

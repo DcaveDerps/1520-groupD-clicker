@@ -70,6 +70,7 @@ def handle_upload_img():
 @app.route('/image-search', methods=['GET'])
 def search_image():
     search = flask.request.args['search']
+    search.strip()
     if search=="":
         return flask.render_template('/marketplace.html', page_title='Marketplace',status = None,imgheader='User Images',items = ds.get_all_img_entities())    
     return flask.render_template('/marketplace.html', page_title='Marketplace',status = None,imgheader='Search Results For "'+search+'"',items = ds.get_img_entities_by_search(search.lower()))    
