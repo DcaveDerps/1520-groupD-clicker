@@ -72,18 +72,27 @@ def get_img_entities_by_search(s):
     
     for img in query.fetch():
         imguser = img['username'].lower()
-        for u in imguser.split(' '):        
-            if(u.startswith(s) or imguser.startswith(s)):
-                append_if_unique(results,img)
+
+        if(imguser.startswith(s) or s.startswith(imguser)):
+            append_if_unique(results,img)
+        else:
+            for u in imguser.split(' '):        
+                if(u.startswith(s)):
+                    append_if_unique(results,img)
 
     #TITLE QUERY
     query = ds_client.query(kind='image')
     
     for img in query.fetch():
         imgtitle = img['title'].lower()
-        for u in imgtitle.split(' '):
-            if(u.startswith(s) or imgtitle.startswith(s)):
+
+        if(imgtitle.startswith(s) or s.startswith(imgtitle)):
                 append_if_unique(results,img)
+        else:
+            for u in imgtitle.split(' '):
+                #print(u + " " + s)
+                if(u.startswith(s)):
+                    append_if_unique(results,img)
     
     
     return results
@@ -135,7 +144,7 @@ def get_leaderboard():
     results = []
     client = get_datastore_client()
     query = client.query(kind="user_account")
-    query.order = ['collectibles']
+    query.order = ['-collectibles', '-cps']
     for entity in query.fetch():
         results.append(entity)
     return results

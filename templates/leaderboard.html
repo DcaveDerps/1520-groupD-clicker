@@ -13,6 +13,7 @@
             <td>{{player['collectibles']}}</td>
             <td>{{player['cps']}}</td>
         </tr>
+        {% else %}
         <tr><td>No players found.</td></tr>
         {% endfor %}
     </table>
