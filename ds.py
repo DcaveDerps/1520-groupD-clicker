@@ -73,7 +73,7 @@ def get_img_entities_by_search(s):
     for img in query.fetch():
         imguser = img['username'].lower()
         for u in imguser.split(' '):        
-            if(u.startswith(s)):
+            if(u.startswith(s) or imguser.startswith(s)):
                 append_if_unique(results,img)
 
     #TITLE QUERY
@@ -82,7 +82,7 @@ def get_img_entities_by_search(s):
     for img in query.fetch():
         imgtitle = img['title'].lower()
         for u in imgtitle.split(' '):
-            if(u.startswith(s)):
+            if(u.startswith(s) or imgtitle.startswith(s)):
                 append_if_unique(results,img)
     
     
