@@ -1,13 +1,46 @@
    
 {% extends '_base.html' %}
 {% block content %}
+
+   <br>
+    <table id = "inputTable">
+    
+    
     <form method="post" action="/create-user">
-        <label for="uname">Username:</label><br>
-        <input type="text" id="uname" name="uname"><br>
+        <tr>
+        <td id = "inputElement">
+        <label for="uname">Username:</label>
+        </td>
+        <td id = "inputElement">
+        <input type="text" id="uname" name="uname">
+        </td>
+        </tr>
+        
+        
+        <tr>
+        <td id = "inputElement">
         <label for="password">Create a Password:</label><br>
-        <input type="password" id="password" name="password"><br>
-        <label for="password">Confirm Password:</label><br>
-        <input type="password" id="password-confirm" name="password-confirm"><br><br> 
+        </td>
+        <td id = "inputElement">
+        <input type="password" id="password" name="password">
+        </td>
+        </tr>
+        
+
+        <tr>
+        <td id = "inputElement">
+        <label for="password">Confirm Password:</label>
+        </td>
+        <td id = "inputElement">
+        <input type="password" id="password-confirm" name="password-confirm">
+        </td>
+        </tr>
+        <tr>
+        <td id = "inputElement">
         <input type="submit" value="Submit">
+        </td>
+        </tr>
     </form>
+    </table>
+
 {% endblock %}

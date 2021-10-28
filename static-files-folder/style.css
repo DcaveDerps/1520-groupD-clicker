@@ -5,17 +5,32 @@ header{
                 padding-left: 25%;
                 padding-right: 25%;
                 
+
+                
+}
+head {
+    background-color: grey;
+
 }
 nav{
             
                 display: flex;
-                justify-content: flex-start;
+
+                justify-content: space-around;
+
                 gap: 1em;
                 
                 
 }
 button{
-                font-size: xx-large;
+
+
+                font-size: x-large;
+                border-radius: 10px;
+                border-color: #58727f;
+                width: 200px;
+                
+
 }
 
 #click-object {
@@ -30,5 +45,82 @@ button{
 }
 
 body {
-            background-color: lightblue;
+
+            
+            background-color: lightblue;  
+            font-family: Helvetica, sans-serif;
+            
+            
+            
 }
+table, th {    
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+            width: 40%;
+            background-color: white;
+            
+}
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    height: 30px;
+    width: 60px;
+    text-align: center;
+}
+
+
+#topOfPage {
+    
+    background-color: #58727f; 
+    padding-top: 5px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    color: white;
+    font-family: Helvetica, sans-serif
+    
+}
+h1{
+    display: flex;
+    justify-content: center;
+    
+}
+h2{
+    display: flex;
+    justify-content: center;
+
+}
+p{
+    display: flex;
+    justify-content: center;
+    font-family: Garamond, serif;
+    font-size: 20px;
+}
+input{
+    display: flex;
+    justify-content: center;
+}
+#userinput{
+    display: flex;
+    justify-content: center;
+}
+
+a{
+    display: flex;
+    justify-content: center;
+}
+
+#inputTable,#inputElement{
+    border: white;
+    background-color: lightblue;
+    width: auto;
+}
+
+
+
