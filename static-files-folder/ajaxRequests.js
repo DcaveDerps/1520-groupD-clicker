@@ -45,7 +45,9 @@ function cleanAccountJson(accJson){
     accJson.collectibles = parseInt(accJson.collectibles);
     accJson.cps = parseInt(accJson.cps);
 
-    accJson.factories = accJson.factories.split(',');
+    if(typeof(accJson.factories) == "string"){
+        accJson.factories = accJson.factories.split(',');
+    }
 
     for(let i = 0; i < accJson.factories.length; i++){
         accJson.factories[i] = parseInt(accJson.factories[i]);
