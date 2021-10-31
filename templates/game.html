@@ -11,7 +11,9 @@
     <script>
         
         {% if user is defined %}
-            let count = {{ user|tojson }}.collectibles;
+            let userObj = {{ user|tojson }};
+            let count = parseInt(userObj.collectibles);
+            let factories = userObj.factories;
         {% else %}
             let count = 0;
         {% endif %}
@@ -75,6 +77,8 @@
                 // do nothing, doesn't have an account
             {% endif %}
         }
+
+
 
     </script>
 

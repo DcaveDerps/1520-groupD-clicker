@@ -1,6 +1,7 @@
 import math
 import ds
 import flask
+import json
 
 
 class Building():
@@ -41,8 +42,33 @@ def leaveGame():
 
 def incCollectibles():
     acc = ds.get_user_account(flask.request.values['uname'])
-    acc['collectibles'] += 1
+    acc['collectibles'] = int(acc['collectibles']) + 1
     ds.update_entity(acc)
     print(f"{acc['uname']} now has {acc['collectibles']} collectibles")
     return flask.jsonify({'success': True, 'message': 'It ran'})
 
+def updateAccountFromJson():
+    acc = ds.get_user_account(flask.request.values['uname'])
+    acc['collectibles'] = flask.request.values['collectibles']
+    acc['cps'] = flask.request.values['cps']
+    acc['left_game'] = flask.request.values['left_game']
+    acc['factories'] = flask.request.values['factories']
+    ds.update_entity(acc)
+    print(acc['uname'] + " now has " + acc['collectibles'] + " collectibles\n" + acc['cps'] + " cps\n" + acc['factories'])
+
+    response = dict(success=True)
+
+    return flask.Response(json.dumps(response), mimetype='application/json')
+
+def getAccountJson():
+    print("in game.py getAccountJson()")
+    acc_dict = {}
+    acc = ds.get_user_account(flask.request.values['uname'])
+    acc_dict['uname'] = acc['uname']
+    # acc_dict['password'] = acc['password']
+    acc_dict['collectibles'] = acc['collectibles']
+    acc_dict['cps'] = acc['cps']
+    acc_dict['left_game'] = acc['left_game']
+    acc_dict['factories'] = acc['factories']
+    #print("gonna try and return " + acc_dict)
+    return flask.Response(json.dumps(acc_dict), mimetype='application/json')

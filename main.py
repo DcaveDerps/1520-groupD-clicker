@@ -190,5 +190,13 @@ def leaveGame():
 def incCollectibles():
     return game.incCollectibles()
 
+@app.route('/updateAccountFromJson', methods=['POST'])
+def updateAccountFromJson():
+    return game.updateAccountFromJson()
+
+@app.route('/getAccountJson', methods=['POST'])
+def getAccountJson():
+    return game.getAccountJson()
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
