@@ -1,7 +1,9 @@
-   
 {% extends '_base.html' %}
 {% block content %}
 
+{% if err %}
+    <p name = "status">Error: {{err}}</p>
+{% endif %}
    <br>
     <table id = "inputTable">
     
@@ -42,5 +44,4 @@
         </tr>
     </form>
     </table>
-
 {% endblock %}

@@ -1,25 +1,40 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="/s/ajaxRequests.js"></script>
+        <script src="/s/gameLogic.js"></script>
         <link rel="stylesheet" href="/s/style.css">
+        <div id = "topOfPage">
         <h1>{% if page_title %} {{page_title}}{% endif %}</h1>
         <nav>
-
-
-
             <a href="index.html"><button>Home</button></a>
             <a href="create.html"><button>Create Account</button></a>
             <a href="login.html"><button>Login</button></a>
             <a href="game.html"><button>Play Game</button></a>
             <a href="marketplace.html"><button>Marketplace</button></a>
             <a href="leaderboard.html"><button>Leaderboard</button></a>
-
         </nav>
+        </div>
     </head>
     <body>
         <br>
-        <h2>Welcome{% if uname %} {{uname}}{% endif %}!</h2>
+        <div id = "userinput">
+        <h2>Welcome{% if user is defined and user['uname'] is defined %} {{user['uname']}}{% endif %}!</h2>
+        </div>
 
         {% block content %} {% endblock %}
+
+        <h2 id="total">{% if user is defined and user['collectibles'] is defined %}{{user['collectibles']}}{% else %}0{% endif %}</h2>
+        <h3 id = "userinput">Collectibles</h3>        
+    
+        <br><br><br>
+        {% if user is defined %}        
+        <a><button id="assemblyLineBuyButton" type="button" onclick="buyFactory(userObj.uname, 1)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>
+        <!--<input type="button" onclick="getAccountJson(userObj.uname)" value="test getUserJson"></input>-->
+        <!--<input type="button" onclick="updateAccountFromJson(userObj)" value="test updateAccountFromJson"></input> -->
+        <!--<input type="button" onclick="addCPS(userObj.uname)" value="test addCPS"></input>-->
+        {% endif %}
+    
     </body>
     </html>

@@ -1,6 +1,8 @@
 {% extends '_base.html' %}
 {% block content %}
-
+    {% if err %}
+        <p name = "status">Error: {{err}}</p>
+    {% endif %}
         <br>
         <table id = "inputTable">
         <form id = "userinput" method = "post" action="/login">
@@ -30,6 +32,5 @@
         <p>
         Not registered? 
         </p>
-
         <a href="create.html">Join now</a>
 {% endblock %}

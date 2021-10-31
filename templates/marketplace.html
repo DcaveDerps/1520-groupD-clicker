@@ -1,15 +1,44 @@
 {% extends '_base.html' %}
 {% block content %}
-        <p>This is the place to make your cookies special. Create or search for a new design!</p>
+
+        <p>This is the place to make your collectibles special. Create or search for a new design!</p>
+        {% if status %}
+            <p>Status: {{status}}</p>
+        {% endif %}
         <div id = "userinput">
-        <input type="button" value = "Upload a new cookie design!">
+        <form action="/upload-image" enctype="multipart/form-data" method = "POST">
+        Image File: <input type="file" id="img" name ="img" accept="image/*" value = "Upload a new cookie design!">
+        <br><br>Image Name: <input type="text" id="name" name="name">
+        <br><br>User: <input type="text" name="temp-username">
+        <input type="submit" value="Upload">
+        </form>
         </div>
-        <br>
+
         <p>OR</p>
         <p>Search for a design made by another user!</p>
         <div id = "userinput">
-        <input type="text">
-        <input type="button" value = "Search">
+        <form action="/image-search" method = "GET">
+        <br>Search: <input type="text" name="search">
+        <input type="Submit" value="Submit">
+        </form>
+        </div>
+        
+        <br><br>
+        
+        <h2 name="imagedisplay">{{imgheader}}</h2>
+        <div class = "img-container">            
+        {% for i in items %}
+            <div class = "img">
+            <h2>{{i['title']}}</h2>
+            <h4>Uploaded By {{i['username']}}</h4>
+            <div class = "market-image-outer">         
+            <image src="{{i['url']}}" class = "market-image-inner"></image>
+            </div>
+            <br><input type='button' value = 'Claim'>
+            </div>
+        {% else %}
+            <br><h2>No Images Found.</h2>
+        {% endfor %}
         </div>
 
 {% endblock %}
