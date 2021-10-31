@@ -2,6 +2,17 @@
 <html>
     <head>
         <link rel="stylesheet" href="/s/style.css">
+<<<<<<< HEAD
+        <h1>{% if page_title %} {{page_title}}{% endif %}</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="create.html">Create Account</a>
+            <a href="login.html">Login</a>
+            <a href="game.html">Play Game</a>
+            <a href="marketplace.html">Marketplace</a>
+            <a href="leaderboard.html">Leaderboard</a>
+        </nav>
+=======
         <div id = "topOfPage">
         <h1>{% if page_title %} {{page_title}}{% endif %}</h1>
         <nav>
@@ -13,8 +24,9 @@
             <a href="leaderboard.html"><button>Leaderboard</button></a>
         </nav>
         </div>
+>>>>>>> david
     </head>
     <body>
         {% block content %} {% endblock %}
     </body>
-</html>
+    </html>
