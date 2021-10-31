@@ -11,7 +11,15 @@
     <script>
         
         {% if user is defined %}
-            let count = {{ user|tojson }}.collectibles;
+            let userObj = {{ user|tojson }};
+            let count = parseInt(userObj.collectibles);
+            let factories = userObj.factories;
+
+            updateUIOnLoad(userObj.uname);
+
+            // initialize cps incrementing
+            setInterval(addCPS, 1000, userObj.uname);
+
         {% else %}
             let count = 0;
         {% endif %}
@@ -22,26 +30,29 @@
             //alert("total: " + document.getElementById('total').textContent + " " + parseInt(document.getElementById('total').textContent));
             //count = count + 1;
             //alert(count);
-
+            
             {% if user is defined %}
                 // increment the datastore account entity's collectibles
-                $.ajax({ url: "/incCollectibles", type: "POST", data: {{user|tojson}}, 
+                /*$.ajax({ url: "/incCollectibles", type: "POST", data: {{user|tojson}}, 
                 success: function(response){
                     console.log(response);
                 },
                 error: function(error){
                     console.log(error);
-                }});
+                }});*/
                 
                 // TEMP FIX, should make a function that gets the most recent collectibles value
-                count = count + 1;
+                //count = count + 1;
+                //updateCollectibleCounter(getAccountJson(userObj.uname));
+                incCollectibles(userObj.uname);
 
             {% else %}
                 // do nothing, doesn't have an account
                 count = count + 1;
+                document.getElementById("total").textContent = count;
             {% endif %}
 
-            document.getElementById("total").textContent = count;
+            //document.getElementById("total").textContent = count;
         }
 
         // updates the datastore entity with data from the the user's session
@@ -75,6 +86,8 @@
                 // do nothing, doesn't have an account
             {% endif %}
         }
+
+
 
     </script>
 
