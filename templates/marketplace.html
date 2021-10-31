@@ -5,14 +5,31 @@
         {% if status %}
             <p>Status: {{status}}</p>
         {% endif %}
-        <div id = "userinput">
+
+
+        <table id = "inputTable">
+        <tr>
+
         <form action="/upload-image" enctype="multipart/form-data" method = "POST">
-        Image File: <input type="file" id="img" name ="img" accept="image/*" value = "Upload a new cookie design!">
-        <br><br>Image Name: <input type="text" id="name" name="name">
-        <br><br>User: <input type="text" name="temp-username">
-        <input type="submit" value="Upload">
-        </form>
+        <td id = "inputElement">Image File:</td> 
+        <td id = "inputElement"><input type="file" id="img" name ="img" accept="image/*" value = "Upload a new cookie design!"></td>
+        </tr>
+        <tr>
+        <td id = "inputElement">
+        Image Name: </td> 
+        <td id = "inputElement"><input type="text" id="name" name="name"> </td>
+        </tr>
+        <tr>
+        <td id = "inputElement">
+        User:</td> <td id = "inputElement"><input type="text" name="temp-username"> </td>
+        </tr>
+        </table>
+        <div id = "userinput">
+        <input type="submit" value="Upload"> 
         </div>
+        </form>
+        
+        
 
         <p>OR</p>
         <p>Search for a design made by another user!</p>

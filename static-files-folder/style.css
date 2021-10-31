@@ -25,12 +25,15 @@ button{
                 width: 200px;
                 
 }
+button:hover{
+    color: blue;
+}
 
 .market-image-inner {
     height: 20vw;
     width: auto;
     border-style: solid;
-    border-color: darkgreen;
+    border-color: #213458;
     border-width: 2px;    
     border-radius: 20px;
 }
@@ -39,8 +42,8 @@ button{
     height: 20vw;
     width: auto;
     border-width: 40px 14px 42px 14px;
-    border-color: forestgreen;
-    background-color: forestgreen;
+    border-color: #213458;
+    background-color: #213458;
     border-style: solid;
     border-radius: 20px;
 }
@@ -57,6 +60,7 @@ button{
 }
 
 .img-container {
+    color: white;
     width: 100%;    
     display: flex;
     justify-content: center;
@@ -64,11 +68,11 @@ button{
     row-gap: 4vw;
     column-gap: 7vw;
     align-items: stretch;
-    background-color: rgb(127, 255, 53);
+    background-color: #1d7d81;
     border-width:40px 0px 40px 0px;
     border-radius: 40px;
     border-style: solid;
-    border-color: rgb(127, 255, 53);
+    border-color: #1d7d81;
 }
 
 #click-object {
