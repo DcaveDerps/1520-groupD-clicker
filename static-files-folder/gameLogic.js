@@ -1,6 +1,24 @@
 //import './ajaxRequests.js';
 
-console.log("gameLogic.js loaded");
+//console.log("gameLogic.js loaded");
+
+// finish this so clicking the button doesn't take like 5 server requests
+function incCollectibles(username){
+
+    sendJsonRequest({ 'uname': username }, '/getAccountJson', function(result, targetUrl, params) {
+        //console.log("result from getUserJson (before cleaning): ");
+        //console.log(result);
+
+        cleanAccountJson(result)
+
+        result.collectibles += 1;
+        updateCollectibleCounter(result);
+        updateAccountFromJson(result);
+
+        return result.collectibles;
+    });
+
+}
 
 function Factory(name, cps_boost, base_price, scale_factor, ID) {
 
@@ -18,11 +36,11 @@ function Factory(name, cps_boost, base_price, scale_factor, ID) {
 
 const FACTORY_ASSEMBLYLINE = new Factory("Assembly Line", 11, 100, 1, 1);
 
-const FACTORIES = [null, FACTORY_ASSEMBLYLINE];
+const FACTORIES = [null, FACTORY_ASSEMBLYLINE, null, null, null];
 
 function buyFactory(username, buildingId){
 
-    console.log("in buyFactory()");
+    //console.log("in buyFactory()");
 
     //let user = getUserJson(username);
 
@@ -30,39 +48,36 @@ function buyFactory(username, buildingId){
 
         let factory = FACTORIES[buildingId];
 
-        console.log("user received from server: ");
-        console.log(user);
+        //console.log("user received from server: ");
+        //console.log(user);
 
         user = cleanAccountJson(user);
 
-        // convert the list string into a usable array
-        //user.factories = factories.split(',');
-
         let cur_price = factory.currentPrice(user.factories[factory.ID]);
-        console.log("current price is: " + cur_price);
+        //console.log("current price is: " + cur_price);
         if(user.collectibles >= cur_price){
             user.collectibles -= cur_price;
             user.cps = user.cps + factory.cps_boost;
             user.factories[factory.ID] = user.factories[factory.ID] + 1;
-            console.log("Bought a factory: " + factory.name);
+            //console.log("Bought a factory: " + factory.name);
             // save changes in the datastore
             updateAccountFromJson(user);
             // update the UI
             updateUI(user);
         }
         else{
-            console.log("Can't afford the factory!");
+            //console.log("Can't afford the factory!");
         }
 
     });   
 
 }
 
-function getUserJson(username){
+function getAccountJson(username){
     
     sendJsonRequest({ 'uname': username }, '/getAccountJson', function(result, targetUrl, params) {
-        console.log("result from getUserJson (before cleaning): ");
-        console.log(result);
+        //console.log("result from getUserJson (before cleaning): ");
+        //console.log(result);
 
         return cleanAccountJson(result);
     });
@@ -81,7 +96,7 @@ function updateAccountFromJson(userJson){
                 // console.log(userJson.uname + " | " + userJson.collectibles);
                 // return userJson;
                 if(response.success){
-                    console.log("updated user successfully");
+                    //console.log("updated user successfully");
                 }
 
                 // update the local copy in the HTML to update stuff on the UI
@@ -119,5 +134,40 @@ function updateUI(userJson){
 
     // update the purchase buttons with the new prices
     document.getElementById("assemblyLineBuyButton").value = "Assembly Line - " + FACTORY_ASSEMBLYLINE.currentPrice(userJson.factories[FACTORY_ASSEMBLYLINE.ID]) + "c";
+    document.getElementById("assemblyLineBuyButton").textContent = "Assembly Line - " + FACTORY_ASSEMBLYLINE.currentPrice(userJson.factories[FACTORY_ASSEMBLYLINE.ID]) + "c";
 
+}
+
+function updateUIOnLoad(username){
+    sendJsonRequest({ 'uname': username }, '/getAccountJson', function(result, targetUrl, params) {
+        //console.log("result from getUserJson (before cleaning): ");
+        //console.log(result);
+
+        updateUI(cleanAccountJson(result));
+    });
+}
+
+function addCPS(username){
+    sendJsonRequest({ 'uname': username }, '/getAccountJson', function(acc, targetUrl, params) {
+        //console.log("result from getUserJson (before cleaning) in addCPS: ");
+        //console.log(acc);
+
+        cleanAccountJson(acc);
+
+        let total = 0;
+
+        for(let i = 0; i < acc.factories.length; i++){
+            if(acc.factories[i] > 0){
+                total += FACTORIES[i].cps_boost * acc.factories[i];
+            }
+        }
+
+        //console.log("planning to add " + total + " collectibles this second");
+
+        acc.collectibles += total;
+
+        updateAccountFromJson(acc);
+        updateUI(acc);
+
+    });
 }

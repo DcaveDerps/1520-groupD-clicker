@@ -30,13 +30,13 @@ function sendJsonRequest(parameterObject, targetUrl, callbackFunction) {
     let xmlHttp = createXmlHttp();
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4) {
-            console.log(xmlHttp.responseText);
+            //console.log(xmlHttp.responseText);
             let myObject = JSON.parse(xmlHttp.responseText);
             callbackFunction(myObject, targetUrl, parameterObject);
         }
     }
-    console.log(targetUrl);
-    console.log(parameterObject);
+    //console.log(targetUrl);
+    //console.log(parameterObject);
     postParameters(xmlHttp, targetUrl, objectToParameters(parameterObject));
 }
 
