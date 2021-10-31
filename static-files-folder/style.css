@@ -163,4 +163,14 @@ a{
     width: auto;
 }
 
+#marketButton{
+    margin: auto;
+    font-size: medium;
+    
+}
+#marketButton:hover{
+    color: blue;
+    
+}
+
 

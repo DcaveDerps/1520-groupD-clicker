@@ -24,6 +24,7 @@
         User:</td> <td id = "inputElement"><input type="text" name="temp-username"> </td>
         </tr>
         </table>
+        <br>
         <div id = "userinput">
         <input type="submit" value="Upload"> 
         </div>
@@ -33,12 +34,23 @@
 
         <p>OR</p>
         <p>Search for a design made by another user!</p>
-        <div id = "userinput">
+        
+        <table id = "inputTable">
+        <tr>
+        <td id = "inputElement">
         <form action="/image-search" method = "GET">
-        <br>Search: <input type="text" name="search">
+        </td>
+        
+        <td id = "inputElement">Search:</td><td id = "inputElement"> <input type="text" name="search"> </td>
+        </tr>
+        </table>
+        <br>
+        <div id = "userinput">
         <input type="Submit" value="Submit">
-        </form>
         </div>
+        </form>
+        
+        
         
         <br><br>
         
@@ -51,7 +63,7 @@
             <div class = "market-image-outer">         
             <image src="{{i['url']}}" class = "market-image-inner"></image>
             </div>
-            <br><input type='button' value = 'Claim'>
+            <br><input id = "marketButton" type='button' value = 'Claim'>
             </div>
         {% else %}
             <br><h2>No Images Found.</h2>
