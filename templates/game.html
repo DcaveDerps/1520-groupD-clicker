@@ -3,10 +3,59 @@
     </body>
     <body id = "game-body" onpagehide = "leaveGame()">
     <br><br>
-    <div id="click-object">
-        <img src="/s/click-object.png" onclick="inc()" alt="click object" height="256em" width="256em">
-    </div>
+    <div class = container>
+        <div class = "row">
+            <div class = "nav" id = "buildingNav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <a id = "building" ondragstart="move(this.id);">  
+                    <img width="100px" src="/s/building.png" border="0">
+                </a>           
+            </div>
 
+            <div class = "nav" id = "searchNav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a>
+                <a>  
+                    <tr>
+                        <td id = "inputElement">
+                        <label for="uname">Search:</label>
+                        </td>
+                        <td id = "inputElement">
+                        <input type="text" id="uname" name="uname">
+                        </td>
+                    </tr>
+                </a>           
+            </div>
+
+            <div class = "nav" id = "listNav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav3()">&times;</a>
+                <a>  
+                    List Here.
+                </a>           
+            </div>
+
+            <div class = "column" style='float:left; width:10%'>
+                <div class = "box" id = "1" onclick="openNav()">
+                    <span style="font-size:20px;cursor:pointer;">Buildings</span>
+                </div>
+                <div class = "box" id = "2" onclick="openNav2()">
+                    <span style="font-size:20px;cursor:pointer;" >Friend Search</span>
+                </div>
+                <div class = "box" id = "3" onclick="openNav3()">
+                    <span style="font-size:20px;cursor:pointer;">Friend List</span>
+                </div>
+            </div>
+
+            <div  class = "column" id = "gameArea" style='float:left; width:75%; margin-left:40px'>
+                <div id="test" draggable="true" ondragstart="drag(this.id,event);"> </div>                  
+                <div id="click-object">
+                    <img src="/s/click-object.png" onclick="inc()" alt="click object" height="256em" width="256em">
+                </div>
+            </div>       
+            
+            <div  class = "column" style='float:left; width:15%; margin-right:0px'>
+            </div>
+        </div>
+    </div>
 
     <script>
         
@@ -87,7 +136,67 @@
             {% endif %}
         }
 
+        //drag stuff
+        building.onmousedown = function(event) {
 
+            let shiftX = event.clientX - building.getBoundingClientRect().left;
+            let shiftY = event.clientY - building.getBoundingClientRect().top;
+
+            building.style.position = 'absolute';
+            building.style.zIndex = 1000;
+            document.body.append(building);
+
+            moveAt(event.pageX, event.pageY);
+
+            // moves the building object at (pageX, pageY) coordinates
+            // taking initial shifts into account
+            function moveAt(pageX, pageY) {
+                building.style.left = pageX - shiftX + 'px';
+                building.style.top = pageY - shiftY + 'px';
+            }
+
+            function onMouseMove(event) {
+                moveAt(event.pageX, event.pageY);
+            }
+
+            // move the building object on mousemove
+            document.addEventListener('mousemove', onMouseMove);
+
+            // drop the building object, remove unneeded handlers
+            building.onmouseup = function() {
+                document.removeEventListener('mousemove', onMouseMove);
+                building.onmouseup = null;
+            };
+            
+            building.ondragstart = function() {
+                return false;
+            };
+        };
+
+            //menu stuff (I'm lazy so I just made a function for each menu)
+            function openNav() {
+            document.getElementById("buildingNav").style.width = "180px";
+            }
+
+            function closeNav() {
+            document.getElementById("buildingNav").style.width = "0";
+            }
+
+            function openNav2() {
+            document.getElementById("searchNav").style.width = "250px";
+            }
+
+            function closeNav2() {
+            document.getElementById("searchNav").style.width = "0";
+            }
+
+            function openNav3() {
+            document.getElementById("listNav").style.width = "250px";
+            }
+
+            function closeNav3() {
+            document.getElementById("listNav").style.width = "0";
+        }
 
     </script>
 
