@@ -60,18 +60,57 @@
     <script>
         
         {% if user is defined %}
-            let userObj = {{ user|tojson }};
-            let count = parseInt(userObj.collectibles);
-            let factories = userObj.factories;
+            let userObj = cleanAccountJson( {{ user|tojson }} );
+            //let userObj.collectibles = parseInt(userObj.collectibles);
+            //let
+            //let factories = userObj.factories;
 
             updateUIOnLoad(userObj.uname);
 
             // initialize cps incrementing
-            setInterval(addCPS, 1000, userObj.uname);
+            //if(userObj.cps > 0){
+            setInterval(addCPSLocal, 1000);
+            setInterval(saveAndUpdateLocal, 10000);
+            //}
+
+            //setInterval(update)
 
         {% else %}
             let count = 0;
         {% endif %}
+
+        function saveAndUpdateLocal(){
+            updateAccountFromJson(cleanAccountJson(userObj));             
+        }
+
+        function addCPSLocal(){
+            let total = 0;
+
+            for(let i = 0; i < userObj.factories.length; i++){
+                //console.log("i:" + i);
+                //console.log("userObj.factories: " + userObj.factories[i]);
+                if(userObj.factories[i] > 0){
+                    total += getFactories()[i].cps_boost * userObj.factories[i];
+                }
+            }
+
+            //console.log("planning to add " + total + " collectibles this second");
+
+            userObj.collectibles += total;
+            document.getElementById("total").textContent = userObj.collectibles;
+        }        
+
+        function buyFactoryLocal(factoryID){
+             if (userObj.collectibles >= getFactories()[factoryID].currentPrice(userObj.factories[factoryID])){
+                userObj.collectibles -= getFactories()[factoryID].currentPrice(userObj.factories[factoryID]);
+                //buyFactory(userObj.uname, factoryID)
+                userObj.factories[factoryID] += 1;
+                //document.getElementById("total").textContent = userObj.collectibles;
+                userObj.cps = userObj.cps + getFactories()[factoryID].cps_boost;
+                updateUI(userObj);
+
+             }
+        }        
 
         // Ignore the warnings, flask/jinja replaces above correctly
 
@@ -93,7 +132,9 @@
                 // TEMP FIX, should make a function that gets the most recent collectibles value
                 //count = count + 1;
                 //updateCollectibleCounter(getAccountJson(userObj.uname));
-                incCollectibles(userObj.uname);
+                //incCollectibles(userObj.uname);
+                userObj.collectibles = userObj.collectibles + 1;
+                document.getElementById("total").textContent = userObj.collectibles;
 
             {% else %}
                 // do nothing, doesn't have an account
@@ -112,7 +153,7 @@
             {% if user is defined %}
             //let count = {{ user|tojson }}.collectibles;
 
-                console.log("   before the post request");
+                //console.log("   before the post request");
 
                 /*
                 $.post("/updateUserAccount", {{user|tojson}},   function(response) {
@@ -121,15 +162,16 @@
 
                 console.log("   After the post request");
                 */
-                $.ajax({ url: "/leaveGame", type: "POST", data: {{user|tojson}}, 
-                success: function(response){
-                    console.log(response);
-                },
-                error: function(error){
-                    console.log(error);
-                }});
+                //$.ajax({ url: "/leaveGame", type: "POST", data: {{user|tojson}}, 
+                //success: function(response){
+               //     console.log(response);
+                //},
+                //error: function(error){
+               //     console.log(error);
+               // }});
+               saveAndUpdateLocal();
 
-                
+               //setTimeout(function(){ console.log("hopefully updated") }, 700);
 
             {% else %}
                 // do nothing, doesn't have an account
