@@ -1,13 +1,36 @@
 {% extends '_base.html' %}
 {% block content %}
-        <form method = "post" action="/login">
-            <label for="uname">Username:</label><br>
-            <input type="text" id="uname" name="uname"><br>
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password"><br><br> 
+    {% if err %}
+        <p name = "status">Error: {{err}}</p>
+    {% endif %}
+        <br>
+        <table id = "inputTable">
+        <form id = "userinput" method = "post" action="/login">
+            <tr>
+            <td id = "inputElement">
+            <label for="uname">Username:</label>
+            </td>
+            <td id = "inputElement">
+            <input type="text" id="uname" name="uname">
+            </td>
+            </tr>
+            <tr>
+            <td id = "inputElement">
+            <label for="password">Password:</label>
+            </td>
+            <td id = "inputElement">
+            <input type="password" id="password" name="password">
+            </td>
+            </tr>
+            <tr>
+            <td id = "inputElement">
             <input type="submit" value="Submit">
+            </td>
+            </tr>
         </form>
-
+        </table>
+        <p>
         Not registered? 
+        </p>
         <a href="create.html">Join now</a>
 {% endblock %}

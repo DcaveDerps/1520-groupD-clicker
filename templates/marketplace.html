@@ -1,10 +1,73 @@
 {% extends '_base.html' %}
 {% block content %}
-        <p>This is the place to make your cookies special. Create or search for a new design!</p>
-        <input type="button" value = "Upload a new cookie design!">
+
+        <p>This is the place to make your collectibles special. Create or search for a new design!</p>
+        {% if status %}
+            <p>Status: {{status}}</p>
+        {% endif %}
+
+
+        <table id = "inputTable">
+        <tr>
+
+        <form action="/upload-image" enctype="multipart/form-data" method = "POST">
+        <td id = "inputElement">Image File:</td> 
+        <td id = "inputElement"><input type="file" id="img" name ="img" accept="image/*" value = "Upload a new cookie design!"></td>
+        </tr>
+        <tr>
+        <td id = "inputElement">
+        Image Name: </td> 
+        <td id = "inputElement"><input type="text" id="name" name="name"> </td>
+        </tr>
+        <tr>
+        <td id = "inputElement">
+        User:</td> <td id = "inputElement"><input type="text" name="temp-username"> </td>
+        </tr>
+        </table>
         <br>
+        <div id = "userinput">
+        <input type="submit" value="Upload"> 
+        </div>
+        </form>
+        
+        
+
         <p>OR</p>
         <p>Search for a design made by another user!</p>
-        <input type="text">
-        <input type="button" value = "Search">
+        
+        <table id = "inputTable">
+        <tr>
+        <td id = "inputElement">
+        <form action="/image-search" method = "GET">
+        </td>
+        
+        <td id = "inputElement">Search:</td><td id = "inputElement"> <input type="text" name="search"> </td>
+        </tr>
+        </table>
+        <br>
+        <div id = "userinput">
+        <input type="Submit" value="Submit">
+        </div>
+        </form>
+        
+        
+        
+        <br><br>
+        
+        <h2 name="imagedisplay">{{imgheader}}</h2>
+        <div class = "img-container">            
+        {% for i in items %}
+            <div class = "img">
+            <h2>{{i['title']}}</h2>
+            <h4>Uploaded By {{i['username']}}</h4>
+            <div class = "market-image-outer">         
+            <image src="{{i['url']}}" class = "market-image-inner"></image>
+            </div>
+            <br><input id = "marketButton" type='button' value = 'Claim'>
+            </div>
+        {% else %}
+            <br><h2>No Images Found.</h2>
+        {% endfor %}
+        </div>
+
 {% endblock %}

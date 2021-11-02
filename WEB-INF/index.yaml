@@ -1,0 +1,9 @@
+indexes:
+
+- kind: user_account
+  ancestor: no
+  properties:
+  - name: collectibles
+    direction: desc
+  - name: cps
+    direction: desc

@@ -5,74 +5,36 @@ header{
                 padding-left: 25%;
                 padding-right: 25%;
                 
+<<<<<<< HEAD
+=======
                 
 }
 head {
     background-color: grey;
+>>>>>>> david
 }
 nav{
             
                 display: flex;
+<<<<<<< HEAD
+                justify-content: flex-start;
+=======
                 justify-content: space-around;
+>>>>>>> david
                 gap: 1em;
                 
                 
 }
 button{
+<<<<<<< HEAD
+                font-size: xx-large;
+=======
                 font-size: x-large;
                 border-radius: 10px;
                 border-color: #58727f;
                 width: 200px;
                 
-}
-button:hover{
-    color: blue;
-}
-
-.market-image-inner {
-    height: 20vw;
-    width: auto;
-    border-style: solid;
-    border-color: #213458;
-    border-width: 2px;    
-    border-radius: 20px;
-}
-
-.market-image-outer {
-    height: 20vw;
-    width: auto;
-    border-width: 40px 14px 42px 14px;
-    border-color: #213458;
-    background-color: #213458;
-    border-style: solid;
-    border-radius: 20px;
-}
-
-.img-title{
-    text-align: center;
-    font-size: large;
-    padding-left: 25%;
-    padding-right: 25%;
-}
-
-.img{
-    text-align:center;
-}
-
-.img-container {
-    color: white;
-    width: 100%;    
-    display: flex;
-    justify-content: center;
-    flex-flow: row wrap;
-    row-gap: 4vw;
-    column-gap: 7vw;
-    align-items: stretch;
-    background-color: #1d7d81;
-    border-width:40px 0px 40px 0px;
-    border-radius: 40px;
-    border-style: solid;
-    border-color: #1d7d81;
+>>>>>>> david
 }
 
 #click-object {
@@ -87,6 +49,10 @@ button:hover{
 }
 
 body {
+<<<<<<< HEAD
+            background-color: lightblue;
+}
+=======
             
             background-color: lightblue;  
             font-family: Helvetica, sans-serif;
@@ -163,14 +129,5 @@ a{
     width: auto;
 }
 
-#marketButton{
-    margin: auto;
-    font-size: medium;
-    
-}
-#marketButton:hover{
-    color: blue;
-    
-}
 
-
+>>>>>>> david
