@@ -42,15 +42,15 @@ def leaveGame():
 
 def incCollectibles():
     acc = ds.get_user_account(flask.request.values['uname'])
-    acc['collectibles'] = int(acc['collectibles']) + 1
+    acc['collectibles'] = acc['collectibles'] + 1
     ds.update_entity(acc)
     print(f"{acc['uname']} now has {acc['collectibles']} collectibles")
     return flask.jsonify({'success': True, 'message': 'It ran'})
 
 def updateAccountFromJson():
     acc = ds.get_user_account(flask.request.values['uname'])
-    acc['collectibles'] = flask.request.values['collectibles']
-    acc['cps'] = flask.request.values['cps']
+    acc['collectibles'] = int(flask.request.values['collectibles'])
+    acc['cps'] = int(flask.request.values['cps'])
     acc['left_game'] = flask.request.values['left_game']
     acc['factories'] = flask.request.values['factories']
     ds.update_entity(acc)
