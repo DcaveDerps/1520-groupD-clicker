@@ -8,7 +8,7 @@ header{
     
 }
 head {
-background-color: grey;
+    background-color: grey;
 }
 nav{
 
@@ -25,190 +25,220 @@ button{
     width: 200px;
     
 }
+button:hover{
+    color: blue;
+}
 
 .market-image-inner {
-height: 20vw;
-width: auto;
-border-style: solid;
-border-color: darkgreen;
-border-width: 2px;    
-border-radius: 20px;
+    height: 20vw;
+    width: auto;
+    border-style: solid;
+    /*border-color: darkgreen;*/
+    border-color: #213458;
+    border-width: 2px;    
+    border-radius: 20px;
 }
 
 .market-image-outer {
-height: 20vw;
-width: auto;
-border-width: 40px 14px 42px 14px;
-border-color: forestgreen;
-background-color: forestgreen;
-border-style: solid;
-border-radius: 20px;
+    height: 20vw;
+    width: auto;
+    border-width: 40px 14px 42px 14px;
+    /*border-color: forestgreen;
+    background-color: forestgreen;*/
+    border-color: #213458;
+    background-color: #213458;
+    border-style: solid;
+    border-radius: 20px;
 }
 
 .img-title{
-text-align: center;
-font-size: large;
-padding-left: 25%;
-padding-right: 25%;
+    text-align: center;
+    font-size: large;
+    padding-left: 25%;
+    padding-right: 25%;
 }
 
 .img{
-text-align:center;
+    text-align:center;
 }
 
 .img-container {
-width: 100%;    
-display: flex;
-justify-content: center;
-flex-flow: row wrap;
-row-gap: 4vw;
-column-gap: 7vw;
-align-items: stretch;
-background-color: rgb(127, 255, 53);
-border-width:40px 0px 40px 0px;
-border-radius: 40px;
-border-style: solid;
-border-color: rgb(127, 255, 53);
+    /*
+    width: 100%;    
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    row-gap: 4vw;
+    column-gap: 7vw;
+    align-items: stretch;
+    background-color: rgb(127, 255, 53);
+    border-width:40px 0px 40px 0px;
+    border-radius: 40px;
+    border-style: solid;
+    border-color: rgb(127, 255, 53);
+    */
+    color: white;
+    width: 100%;    
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    row-gap: 4vw;
+    column-gap: 7vw;
+    align-items: stretch;
+    background-color: #1d7d81;
+    border-width:40px 0px 40px 0px;
+    border-radius: 40px;
+    border-style: solid;
+    border-color: #1d7d81;
 }
 
 #click-object {
-
-display: flex;
-justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 #total {
-display: flex;
-justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 body {
-
-background-color: lightblue;  
-font-family: Helvetica, sans-serif;
-
-
-
+    background-color: lightblue;  
+    font-family: Helvetica, sans-serif;
 }
+
 table, th {    
-border: 1px solid black;
-border-collapse: collapse;
-margin-left: auto;
-margin-right: auto;
-width: 40%;
-background-color: white;
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    background-color: white;
 
 }
+
 td {
-border: 1px solid black;
-border-collapse: collapse;
-margin-left: auto;
-margin-right: auto;
-background-color: white;
-height: 30px;
-width: 60px;
-text-align: center;
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    height: 30px;
+    width: 60px;
+    text-align: center;
 }
 
 
 #topOfPage {
 
-background-color: #58727f; 
-padding-top: 5px;
-padding-bottom: 20px;
-padding-left: 10px;
-padding-right: 10px;
-border-radius: 10px;
-color: white;
-font-family: Helvetica, sans-serif
+    background-color: #58727f; 
+    padding-top: 5px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    color: white;
+    font-family: Helvetica, sans-serif
 
 }
+
 h1{
-display: flex;
-justify-content: center;
-
+    display: flex;
+    justify-content: center;
 }
+
 h2{
-display: flex;
-justify-content: center;
+    display: flex;
+    justify-content: center;
+}
 
-}
 p{
-display: flex;
-justify-content: center;
-font-family: Garamond, serif;
-font-size: 20px;
+    display: flex;
+    justify-content: center;
+    font-family: Garamond, serif;
+    font-size: 20px;
 }
+
 input{
-display: flex;
-justify-content: center;
+    display: flex;
+    justify-content: center;
 }
+
 #userinput{
-display: flex;
-justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 a{
-display: flex;
-justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 #inputTable,#inputElement{
-border: white;
-background-color: lightblue;
-width: auto;
+    border: white;
+    background-color: lightblue;
+    width: auto;
+}
+
+#marketButton{
+    margin: auto;
+    font-size: medium;   
+}
+
+#marketButton:hover{
+    color: blue;
 }
 
 #gameArea{
-border: 3px solid #000000;
-width: 900px;
-height: 400px;
-padding: 100px 0px;
-background-color: #afd6dd;
-text-align: center;
+    border: 3px solid #000000;
+    width: 900px;
+    height: 400px;
+    padding: 100px 0px;
+    background-color: #afd6dd;
+    text-align: center;
 }
 
 .box{
-border: 3px solid #000000;
-width: 150px;
-height: 30px;
-background-color: rgba(89, 155, 152, 0.801);
-text-align: center;
+    border: 3px solid #000000;
+    width: 150px;
+    height: 30px;
+    background-color: rgba(89, 155, 152, 0.801);
+    text-align: center;
 }
 
 .nav {
-height: 30%;
-width: 0;
-position: absolute;
-z-index: 1;
-top: 50;
-left: 0;
-background-color: rgb(94, 122, 115);
-overflow-x: hidden;
-transition: 0.5s;
-padding-top: 50px;
+    height: 30%;
+    width: 0;
+    position: absolute;
+    z-index: 1;
+    top: 50;
+    left: 0;
+    background-color: rgb(94, 122, 115);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 50px;
 }
 
 .nav a {
-padding: 8px 8px 8px 32px;
-text-decoration: none;
-font-size: 10 px;
-color: #000000ce;
-display: block;
-transition: 0.3s;
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 10 px;
+    color: #000000ce;
+    display: block;
+    transition: 0.3s;
 }
 
 .nav .closebtn {
-position: absolute;
-top: 0;
-right: 25px;
-font-size: 36px;
-margin-left: 50px;
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
 }
 
 @media screen and (max-height: 450px) {
-.sidenav {padding-top: 40px;}
-.sidenav a {font-size: 18px;}
+    .sidenav {padding-top: 40px;}
+    .sidenav a {font-size: 18px;}
 }
 
 
