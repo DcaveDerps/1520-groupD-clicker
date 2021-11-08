@@ -74,7 +74,7 @@ def search_image():
     search.strip()
     if search=="":
         return flask.render_template('/marketplace.html', page_title='Marketplace',imgheader='User Images',items = ds.get_all_img_entities())    
-    return flask.render_template('/marketplace.html', page_title='Marketplace',imgheader='Search Results For "'+search+'"',items = ds.get_img_entities_by_search(search))    
+    return flask.render_template('/marketplace.html', page_title='Marketplace',imgheader='Search Results For "'+search+'"',items = ds.get_img_entities_by_search(search), user = ds.get_user_account('e'))    
 
 
 
