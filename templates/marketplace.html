@@ -66,13 +66,18 @@
             <br>
             <div class = "market-buttons">
             {% if user is defined and i['url'] not in user['saved_imgs'] %}
-            <input name = "button{{i['title']}}" id = "{{i['url']}}" onclick = "add(this.id)" type='button' value = 'Claim'>
-            <nobr class = "Xs" id = "x{{i['url']}}" onmouseover = "xEvent(this)" onmouseout="clearXEvent(this)" onclick = "remove(this.id)" style = 'cursor: default; visibility: hidden;'>&times;</nobr>
+            <img src = "/s/unsaved.png" class='icon' onmouseover = "iconHover(this.id)" onmouseout="clearIconHover(this.id)" name = "Unclaimed" id = "{{i['url']}}" onclick = "addOrRemove(this.id)">
+            </img>
+            <img src = "/s/share.png" class='icon' name = "Share" id ="icon {{i['url']}}" onmouseover = "iconHover(this.id)" onmouseout="clearIconHover(this.id)" onclick ="copyLink(this.id)">
             {% elif user is defined and i['url'] in user['saved_imgs'] %}
-            <input name = "button{{i['title']}}" id = "{{i['url']}}" onclick = "add(this.id)" type='button' value = 'Claimed' disabled>
-            <nobr class = "Xs" id = "x{{i['url']}}" onmouseover = "xEvent(this)" onmouseout="clearXEvent(this)" onclick = "remove(this.id)" style = "cursor: default;">&times;</nobr>
+            <img src = "/s/saved.png" class='icon' onmouseover = "iconHover(this.id)" onmouseout="clearIconHover(this.id)" name = "Claimed" id = "{{i['url']}}" onclick = "addOrRemove(this.id)">
+            <img src = "/s/share.png" class='icon' name = "Share" id ="icon {{i['url']}}" onmouseover = "iconHover(this.id)" onmouseout="clearIconHover(this.id)" onclick ="copyLink(this.id)">
+            {% else %}
+            <img src = "/s/saved.png" class='icon' style = "visibility: hidden">
+            <img src = "/s/share.png" class='icon' name = "Share" id ="icon {{i['url']}}" onmouseover = "iconHover(this.id)" onmouseout="clearIconHover(this.id)" onclick ="copyLink(this.id)">
             {% endif %}
             </div>
+            <p class="icon-tooltip" id ="tool {{i['url']}}">Check</p>
             </div>
             
         {% else %}
@@ -84,27 +89,66 @@
         <script src = "/s/marketHandling.js"></script>
         <script>
 
-            function xEvent(target){
-                event.target.style.color = 'red';
-                event.target.style.fontWeight = 'bold';   
+
+            function iconHover(url){                
+                if(document.getElementById(url).name == 'Claimed'){
+                    document.getElementById(url).src = '/s/unsaved_hover.png';
+                    document.getElementById("tool " + url).innerHTML = 'Unclaim Image';
+                    document.getElementById("tool " + url).style.visibility = 'visible';
+                }else if(document.getElementById(url).name == 'Unclaimed'){
+                    document.getElementById(url).src = '/s/unsaved_hover.png';
+                    document.getElementById("tool " + url).innerHTML = 'Claim Image';
+                    document.getElementById("tool " + url).style.visibility = 'visible';
+                }else if(document.getElementById(url).name == 'Share'){
+                    document.getElementById(url).src = '/s/share_hover.png';
+                    document.getElementById("tool " + url.substring(5)).innerHTML = 'Copy Image Link';
+                    document.getElementById("tool " + url.substring(5)).style.visibility = 'visible';
+                }
+                
             }
 
-            function clearXEvent(target){
-                event.target.style.color = "";
-                event.target.style.fontWeight = 'normal';
+            function clearIconHover(url){
+                if(document.getElementById(url).name == 'Claimed'){
+                    document.getElementById("tool " + url).style.visibility = 'hidden';
+                    document.getElementById(url).src = '/s/saved.png';
+                }else if(document.getElementById(url).name == 'Unclaimed'){
+                    document.getElementById("tool " + url).style.visibility = 'hidden';
+                    document.getElementById(url).src = '/s/unsaved.png';
+                }else if((document.getElementById(url).name == 'Share')){
+                    document.getElementById("tool " + url.substring(5)).style.visibility = 'hidden';
+                    document.getElementById(url).src = '/s/share.png';
+                }
             }
+
+            function copyLink(url){
+                let newUrl = url.substring(5);
+                navigator.clipboard.writeText(newUrl);
+                document.getElementById("tool " + newUrl).innerHTML = 'Copied Image Link';
+                document.getElementById("tool " + newUrl).style.visibility = 'visible';
+            }            
           
             {% if user is defined %}
                 let userObj = {{ user|tojson }};
             {% endif %}
+
+            function addOrRemove(target){
+                if(event.target.name=='Claimed'){
+                    remove(event.target.id);
+                }else{
+                    add(event.target.id);
+                }
+            }
+
             function add(url){
                 {% if user is defined %}
+                    document.getElementById("tool " + url).innerHTML = 'Unclaim Image';
                     claimImg(userObj.uname,url);
                 {% endif %}
             }
             function remove(url){                
                 {% if user is defined %}
-                    removeImgMarketplace(userObj.uname,url.substring(1));
+                    document.getElementById("tool " + url).innerHTML = 'Claim Image';
+                    removeImgMarketplace(userObj.uname,url);
                 {% endif %}
             }
         </script>

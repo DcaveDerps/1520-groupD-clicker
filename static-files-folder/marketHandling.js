@@ -11,9 +11,8 @@ function removeImgMarketplace(username, url){
         if(result.saved_imgs.substring(len-1,len)==","){
             result.saved_imgs = result.saved_imgs.substring(0,len-1);
         }
-        document.getElementById(url).value = 'Claim';
-        document.getElementById(url).disabled = false;
-        document.getElementById('x' + url).style.visibility = 'hidden';
+        document.getElementById(url).name = 'Unclaimed';
+        document.getElementById(url).src = '/s/unsaved.png';
         updateAccountFromJson(result);
     });
 }
@@ -26,9 +25,8 @@ function claimImg(username, url){
         }else{
             result.saved_imgs+= "," + url;
         }        
-        document.getElementById(url).value = 'Claimed';
-        document.getElementById(url).disabled = true;
-        document.getElementById('x' + url).style.visibility = 'visible';
+        document.getElementById(url).name = 'Claimed';
+        document.getElementById(url).src = '/s/saved.png';
         updateAccountFromJson(result);
     });
 }
