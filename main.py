@@ -38,7 +38,7 @@ def leaderboard():
 @app.route('/marketplace.html')
 def marketplace():
     #ds.del_all_img_entities()
-    return flask.render_template('/marketplace.html', page_title='Marketplace',imgheader='User Images',items = ds.get_all_img_entities())
+    return flask.render_template('/marketplace.html', page_title='Marketplace',imgheader='User Images',items = ds.get_all_img_entities(), user = ds.get_user_account('e'))
 
 @app.route('/create')
 @app.route('/create.html')
@@ -110,6 +110,7 @@ def handle_create_account_request():
     new_user['cps'] = 0
     new_user['left_game'] = datetime.datetime.now().isoformat(' ') # the exact time the player left the game screen
     new_user['factories'] = [0, 0, 0, 0, 0]
+    new_user['saved_imgs']=''
 
     print('Created the entity')
     

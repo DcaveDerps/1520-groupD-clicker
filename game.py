@@ -53,9 +53,9 @@ def updateAccountFromJson():
     acc['cps'] = int(flask.request.values['cps'])
     acc['left_game'] = flask.request.values['left_game']
     acc['factories'] = flask.request.values['factories']
+    acc['saved_imgs'] = flask.request.values['saved_imgs']
     ds.update_entity(acc)
     print(str(acc['uname']) + " now has " + str(acc['collectibles']) + " collectibles\n" + str(acc['cps']) + " cps\n" + str(acc['factories']))
-
     response = dict(success=True)
 
     return flask.Response(json.dumps(response), mimetype='application/json')
@@ -70,5 +70,6 @@ def getAccountJson():
     acc_dict['cps'] = acc['cps']
     acc_dict['left_game'] = acc['left_game']
     acc_dict['factories'] = acc['factories']
+    acc_dict['saved_imgs'] = acc['saved_imgs']
     #print("gonna try and return " + acc_dict)
     return flask.Response(json.dumps(acc_dict), mimetype='application/json')

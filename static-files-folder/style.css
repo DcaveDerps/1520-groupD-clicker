@@ -29,6 +29,13 @@ button:hover{
     color: blue;
 }
 
+.market-buttons {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row wrap;
+    font-size: xx-large;
+}
+
 .market-image-inner {
     height: 20vw;
     width: auto;

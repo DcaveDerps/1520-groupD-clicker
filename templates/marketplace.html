@@ -63,11 +63,51 @@
             <div class = "market-image-outer">         
             <image src="{{i['url']}}" class = "market-image-inner"></image>
             </div>
-            <br><input id = "marketButton" type='button' value = 'Claim'>
+            <br>
+            <div class = "market-buttons">
+            {% if user is defined and i['url'] not in user['saved_imgs'] %}
+            <input name = "button{{i['title']}}" id = "{{i['url']}}" onclick = "add(this.id)" type='button' value = 'Claim'>
+            <nobr class = "Xs" id = "x{{i['url']}}" onmouseover = "xEvent(this)" onmouseout="clearXEvent(this)" onclick = "remove(this.id)" style = 'cursor: default; visibility: hidden;'>&times;</nobr>
+            {% else %}
+            <input name = "button{{i['title']}}" id = "{{i['url']}}" onclick = "add(this.id)" type='button' value = 'Claimed' disabled>
+            <nobr class = "Xs" id = "x{{i['url']}}" onmouseover = "xEvent(this)" onmouseout="clearXEvent(this)" onclick = "remove(this.id)" style = "cursor: default;">&times;</nobr>
+            {% endif %}
             </div>
+            </div>
+            
         {% else %}
             <br><h2>No Images Found.</h2>
         {% endfor %}
         </div>
+
+        <script src="/s/ajaxRequests.js"></script>
+        <script src = "/s/marketHandling.js"></script>
+        <script>
+
+            function xEvent(target){
+                event.target.style.color = 'red';
+                event.target.style.fontWeight = 'bold';   
+            }
+
+            function clearXEvent(target){
+                event.target.style.color = "";
+                event.target.style.fontWeight = 'normal';
+            }
+          
+            {% if user is defined %}
+                let userObj = {{ user|tojson }};
+            {% endif %}
+            function add(url){
+                {% if user is defined %}
+                    claimImg(userObj.uname,url);
+                {% endif %}
+            }
+            function remove(url){                
+                {% if user is defined %}
+                    removeImgMarketplace(userObj.uname,url.substring(1));
+                {% endif %}
+            }
+        </script>
+
 
 {% endblock %}
