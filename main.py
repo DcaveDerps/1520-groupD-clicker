@@ -4,6 +4,7 @@ import ds
 import game
 import datetime
 import urllib
+import hashlib
 
 app = flask.Flask(__name__)
 
@@ -104,7 +105,7 @@ def handle_create_account_request():
     # Otherwise, create the new Entity
     new_user = ds.create_account_entity(user_name)
     new_user['uname'] = user_name
-    new_user['password'] = user_password    # TODO hash the password before saving it
+    new_user['password'] = str(hashlib.pbkdf2_hmac('sha256', user_password.encode('utf-8'), b'saltPhrase', 100000))    # TODO hash the password before saving it
     new_user['collectibles'] = 0
     new_user['cps'] = 0
     new_user['left_game'] = datetime.datetime.now().isoformat(' ') # the exact time the player left the game screen
@@ -150,7 +151,9 @@ def handle_login_request():
         return flask.render_template('/login.html', page_title='Login', err="Username not found")
 
     # If the user does exist, make sure they are using the right password
-    if user_account['password'] != flask.request.values['password']:
+    passAttempt = str(hashlib.pbkdf2_hmac('sha256', flask.request.values['password'].encode('utf-8'), b'saltPhrase', 100000))
+    
+    if user_account['password'] != passAttempt:
         print('Password doesn\'t match!')
         return flask.render_template('/login.html', page_title='Login', err="Password incorrect")
 
