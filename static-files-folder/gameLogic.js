@@ -38,6 +38,10 @@ const FACTORY_ASSEMBLYLINE = new Factory("Assembly Line", 11, 100, 1, 1);
 
 const FACTORIES = [null, FACTORY_ASSEMBLYLINE, null, null, null];
 
+function getFactories(){
+    return FACTORIES;
+}
+
 function buyFactory(username, buildingId){
 
     //console.log("in buyFactory()");
@@ -56,9 +60,9 @@ function buyFactory(username, buildingId){
         let cur_price = factory.currentPrice(user.factories[factory.ID]);
         //console.log("current price is: " + cur_price);
         if(user.collectibles >= cur_price){
-            user.collectibles -= cur_price;
-            user.cps = user.cps + factory.cps_boost;
-            user.factories[factory.ID] = user.factories[factory.ID] + 1;
+            //user.collectibles -= cur_price;
+            //user.cps = user.cps + factory.cps_boost;
+            //user.factories[factory.ID] = user.factories[factory.ID] + 1;
             //console.log("Bought a factory: " + factory.name);
             // save changes in the datastore
             updateAccountFromJson(user);
@@ -67,9 +71,12 @@ function buyFactory(username, buildingId){
         }
         else{
             //console.log("Can't afford the factory!");
+            return false;
         }
 
     });   
+
+    return true;
 
 }
 
