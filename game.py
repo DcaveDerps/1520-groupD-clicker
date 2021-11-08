@@ -54,7 +54,7 @@ def updateAccountFromJson():
     acc['left_game'] = flask.request.values['left_game']
     acc['factories'] = flask.request.values['factories']
     ds.update_entity(acc)
-    print(acc['uname'] + " now has " + acc['collectibles'] + " collectibles\n" + acc['cps'] + " cps\n" + acc['factories'])
+    print(str(acc['uname']) + " now has " + str(acc['collectibles']) + " collectibles\n" + str(acc['cps']) + " cps\n" + str(acc['factories']))
 
     response = dict(success=True)
 
