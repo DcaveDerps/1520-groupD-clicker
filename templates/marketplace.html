@@ -68,7 +68,7 @@
             {% if user is defined and i['url'] not in user['saved_imgs'] %}
             <input name = "button{{i['title']}}" id = "{{i['url']}}" onclick = "add(this.id)" type='button' value = 'Claim'>
             <nobr class = "Xs" id = "x{{i['url']}}" onmouseover = "xEvent(this)" onmouseout="clearXEvent(this)" onclick = "remove(this.id)" style = 'cursor: default; visibility: hidden;'>&times;</nobr>
-            {% else %}
+            {% elif user is defined and i['url'] in user['saved_imgs'] %}
             <input name = "button{{i['title']}}" id = "{{i['url']}}" onclick = "add(this.id)" type='button' value = 'Claimed' disabled>
             <nobr class = "Xs" id = "x{{i['url']}}" onmouseover = "xEvent(this)" onmouseout="clearXEvent(this)" onclick = "remove(this.id)" style = "cursor: default;">&times;</nobr>
             {% endif %}
