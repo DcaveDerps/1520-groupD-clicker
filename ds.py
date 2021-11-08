@@ -62,37 +62,38 @@ def append_if_unique(list, newval):
     list.append(newval)
 
 
-def get_img_entities_by_search(s):
+def get_img_entities_by_search(norms):
+    s = norms.lower()
     results = []
 
     ds_client = get_datastore_client()
 
-    #USERNAME QUERY
     query = ds_client.query(kind='image')
     
     for img in query.fetch():
         imguser = img['username'].lower()
+        imgtitle = img['title'].lower()
+        imgurl = img['url']
 
-        if(imguser.startswith(s) or s.startswith(imguser)):
+        if(imguser.startswith(s) or s.startswith(imguser)): #USERNAME CHECK
             append_if_unique(results,img)
         else:
             for u in imguser.split(' '):        
                 if(u.startswith(s)):
                     append_if_unique(results,img)
 
-    #TITLE QUERY
-    query = ds_client.query(kind='image')
-    
-    for img in query.fetch():
-        imgtitle = img['title'].lower()
-
-        if(imgtitle.startswith(s) or s.startswith(imgtitle)):
+        if(imgtitle.startswith(s) or s.startswith(imgtitle)): #TITLE CHECK
                 append_if_unique(results,img)
         else:
             for u in imgtitle.split(' '):
                 #print(u + " " + s)
                 if(u.startswith(s)):
                     append_if_unique(results,img)
+
+        if(imgurl.startswith(norms) or norms.startswith(imgurl)): #URL CHECK
+                append_if_unique(results,img)
+
+        
     
     
     return results
