@@ -55,7 +55,7 @@
         <br><br>
         
         <h2 name="imagedisplay">{{imgheader}}</h2>
-        <div class = "img-container">            
+        <div id = "images" class = "img-container">            
         {% for i in items %}
             <div class = "img">
             <h2>{{i['title']}}</h2>
@@ -88,6 +88,13 @@
         <script src="/s/ajaxRequests.js"></script>
         <script src = "/s/marketHandling.js"></script>
         <script>
+
+window.addEventListener("scroll", function() {
+  var elementTarget = document.getElementById("images");
+  if (window.scrollY+window.innerHeight > (elementTarget.offsetTop + elementTarget.offsetHeight)) {
+      alert("You've scrolled past the second div");
+  }
+});
 
 
             function iconHover(url){                
