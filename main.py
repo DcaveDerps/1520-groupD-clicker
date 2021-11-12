@@ -1,4 +1,5 @@
 import flask
+from flask import session
 from google.cloud import datastore
 import ds
 import game
@@ -9,6 +10,7 @@ import hashlib
 import json
 
 app = flask.Flask(__name__)
+app.secret_key = "f%@N!Qwf,><%&w4BA?':<REbea)98"
 
 """
 WEBPAGE ROUTING
@@ -18,12 +20,15 @@ WEBPAGE ROUTING
 @app.route('/index.html')
 @app.route('/templates/index.html')
 def root():
+    session.pop('username',None)
     return flask.render_template('/index.html', page_title='Homepage')
 
 @app.route('/game')
 @app.route('/game.html')
 def game_page():
-    return flask.render_template('/game.html', page_title='Game')
+    if 'username' in session:
+        return flask.render_template('/game.html', page_title='Game',user = ds.get_user_account(session['username']))
+    return flask.render_template('/login.html', page_title='Login', err="Please log in or create account to play")
 
 @app.route('/login')
 @app.route('/login.html')
@@ -40,15 +45,18 @@ def leaderboard():
 @app.route('/marketplace.html')
 def marketplace():
     #ds.del_all_img_entities()
-    return flask.render_template('/marketplace.html', page_title='Marketplace', user = ds.get_user_account('e'))
-
+    if 'username' in session:
+        return flask.render_template('/marketplace.html', page_title='Marketplace', user = ds.get_user_account(session['username']))
+    return flask.render_template('/marketplace.html', page_title='Marketplace')
+    
 @app.route('/upload')
 @app.route('/upload.html')
 @app.route('/image-upload')
 @app.route('/upload-image')
 def upload_image():
-    return flask.render_template('/upload.html', page_title='Image Upload', user = ds.get_user_account('e'))
-
+    if 'username' in session:
+        return flask.render_template('/upload.html', page_title='Image Upload', user = ds.get_user_account(session['username']))
+    return flask.render_template('/upload.html', page_title='Image Upload')
 
 @app.route('/create')
 @app.route('/create.html')
@@ -108,6 +116,7 @@ def handle_create_account_request():
     new_user['left_game'] = datetime.datetime.now().isoformat(' ') # the exact time the player left the game screen
     new_user['factories'] = [0, 0, 0, 0, 0]
     new_user['saved_imgs']=''
+    session['username'] = user_name
 
     print('Created the entity')
     
@@ -157,9 +166,10 @@ def handle_login_request():
 
     
     # otherwise, the login is successful, pass the username to the game page
+    session['username'] = user_account['uname']
     print("Login successful!")
 
-    return flask.render_template('/game.html', page_title='Game', user=ds.get_user_account(flask.request.values['uname']))
+    return flask.render_template('/game.html', page_title='Game', user=user_account)
 
 """
 HELPER FUNCTIONS
