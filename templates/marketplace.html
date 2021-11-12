@@ -8,7 +8,7 @@
         <br><br>
         
         <h2 id="imagedisplay">All Images</h2>
-        <form action="#" onsubmit = "updateSearch();return false">
+        <form onsubmit = "updateSearch();return false">
             <div class = "centered">
             <p id = "inputElement">Search:&nbsp;</p><input id="search-bar" type="text" name="search" style="width:50%">
             <input type="Submit">
@@ -41,7 +41,7 @@
         let isSearching = false;
         let endGeneration = false;
         let search = "";    
-        let searchLen = 5;    
+        let searchLen = 20;    
         grabNextX(searchLen);   
         
         window.addEventListener("scroll", function() {

@@ -150,6 +150,8 @@ function updateSearch(){
     if(!isSearching){ 
         isSearching = true;
         search = document.getElementById("search-bar").value;
+        document.getElementById("search-bar").value = "";
+        document.getElementById("search-bar").blur();
         if(search==""){
             document.getElementById("imagedisplay").innerHTML="All Images";
         }else{
