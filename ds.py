@@ -92,10 +92,20 @@ def get_img_entities_by_search(norms):
 
         if(imgurl.startswith(norms) or norms.startswith(imgurl)): #URL CHECK
                 append_if_unique(results,img)
+    return results
 
-        
+def get_img_entities_by_url_list(norms):
+    results = []
+
+    ds_client = get_datastore_client()
+
+    query = ds_client.query(kind='image')
     
-    
+    for img in query.fetch():
+        imgurl = img['url']
+
+        if(imgurl in norms): #URL CHECK
+            append_if_unique(results,img)
     return results
 
 def get_all_img_entities():

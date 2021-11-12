@@ -14,6 +14,7 @@
             <input type="Submit">
             </div>
         </form>
+        <input type="button" value = "Claimed Images (Temporary)" onclick = 'getClaimedImages()'>        
         <br>
         <div id = "images" class = "img-container">            
             <div id = "div template" class = "img" style = "display:none">
@@ -40,6 +41,7 @@
         let low = 0;
         let isSearching = false;
         let endGeneration = false;
+        let lookingClaimed = false;
         let search = "";    
         let searchLen = 20;    
         grabNextX(searchLen);   
@@ -49,11 +51,14 @@
         if (window.scrollY+(window.innerHeight*2) > (elementTarget.offsetTop)) {
             if(search==""){
                 grabNextX(searchLen);
+            }else if (lookingClaimed){
+
             }else{
                 grabNextXSearch(searchLen,search);
             }
         }
         });
+
 
         function getXImagesCallback(imgs){
             let img_space = document.getElementById("images")
@@ -69,6 +74,7 @@
                 }
                 let new_div = template.cloneNode(true);
                 new_div.style.display = "block";
+                new_div.id = "div " + imgs[i].url;                
                 new_div.children[0].innerHTML = imgs[i].title;
                 new_div.children[1].innerHTML = imgs[i].username;
                 new_img = document.createElement("img");

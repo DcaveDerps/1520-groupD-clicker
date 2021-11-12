@@ -209,6 +209,13 @@ def search_image():
     search.strip()
     return market.search_image(int(flask.request.values['low']),int(flask.request.values['high']),search)
 
+@app.route('/claimedImages', methods=['POST'])
+def claimed_images():
+    search = flask.request.values['search']
+    print(search)
+    selections = search.split(',')
+    return market.claimed_images(int(flask.request.values['low']),int(flask.request.values['high']),selections)
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

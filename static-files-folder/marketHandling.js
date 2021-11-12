@@ -97,9 +97,14 @@ function getShareIcon(url){
     return new_copy;
 }
 
-function getXImages(low,high,search){
+function getXImages(low,high,search, claimSearch){
     if(search){
         sendJsonRequest({ 'low': low,'high':high,'search':search}, '/searchXImages', function(result, targetUrl, params) {
+            getXImagesCallback(result);
+            return result;
+        });
+    }else if(claimSearch){
+        sendJsonRequest({ 'low': low,'high':high,'search':claimSearch}, '/claimedImages', function(result, targetUrl, params) {
             getXImagesCallback(result);
             return result;
         });
@@ -125,6 +130,9 @@ function removeImgMarketplace(username, url){
         }
         document.getElementById(url).name = 'Unclaimed';
         document.getElementById(url).src = '/s/unsaved.png';
+        if(lookingClaimed){
+            document.getElementById("div " + url).style.display='none';
+        }
         updateAccountFromJson(result);
         updateClaimedImages(result.saved_imgs);
     });
@@ -141,12 +149,34 @@ function claimImg(username, url){
         document.getElementById(url).name = 'Claimed';
         document.getElementById(url).src = '/s/saved.png';
         updateAccountFromJson(result);
-        updateClaimedImages(result.saved_imgs);        
+        updateClaimedImages(result.saved_imgs);
     });
 }
 
+function getClaimedImages(){
+    endGeneration = false;
+    lookingClaimed = true;         
+    if(!isSearching){ 
+        isSearching = true;
+        document.getElementById("imagedisplay").innerHTML="Your Claimed Images";
+        
+        let img_space = document.getElementById("images");
+        let cNodes = img_space.children;
+        for(let i =cNodes.length-1;i>0;i--){
+            cNodes[i].remove();
+            low-=1;
+        }
+
+        let high = low + searchLen;
+
+        getXImages(low,high,userObj.saved_imgs);                
+    }
+
+}
+
 function updateSearch(){
-    endGeneration = false;            
+    endGeneration = false;
+    lookingClaimed = false;            
     if(!isSearching){ 
         isSearching = true;
         search = document.getElementById("search-bar").value;
@@ -168,7 +198,27 @@ function updateSearch(){
 
         getXImages(low,high,search);                
     }
+}
 
+function getClaimedImages(){
+    endGeneration = false;
+    lookingClaimed = true;            
+    if(!isSearching){ 
+        isSearching = true;
+
+        document.getElementById("imagedisplay").innerHTML="Your Claimed Images";
+
+        let img_space = document.getElementById("images");
+        let cNodes = img_space.children;
+        for(let i =cNodes.length-1;i>0;i--){
+            cNodes[i].remove();
+            low-=1;
+        }
+
+        let high = low + searchLen;
+
+        getXImages(low,high,null,userObj.saved_imgs);                
+    }
 }
 
 function grabNextXSearch(x,search){
