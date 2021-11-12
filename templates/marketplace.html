@@ -51,10 +51,10 @@
         window.addEventListener("scroll", function() {
         var elementTarget = document.getElementById("images");
         if (window.scrollY+(window.innerHeight*2) > (elementTarget.offsetTop)) {
-            if(search==""){
+            if (lookingClaimed){
+                grabNextXClaimed(searchLen);                
+            }else if(search==""){
                 grabNextX(searchLen);
-            }else if (lookingClaimed){
-
             }else{
                 grabNextXSearch(searchLen,search);
             }
@@ -66,7 +66,7 @@
             let img_space = document.getElementById("images")
             let template = document.getElementById("div template");
             for(let i = 0; i<imgs.length;i++){
-                if(imgs[i].url=="EOI"){                  
+                if(imgs[i].url=="EOI"){                
                     endGeneration = true;
                     if(low==0){
                         document.getElementById("imagedisplay").innerHTML="No Images Found";

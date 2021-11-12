@@ -6,7 +6,7 @@
             <p>Status: {{status}}</p>
         {% endif %}
 
-
+        {% if user is defined %}
         <table id = "inputTable">
         <tr>
 
@@ -21,12 +21,15 @@
         </tr>
         <tr>
         <td id = "inputElement">
-        User:</td> <td id = "inputElement"><input type="text" name="temp-username"> </td>
+        User:</td> <td id = "inputElement"><input type="text" name="temp-username" value = "{{user['uname']}}"> </td>
         </tr>
         </table>
         <br>
         <div id = "userinput">
         <input type="submit" value="Upload"> 
+        {% else %}
+        <p>Sign in to upload images!</p>
+        {% endif %}
         </div>
         </form>
 {% endblock %}

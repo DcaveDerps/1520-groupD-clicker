@@ -195,7 +195,6 @@ function updateSearch(){
         }
 
         let high = low + searchLen;
-
         getXImages(low,high,search);                
     }
 }
@@ -206,8 +205,6 @@ function getClaimedImages(){
     if(!isSearching){ 
         isSearching = true;
 
-        document.getElementById("imagedisplay").innerHTML="Your Claimed Images";
-
         let img_space = document.getElementById("images");
         let cNodes = img_space.children;
         for(let i =cNodes.length-1;i>0;i--){
@@ -215,7 +212,24 @@ function getClaimedImages(){
             low-=1;
         }
 
+        if(userObj.saved_imgs==""){
+            document.getElementById("imagedisplay").innerHTML="No Images Found";
+            endGeneration = true;
+            isSearching = false;
+            return;
+        }
+        document.getElementById("imagedisplay").innerHTML="Your Claimed Images";
+
         let high = low + searchLen;
+
+        getXImages(low,high,null,userObj.saved_imgs);                
+    }
+}
+
+function grabNextXClaimed(x){
+    if(!isSearching&&!endGeneration){                
+        isSearching = true;
+        let high = low + x;
 
         getXImages(low,high,null,userObj.saved_imgs);                
     }

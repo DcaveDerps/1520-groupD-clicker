@@ -1,5 +1,5 @@
 import flask
-from flask import session
+from flask import session,redirect
 from google.cloud import datastore
 import ds
 import game
@@ -28,7 +28,7 @@ def root():
 def game_page():
     if 'username' in session:
         return flask.render_template('/game.html', page_title='Game',user = ds.get_user_account(session['username']))
-    return flask.render_template('/login.html', page_title='Login', err="Please log in or create account to play")
+    return flask.render_template('/game.html', page_title='Game Demo')
 
 @app.route('/login')
 @app.route('/login.html')
@@ -83,7 +83,9 @@ def handle_upload_img():
 
     ds.upload_img(title,img_file,tmp)
 
-    return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'Upload Success!',imgheader='User Images',items = ds.get_all_img_entities())
+    #TODO: MAKE UPLOAD DISPLAY AN IMAGE WITH SUCCESS AND AUTO CLAIM
+    return redirect("/marketplace.html", code=302)
+
 
 @app.route('/create-user', methods=['POST'])
 def handle_create_account_request():
@@ -135,7 +137,8 @@ def handle_create_account_request():
     # Essentially, when a request is processed, it takes the user away from the page,
     # so you need to send them somewhere or else it will give a server error
 
-    return flask.render_template('/game.html', page_title='Game', user=ds.get_user_account(user_name))
+    return redirect("/game.html", code=302)
+    #return flask.render_template('/game.html', page_title='Game', user=ds.get_user_account(user_name))
 
 @app.route('/login', methods=['POST'])
 def handle_login_request():
@@ -169,7 +172,8 @@ def handle_login_request():
     session['username'] = user_account['uname']
     print("Login successful!")
 
-    return flask.render_template('/game.html', page_title='Game', user=user_account)
+    return redirect("/game.html", code=302)
+    #return flask.render_template('/game.html', page_title='Game', user=user_account)
 
 """
 HELPER FUNCTIONS
