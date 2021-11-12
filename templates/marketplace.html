@@ -14,7 +14,9 @@
             <input type="Submit">
             </div>
         </form>
-        <input type="button" value = "Claimed Images (Temporary)" onclick = 'getClaimedImages()'>        
+        {% if user is defined %}
+        <input type="button" value = "Claimed Images (Temporary)" onclick = 'getClaimedImages()'>  
+        {% endif %}      
         <br>
         <div id = "images" class = "img-container">            
             <div id = "div template" class = "img" style = "display:none">
