@@ -97,11 +97,18 @@ function getShareIcon(url){
     return new_copy;
 }
 
-function getXImages(low,high){
-    sendJsonRequest({ 'low': low,'high':high}, '/getXImages', function(result, targetUrl, params) {
-        getXImagesCallback(result);
-        return result;
-    });
+function getXImages(low,high,search){
+    if(search){
+        sendJsonRequest({ 'low': low,'high':high,'search':search}, '/searchXImages', function(result, targetUrl, params) {
+            getXImagesCallback(result);
+            return result;
+        });
+    }else{
+        sendJsonRequest({ 'low': low,'high':high}, '/getXImages', function(result, targetUrl, params) {
+            getXImagesCallback(result);
+            return result;
+        });
+    }
 }
 
 function removeImgMarketplace(username, url){
@@ -119,6 +126,7 @@ function removeImgMarketplace(username, url){
         document.getElementById(url).name = 'Unclaimed';
         document.getElementById(url).src = '/s/unsaved.png';
         updateAccountFromJson(result);
+        updateClaimedImages(result.saved_imgs);
     });
 }
 
@@ -133,7 +141,51 @@ function claimImg(username, url){
         document.getElementById(url).name = 'Claimed';
         document.getElementById(url).src = '/s/saved.png';
         updateAccountFromJson(result);
+        updateClaimedImages(result.saved_imgs);        
     });
+}
+
+function updateSearch(){
+    endGeneration = false;            
+    if(!isSearching){ 
+        isSearching = true;
+        search = document.getElementById("search-bar").value;
+        if(search==""){
+            document.getElementById("imagedisplay").innerHTML="All Images";
+        }else{
+            document.getElementById("imagedisplay").innerHTML="Search Results For: " + search;
+        }
+        let img_space = document.getElementById("images");
+        let cNodes = img_space.children;
+        for(let i =cNodes.length-1;i>0;i--){
+            cNodes[i].remove();
+            low-=1;
+        }
+
+        let high = low + searchLen;
+
+        getXImages(low,high,search);                
+    }
+
+}
+
+function grabNextXSearch(x,search){
+    if(!isSearching&&!endGeneration){                
+        isSearching = true;
+        let high = low + x;
+
+        getXImages(low,high,search);                
+    }
+}
+
+
+function grabNextX(x){
+    if(!isSearching&&!endGeneration){                
+        isSearching = true;
+        let high = low + x;
+
+        getXImages(low,high);                
+    }
 }
 
 function updateAccountFromJson(userJson){

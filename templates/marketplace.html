@@ -8,13 +8,12 @@
         <br><br>
         
         <h2 id="imagedisplay">All Images</h2>
-
-            <form action="/image-search" method = "GET">
+        <form action="#" onsubmit = "updateSearch();return false">
             <div class = "centered">
-            <p id = "inputElement">Search:&nbsp;</p><input type="text" name="search" style="width:50%">
-            <input type="Submit" value="Submit">
+            <p id = "inputElement">Search:&nbsp;</p><input id="search-bar" type="text" name="search" style="width:50%">
+            <input type="Submit">
             </div>
-            </form>
+        </form>
         <br>
         <div id = "images" class = "img-container">            
             <div id = "div template" class = "img" style = "display:none">
@@ -41,23 +40,20 @@
         let low = 0;
         let isSearching = false;
         let endGeneration = false;
-        grabNextX(5);   
+        let search = "";    
+        let searchLen = 5;    
+        grabNextX(searchLen);   
         
         window.addEventListener("scroll", function() {
         var elementTarget = document.getElementById("images");
         if (window.scrollY+(window.innerHeight*2) > (elementTarget.offsetTop)) {
-            grabNextX(5);
-        }
-        });
-
-        function grabNextX(x){
-            if(!isSearching&&!endGeneration){                
-                isSearching = true;
-                let high = low + x;
-
-                getXImages(low,high);                
+            if(search==""){
+                grabNextX(searchLen);
+            }else{
+                grabNextXSearch(searchLen,search);
             }
         }
+        });
 
         function getXImagesCallback(imgs){
             let img_space = document.getElementById("images")
@@ -82,7 +78,7 @@
                 new_div.children[2].appendChild(new_img);
                 //<img id = "image template" src="" class = "market-image-inner"> 
 
-                {% if user is defined %}
+                {% if user is defined %}                
                 if(userObj.saved_imgs.includes(imgs[i].url)){
                     new_div.children[4].appendChild(getClaimedIcon(imgs[i].url)); 
                 }else{
@@ -102,6 +98,7 @@
             }
             isSearching = false;
         }
+     
 
             function add(url){
                 {% if user is defined %}
@@ -115,6 +112,9 @@
                     removeImgMarketplace(userObj.uname,url);
                 {% endif %}
             }
+            function updateClaimedImages(list){
+                userObj.saved_imgs = list;
+            }            
         </script>
 
 

@@ -2,6 +2,7 @@ import flask
 from google.cloud import datastore
 import ds
 import game
+import market
 import datetime
 import urllib
 import hashlib
@@ -75,19 +76,6 @@ def handle_upload_img():
     ds.upload_img(title,img_file,tmp)
 
     return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'Upload Success!',imgheader='User Images',items = ds.get_all_img_entities())
-
-
-@app.route('/image-search', methods=['GET'])
-def search_image():
-    search = flask.request.args['search']
-    search.strip()
-    if search=="":
-        return flask.render_template('/marketplace.html', page_title='Marketplace',imgheader='User Images',items = ds.get_all_img_entities())    
-    return flask.render_template('/marketplace.html', page_title='Marketplace',imgheader='Search Results For "'+search+'"',items = ds.get_img_entities_by_search(search), user = ds.get_user_account('e'))    
-
-
-
-
 
 @app.route('/create-user', methods=['POST'])
 def handle_create_account_request():
@@ -213,20 +201,13 @@ def getAccountJson():
 
 @app.route('/getXImages',methods=['POST'])
 def getXImages():
-    image_list = []  
-    items = ds.get_all_img_entities()
-    low = int(flask.request.values['low'])
-    high = int(flask.request.values['high'])
-    if high>len(items):
-        high = len(items)
-    
-    for i in range(0,high-low):
-        image_list.append({'url':items[low+i]['url'],'title':items[low+i]['title'],'username':items[low+i]['username']})
+    return market.get_x_images(int(flask.request.values['low']),int(flask.request.values['high']))
 
-    if high == len(items):
-        image_list.append({'url':"EOI",'title':"EOI",'username':"EOI"})
-    
-    return flask.Response(json.dumps(image_list), mimetype='application/json')
+@app.route('/searchXImages', methods=['POST'])
+def search_image():
+    search = flask.request.values['search']
+    search.strip()
+    return market.search_image(int(flask.request.values['low']),int(flask.request.values['high']),search)
 
 
 if __name__ == '__main__':
