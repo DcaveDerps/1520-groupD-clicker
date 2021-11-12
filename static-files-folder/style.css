@@ -11,7 +11,6 @@ head {
     background-color: grey;
 }
 nav{
-
     display: flex;
     justify-content: space-around;
     gap: 1em;
@@ -22,7 +21,7 @@ button{
     font-size: x-large;
     border-radius: 10px;
     border-color: #58727f;
-    width: 200px;
+    width: 12vw;
     
 }
 button:hover{
@@ -79,6 +78,12 @@ button:hover{
     border-radius: 20px;
 }
 
+.centered{
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+
 .img-title{
     text-align: center;
     font-size: large;
@@ -91,20 +96,6 @@ button:hover{
 }
 
 .img-container {
-    /*
-    width: 100%;    
-    display: flex;
-    justify-content: center;
-    flex-flow: row wrap;
-    row-gap: 4vw;
-    column-gap: 7vw;
-    align-items: stretch;
-    background-color: rgb(127, 255, 53);
-    border-width:40px 0px 40px 0px;
-    border-radius: 40px;
-    border-style: solid;
-    border-color: rgb(127, 255, 53);
-    */
     color: white;
     width: 100%;    
     display: flex;

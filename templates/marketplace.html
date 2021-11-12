@@ -1,150 +1,107 @@
 {% extends '_base.html' %}
 {% block content %}
 
-        <p>This is the place to make your collectibles special. Create or search for a new design!</p>
-        {% if status %}
-            <p>Status: {{status}}</p>
-        {% endif %}
+        <p>This is the place to make your collectibles special.</p>
 
-
-        <table id = "inputTable">
-        <tr>
-
-        <form action="/upload-image" enctype="multipart/form-data" method = "POST">
-        <td id = "inputElement">Image File:</td> 
-        <td id = "inputElement"><input type="file" id="img" name ="img" accept="image/*" value = "Upload a new cookie design!"></td>
-        </tr>
-        <tr>
-        <td id = "inputElement">
-        Image Name: </td> 
-        <td id = "inputElement"><input type="text" id="name" name="name"> </td>
-        </tr>
-        <tr>
-        <td id = "inputElement">
-        User:</td> <td id = "inputElement"><input type="text" name="temp-username"> </td>
-        </tr>
-        </table>
-        <br>
-        <div id = "userinput">
-        <input type="submit" value="Upload"> 
-        </div>
-        </form>
-        
-        
-
-        <p>OR</p>
         <p>Search for a design made by another user!</p>
-        
-        <table id = "inputTable">
-        <tr>
-        <td id = "inputElement">
-        <form action="/image-search" method = "GET">
-        </td>
-        
-        <td id = "inputElement">Search:</td><td id = "inputElement"> <input type="text" name="search"> </td>
-        </tr>
-        </table>
-        <br>
-        <div id = "userinput">
-        <input type="Submit" value="Submit">
-        </div>
-        </form>
-        
-        
         
         <br><br>
         
-        <h2 name="imagedisplay">{{imgheader}}</h2>
+        <h2 id="imagedisplay">All Images</h2>
+
+            <form action="/image-search" method = "GET">
+            <div class = "centered">
+            <p id = "inputElement">Search:&nbsp;</p><input type="text" name="search" style="width:50%">
+            <input type="Submit" value="Submit">
+            </div>
+            </form>
+        <br>
         <div id = "images" class = "img-container">            
-        {% for i in items %}
-            <div class = "img">
-            <h2>{{i['title']}}</h2>
-            <h4>Uploaded By {{i['username']}}</h4>
-            <div class = "market-image-outer">         
-            <image src="{{i['url']}}" class = "market-image-inner"></image>
+            <div id = "div template" class = "img" style = "display:none">
+            <h2 name = "title">Title Here</h2>
+            <h4 name = "user">User Here</h4>
+            <div name = "border" class = "market-image-outer">         
             </div>
             <br>
-            <div class = "market-buttons">
-            {% if user is defined and i['url'] not in user['saved_imgs'] %}
-            <img src = "/s/unsaved.png" class='icon' onmouseover = "iconHover(this.id)" onmouseout="clearIconHover(this.id)" name = "Unclaimed" id = "{{i['url']}}" onclick = "addOrRemove(this.id)">
-            </img>
-            <img src = "/s/share.png" class='icon' name = "Share" id ="icon {{i['url']}}" onmouseover = "iconHover(this.id)" onmouseout="clearIconHover(this.id)" onclick ="copyLink(this.id)">
-            {% elif user is defined and i['url'] in user['saved_imgs'] %}
-            <img src = "/s/saved.png" class='icon' onmouseover = "iconHover(this.id)" onmouseout="clearIconHover(this.id)" name = "Claimed" id = "{{i['url']}}" onclick = "addOrRemove(this.id)">
-            <img src = "/s/share.png" class='icon' name = "Share" id ="icon {{i['url']}}" onmouseover = "iconHover(this.id)" onmouseout="clearIconHover(this.id)" onclick ="copyLink(this.id)">
-            {% else %}
-            <img src = "/s/saved.png" class='icon' style = "visibility: hidden">
-            <img src = "/s/share.png" class='icon' name = "Share" id ="icon {{i['url']}}" onmouseover = "iconHover(this.id)" onmouseout="clearIconHover(this.id)" onclick ="copyLink(this.id)">
-            {% endif %}
+            <div name = "button area" class = "market-buttons">
             </div>
-            <p class="icon-tooltip" id ="tool {{i['url']}}">Check</p>
+            <p class="icon-tooltip" id ="tool template">Check</p>
             </div>
             
-        {% else %}
-            <br><h2>No Images Found.</h2>
-        {% endfor %}
         </div>
 
         <script src="/s/ajaxRequests.js"></script>
         <script src = "/s/marketHandling.js"></script>
         <script>
 
-window.addEventListener("scroll", function() {
-  var elementTarget = document.getElementById("images");
-  if (window.scrollY+window.innerHeight > (elementTarget.offsetTop + elementTarget.offsetHeight)) {
-      alert("You've scrolled past the second div");
-  }
-});
-
-
-            function iconHover(url){                
-                if(document.getElementById(url).name == 'Claimed'){
-                    document.getElementById(url).src = '/s/unsaved_hover.png';
-                    document.getElementById("tool " + url).innerHTML = 'Unclaim Image';
-                    document.getElementById("tool " + url).style.visibility = 'visible';
-                }else if(document.getElementById(url).name == 'Unclaimed'){
-                    document.getElementById(url).src = '/s/unsaved_hover.png';
-                    document.getElementById("tool " + url).innerHTML = 'Claim Image';
-                    document.getElementById("tool " + url).style.visibility = 'visible';
-                }else if(document.getElementById(url).name == 'Share'){
-                    document.getElementById(url).src = '/s/share_hover.png';
-                    document.getElementById("tool " + url.substring(5)).innerHTML = 'Copy Image Link';
-                    document.getElementById("tool " + url.substring(5)).style.visibility = 'visible';
-                }
-                
-            }
-
-            function clearIconHover(url){
-                if(document.getElementById(url).name == 'Claimed'){
-                    document.getElementById("tool " + url).style.visibility = 'hidden';
-                    document.getElementById(url).src = '/s/saved.png';
-                }else if(document.getElementById(url).name == 'Unclaimed'){
-                    document.getElementById("tool " + url).style.visibility = 'hidden';
-                    document.getElementById(url).src = '/s/unsaved.png';
-                }else if((document.getElementById(url).name == 'Share')){
-                    document.getElementById("tool " + url.substring(5)).style.visibility = 'hidden';
-                    document.getElementById(url).src = '/s/share.png';
-                }
-            }
-
-            function copyLink(url){
-                let newUrl = url.substring(5);
-                navigator.clipboard.writeText(newUrl);
-                document.getElementById("tool " + newUrl).innerHTML = 'Copied Image Link';
-                document.getElementById("tool " + newUrl).style.visibility = 'visible';
-            }            
-          
-            {% if user is defined %}
+        {% if user is defined %}
                 let userObj = {{ user|tojson }};
-            {% endif %}
+        {% endif %}
 
-            function addOrRemove(target){
-                if(event.target.name=='Claimed'){
-                    remove(event.target.id);
-                }else{
-                    add(event.target.id);
-                }
+        let low = 0;
+        let isSearching = false;
+        let endGeneration = false;
+        grabNextX(5);   
+        
+        window.addEventListener("scroll", function() {
+        var elementTarget = document.getElementById("images");
+        if (window.scrollY+(window.innerHeight*2) > (elementTarget.offsetTop)) {
+            grabNextX(5);
+        }
+        });
+
+        function grabNextX(x){
+            if(!isSearching&&!endGeneration){                
+                isSearching = true;
+                let high = low + x;
+
+                getXImages(low,high);                
             }
+        }
+
+        function getXImagesCallback(imgs){
+            let img_space = document.getElementById("images")
+            let template = document.getElementById("div template");
+            for(let i = 0; i<imgs.length;i++){
+                if(imgs[i].url=="EOI"){                  
+                    endGeneration = true;
+                    if(low==0){
+                        document.getElementById("imagedisplay").innerHTML="No Images Found";
+                    }
+                    isSearching = false;
+                    return;
+                }
+                let new_div = template.cloneNode(true);
+                new_div.style.display = "block";
+                new_div.children[0].innerHTML = imgs[i].title;
+                new_div.children[1].innerHTML = imgs[i].username;
+                new_img = document.createElement("img");
+                //new_img.id = "image " + imgs[i].url;
+                new_img.src = imgs[i].url;
+                new_img.classList.add("market-image-inner");
+                new_div.children[2].appendChild(new_img);
+                //<img id = "image template" src="" class = "market-image-inner"> 
+
+                {% if user is defined %}
+                if(userObj.saved_imgs.includes(imgs[i].url)){
+                    new_div.children[4].appendChild(getClaimedIcon(imgs[i].url)); 
+                }else{
+                    new_div.children[4].appendChild(getUnclaimedIcon(imgs[i].url)); 
+                }
+                {% else %}
+                new_div.children[4].appendChild(getHiddenClaim(imgs[i].url));                    
+                {% endif %}
+
+                
+                new_div.children[4].appendChild(getShareIcon(imgs[i].url));
+
+                new_div.children[5].id="tool " + imgs[i].url;
+                
+                img_space.appendChild(new_div);  
+                low+=1;                
+            }
+            isSearching = false;
+        }
 
             function add(url){
                 {% if user is defined %}

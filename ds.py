@@ -24,7 +24,7 @@ def create_account_entity(username):
     ds_client = get_datastore_client()
 
     key = ds_client.key('user_account', username) # id will be the given username
-    return datastore.Entity(key)
+    return datastore.Entity(key, exclude_from_indexes=["saved_imgs"]) #allows for more user imgs
 
 def create_img_entity(title,url,username):
     ds_client = get_datastore_client()

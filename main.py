@@ -5,6 +5,7 @@ import game
 import datetime
 import urllib
 import hashlib
+import json
 
 app = flask.Flask(__name__)
 
@@ -38,7 +39,15 @@ def leaderboard():
 @app.route('/marketplace.html')
 def marketplace():
     #ds.del_all_img_entities()
-    return flask.render_template('/marketplace.html', page_title='Marketplace',imgheader='User Images',items = ds.get_all_img_entities(), user = ds.get_user_account('e'))
+    return flask.render_template('/marketplace.html', page_title='Marketplace', user = ds.get_user_account('e'))
+
+@app.route('/upload')
+@app.route('/upload.html')
+@app.route('/image-upload')
+@app.route('/upload-image')
+def upload_image():
+    return flask.render_template('/upload.html', page_title='Image Upload', user = ds.get_user_account('e'))
+
 
 @app.route('/create')
 @app.route('/create.html')
@@ -50,14 +59,14 @@ def handle_upload_img():
     img_file = flask.request.files.get('img')
 
     if not img_file:
-        return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'No Image Selected', imgheader='User Images',items = ds.get_all_img_entities())
+        return flask.render_template('/upload.html', page_title='Image Upload',status = 'No Image Selected', imgheader='User Images',items = ds.get_all_img_entities())
     
     title = flask.request.form.get('name')
     if title=="":
-        return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'No Name Provided',imgheader='User Images',items = ds.get_all_img_entities())    
+        return flask.render_template('/upload.html', page_title='Image Upload',status = 'No Name Provided',imgheader='User Images',items = ds.get_all_img_entities())    
     
     if not check_image(img_file.filename):
-        return flask.render_template('/marketplace.html', page_title='Marketplace',status = 'Invalid File Type (use png, jpg, jpeg, gif)',imgheader='User Images',items = ds.get_all_img_entities())    
+        return flask.render_template('/upload.html', page_title='Image Upload',status = 'Invalid File Type (use png, jpg, jpeg, gif)',imgheader='User Images',items = ds.get_all_img_entities())    
     
     img_file.filename = (str(datetime.datetime.now())+img_file.filename+" ")
 
@@ -201,6 +210,24 @@ def updateAccountFromJson():
 @app.route('/getAccountJson', methods=['POST'])
 def getAccountJson():
     return game.getAccountJson()
+
+@app.route('/getXImages',methods=['POST'])
+def getXImages():
+    image_list = []  
+    items = ds.get_all_img_entities()
+    low = int(flask.request.values['low'])
+    high = int(flask.request.values['high'])
+    if high>len(items):
+        high = len(items)
+    
+    for i in range(0,high-low):
+        image_list.append({'url':items[low+i]['url'],'title':items[low+i]['title'],'username':items[low+i]['username']})
+
+    if high == len(items):
+        image_list.append({'url':"EOI",'title':"EOI",'username':"EOI"})
+    
+    return flask.Response(json.dumps(image_list), mimetype='application/json')
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)
