@@ -61,45 +61,24 @@
         
         {% if user is defined %}
             let userObj = cleanAccountJson( {{ user|tojson }} );
-            //let userObj.collectibles = parseInt(userObj.collectibles);
-            //let
-            //let factories = userObj.factories;
 
             updateUIOnLoad(userObj.uname);
 
-            // initialize cps incrementing
-            //if(userObj.cps > 0){
+            // initialize cps incrementing and saving interval
             setInterval(addCPSLocal, 1000);
             setInterval(saveAndUpdateLocal, 10000);
-            //}
-
-            //setInterval(update)
 
         {% else %}
             let count = 0;
         {% endif %}
 
         function saveAndUpdateLocal(){
-            console.log("in saveAndUpdateLocal");
-            //updateAccountFromJson(userObj);
+            //updateAccountFromJson(userObj); < deprecated
+            // convert the JSON into a string, sendBeacon doesn't take JSON objects
             let userStr = JSON.stringify(userObj);
-            //console.log(userStr);
-            if(navigator.sendBeacon("/updateAccountFromJson", userStr)){
-                console.log("queued data");
-            }
-            else{
-                console.log("didn't queue data");
-            }
-            console.log("after the beacon");
-            /*fetch("/beaconTest", {
-                method: 'POST', // or 'PUT'
-                headers: {
-                    'Accept': 'applicatin/json',
-                    'Content-Type': 'application/json',
-                },
-                body: userObj,
-            });
-            */
+            // sendBeacon makes a POST request, but tells the browser to make it whenever it can
+            // Allows the POST request to be sent even if the page that requested it isn't loaded
+            navigator.sendBeacon("/updateAccountFromJson", userStr);
         }
 
         function addCPSLocal(){
@@ -113,45 +92,31 @@
                 }
             }
 
-            //console.log("planning to add " + total + " collectibles this second");
-
             userObj.collectibles += total;
             document.getElementById("total").textContent = userObj.collectibles;
         }        
 
         function buyFactoryLocal(factoryID){
-             if (userObj.collectibles >= getFactories()[factoryID].currentPrice(userObj.factories[factoryID])){
+             
+            // if the user can afford the factory
+            if (userObj.collectibles >= getFactories()[factoryID].currentPrice(userObj.factories[factoryID])){
+                // take the collectibles to pay for it
                 userObj.collectibles -= getFactories()[factoryID].currentPrice(userObj.factories[factoryID]);
-                //buyFactory(userObj.uname, factoryID)
+                // give them the factory
                 userObj.factories[factoryID] += 1;
-                //document.getElementById("total").textContent = userObj.collectibles;
+                // update user cps
                 userObj.cps = userObj.cps + getFactories()[factoryID].cps_boost;
+                // update the UI to reflect the changes
                 updateUI(userObj);
-
-             }
+            }
         }        
 
         // Ignore the warnings, flask/jinja replaces above correctly
 
         function inc(){
-            //alert("total: " + document.getElementById('total').textContent + " " + parseInt(document.getElementById('total').textContent));
-            //count = count + 1;
-            //alert(count);
-            
+
             {% if user is defined %}
-                // increment the datastore account entity's collectibles
-                /*$.ajax({ url: "/incCollectibles", type: "POST", data: {{user|tojson}}, 
-                success: function(response){
-                    console.log(response);
-                },
-                error: function(error){
-                    console.log(error);
-                }});*/
                 
-                // TEMP FIX, should make a function that gets the most recent collectibles value
-                //count = count + 1;
-                //updateCollectibleCounter(getAccountJson(userObj.uname));
-                //incCollectibles(userObj.uname);
                 userObj.collectibles = userObj.collectibles + 1;
                 document.getElementById("total").textContent = userObj.collectibles;
 
@@ -161,7 +126,6 @@
                 document.getElementById("total").textContent = count;
             {% endif %}
 
-            //document.getElementById("total").textContent = count;
         }
 
         // updates the datastore entity with data from the the user's session when they leave the page
@@ -170,24 +134,6 @@
             console.log("\nWell leaveGame() is being called at least\n");
 
             {% if user is defined %}
-            //let count = {{ user|tojson }}.collectibles;
-
-                //console.log("   before the post request");
-
-                /*
-                $.post("/updateUserAccount", {{user|tojson}},   function(response) {
-                                                                    console.log(response);
-                                                                });
-
-                console.log("   After the post request");
-                */
-                //$.ajax({ url: "/leaveGame", type: "POST", data: {{user|tojson}}, 
-                //success: function(response){
-               //     console.log(response);
-                //},
-                //error: function(error){
-               //     console.log(error);
-               // }});
 
                // This is the surefire way to detect when the page is left
                // Page passes through the hidden state before the terminated state
@@ -196,7 +142,6 @@
                     saveAndUpdateLocal();
                     console.log("saved");
                }
-               //setTimeout(function(){ console.log("hopefully updated") }, 700);
 
             {% else %}
                 // do nothing, doesn't have an account
