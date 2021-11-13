@@ -14,8 +14,6 @@ nav{
     display: flex;
     justify-content: space-around;
     gap: 1em;
-    
-    
 }
 button{
     font-size: x-large;
@@ -109,6 +107,29 @@ button:hover{
     border-radius: 40px;
     border-style: solid;
     border-color: #1d7d81;
+}
+
+.mode{
+    position:fixed;
+    bottom: 1em;
+    right: 1em;
+    border: 5px solid #1d7d81;
+    background-color: #1d7d81;
+    border-radius: 100px;
+}
+
+.mode-info{
+    position:absolute;
+    top: 0;
+    right: 120%;
+    visibility: hidden;
+    width: 100%;
+    background-color: darkcyan;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 5px 0;
+    opacity: .7;
 }
 
 #click-object {

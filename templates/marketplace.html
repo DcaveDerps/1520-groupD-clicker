@@ -10,12 +10,15 @@
         <h2 id="imagedisplay">All Images</h2>
         <form onsubmit = "updateSearch();return false">
             <div class = "centered">
-            <p id = "inputElement">Search:&nbsp;</p><input id="search-bar" type="text" name="search" style="width:50%">
+            <p id = "inputElement">Search in Global Images:&nbsp;</p><input id="search-bar" type="text" name="search" style="width:50%">
             <input type="Submit">
             </div>
         </form>
         {% if user is defined %}
-        <input type="button" value = "Claimed Images (Temporary)" onclick = 'getClaimedImages()'>  
+        <div class = 'mode'>
+        <image id = 'mode-changer' name = "Global" src = '/s/Global.png' onclick="switchMode(this.id)" onmouseover = 'iconHover(this.id)' onmouseout="clearIconHover(this.id)">
+        <p id = 'mode-info' class = 'mode-info'>View Claimed Images Only</p>
+        </div>
         {% endif %}      
         <br>
         <div id = "images" class = "img-container">            

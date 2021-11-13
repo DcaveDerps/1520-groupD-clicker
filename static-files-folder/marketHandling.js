@@ -11,6 +11,14 @@ function iconHover(url){
         document.getElementById(url).src = '/s/share_hover.png';
         document.getElementById("tool " + url.substring(6)).innerHTML = 'Copy Image Link';
         document.getElementById("tool " + url.substring(6)).style.visibility = 'visible';
+    }else if(document.getElementById(url).name == 'Global'){
+        document.getElementById(url).src = '/s/MyImages_hover.png';
+        document.getElementById("mode-info").innerHTML = 'View Claimed Images Only';
+        document.getElementById("mode-info").style.visibility = 'visible';
+    }else if(document.getElementById(url).name == 'MyImages'){
+        document.getElementById(url).src = '/s/Global_hover.png';
+        document.getElementById("mode-info").innerHTML = 'View Global Images';
+        document.getElementById("mode-info").style.visibility = 'visible';
     }
     
 }
@@ -25,6 +33,12 @@ function clearIconHover(url){
     }else if((document.getElementById(url).name == 'Share')){
         document.getElementById("tool " + url.substring(6)).style.visibility = 'hidden';
         document.getElementById(url).src = '/s/share.png';
+    }else if(document.getElementById(url).name == 'Global'){
+        document.getElementById(url).src = '/s/Global.png';
+        document.getElementById("mode-info").style.visibility = 'hidden';
+    }else if(document.getElementById(url).name == 'MyImages'){
+        document.getElementById(url).src = '/s/MyImages.png';
+        document.getElementById("mode-info").style.visibility = 'hidden';
     }
 }
 
@@ -196,6 +210,22 @@ function updateSearch(){
 
         let high = low + searchLen;
         getXImages(low,high,search);                
+    }
+}
+
+function switchMode(url){
+    if(lookingClaimed){//is in local mode
+        document.getElementById(url).name = 'Global';
+        document.getElementById(url).src = '/s/Global.png';
+        document.getElementById('inputElement').innerHTML = 'Search Global Images:&nbsp;';
+        document.getElementById("mode-info").innerHTML = 'View Claimed Images Only';
+        updateSearch("");
+    }else{
+        document.getElementById(url).name = 'MyImages';
+        document.getElementById(url).src = '/s/MyImages.png';
+        document.getElementById('inputElement').innerHTML = 'Search Your Claimed Images:&nbsp;';
+        document.getElementById("mode-info").innerHTML = 'View Global Images';
+        getClaimedImages();
     }
 }
 
