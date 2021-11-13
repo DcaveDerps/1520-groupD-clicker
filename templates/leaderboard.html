@@ -1,6 +1,7 @@
 {% extends '_base.html' %}
 {% block content %}
     <p>See how other players are doing.</p>
+    {% if user is defined %}<p>Logged in as:&nbsp<strong>{{user['uname']}}</strong></p>{% endif%}
     <table>
         <tr>
             <td><strong>Name</strong></td>
@@ -9,9 +10,15 @@
         </tr>
         {% for player in players %}
         <tr>
+            {%if player['uname'] == user['uname'] %}
+            <td><strong>{{player['uname']}}</strong></td>
+            <td><strong>{{player['collectibles']}}</strong></td>
+            <td><strong>{{player['cps']}}</strong></td>
+            {% else %}
             <td>{{player['uname']}}</td>
             <td>{{player['collectibles']}}</td>
             <td>{{player['cps']}}</td>
+            {% endif %}
         </tr>
         {% else %}
         <tr><td>No players found.</td></tr>
