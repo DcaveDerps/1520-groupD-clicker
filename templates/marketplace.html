@@ -47,6 +47,7 @@
         let isSearching = false;
         let endGeneration = false;
         let lookingClaimed = false;
+        let claimMode = false;
         let search = "";    
         let searchLen = 20;    
         grabNextX(searchLen);   
@@ -56,6 +57,8 @@
         if (window.scrollY+(window.innerHeight*2) > (elementTarget.offsetTop)) {
             if (lookingClaimed){
                 grabNextXClaimed(searchLen);                
+            }else if(claimMode){
+                grabNextXClaimedSearch(searchLen,search);
             }else if(search==""){
                 grabNextX(searchLen);
             }else{
@@ -66,6 +69,7 @@
 
 
         function getXImagesCallback(imgs){
+            //alert(imgs[0])
             let img_space = document.getElementById("images")
             let template = document.getElementById("div template");
             for(let i = 0; i<imgs.length;i++){

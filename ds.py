@@ -108,6 +108,38 @@ def get_img_entities_by_url_list(norms):
             append_if_unique(results,img)
     return results
 
+def search_claimed_img_entities(norms,search):
+    results = []
+    s = search.lower()
+    
+
+    ds_client = get_datastore_client()
+
+    query = ds_client.query(kind='image')
+    
+    for img in query.fetch():
+        imguser = img['username'].lower()
+        imgtitle = img['title'].lower()
+        imgurl = img['url']
+
+        if(imgurl in norms): #URL CHECK
+            if(imguser.startswith(s) or s.startswith(imguser)): #USERNAME CHECK
+                append_if_unique(results,img)
+            else:
+                for u in imguser.split(' '):        
+                    if(u.startswith(s)):
+                        append_if_unique(results,img)
+
+            if(imgtitle.startswith(s) or s.startswith(imgtitle)): #TITLE CHECK
+                append_if_unique(results,img)
+            else:
+                for u in imgtitle.split(' '):
+                    #print(u + " " + s)
+                    if(u.startswith(s)):
+                        append_if_unique(results,img)
+
+    return results
+
 def get_all_img_entities():
     results = []
 

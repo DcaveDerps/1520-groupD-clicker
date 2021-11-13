@@ -112,7 +112,12 @@ function getShareIcon(url){
 }
 
 function getXImages(low,high,search, claimSearch){
-    if(search){
+    if(search && claimSearch){
+        sendJsonRequest({ 'low': low,'high':high,'search':search,'selections':claimSearch}, '/searchClaimedImages', function(result, targetUrl, params) {
+            getXImagesCallback(result);
+            return result;
+        });
+    }else if(search){
         sendJsonRequest({ 'low': low,'high':high,'search':search}, '/searchXImages', function(result, targetUrl, params) {
             getXImagesCallback(result);
             return result;
@@ -144,7 +149,7 @@ function removeImgMarketplace(username, url){
         }
         document.getElementById(url).name = 'Unclaimed';
         document.getElementById(url).src = '/s/unsaved.png';
-        if(lookingClaimed){
+        if(lookingClaimed||claimMode){
             document.getElementById("div " + url).style.display='none';
         }
         updateAccountFromJson(result);
@@ -191,15 +196,22 @@ function getClaimedImages(){
 function updateSearch(){
     endGeneration = false;
     lookingClaimed = false;            
-    if(!isSearching){ 
         isSearching = true;
         search = document.getElementById("search-bar").value;
         document.getElementById("search-bar").value = "";
         document.getElementById("search-bar").blur();
         if(search==""){
-            document.getElementById("imagedisplay").innerHTML="All Images";
+            if(claimMode){
+                document.getElementById("imagedisplay").innerHTML="Your Claimed Images";
+            }else{
+                document.getElementById("imagedisplay").innerHTML="All Images";
+            }
         }else{
-            document.getElementById("imagedisplay").innerHTML="Search Results For: " + search;
+            if(claimMode){
+                document.getElementById("imagedisplay").innerHTML="Claimed Search Results For: \"" + search + "\"";
+            }else{
+                document.getElementById("imagedisplay").innerHTML="Global Search Results For: \"" + search + "\"";
+            }
         }
         let img_space = document.getElementById("images");
         let cNodes = img_space.children;
@@ -209,29 +221,45 @@ function updateSearch(){
         }
 
         let high = low + searchLen;
-        getXImages(low,high,search);                
-    }
+        if(claimMode){
+            getXImages(low,high,search,userObj.saved_imgs);  
+        }else{
+            getXImages(low,high,search);  
+        }              
 }
 
 function switchMode(url){
-    if(lookingClaimed){//is in local mode
+    //alert("isSearching = " + isSearching + " endGeneration = " +endGeneration + " lookingClaimed = " +lookingClaimed + " claimMode = " +claimMode + " endGeneration = " + endGeneration);
+    lookingClaimed = false;
+    isSearching = false;
+    if(claimMode){//is in local mode
+        claimMode = false;
         document.getElementById(url).name = 'Global';
         document.getElementById(url).src = '/s/Global.png';
         document.getElementById('inputElement').innerHTML = 'Search Global Images:&nbsp;';
         document.getElementById("mode-info").innerHTML = 'View Claimed Images Only';
         updateSearch("");
     }else{
+        claimMode = true;
         document.getElementById(url).name = 'MyImages';
         document.getElementById(url).src = '/s/MyImages.png';
         document.getElementById('inputElement').innerHTML = 'Search Your Claimed Images:&nbsp;';
         document.getElementById("mode-info").innerHTML = 'View Global Images';
+
+        let img_space = document.getElementById("images");
+        let cNodes = img_space.children;
+        for(let i =cNodes.length-1;i>0;i--){
+            cNodes[i].remove();
+            low-=1;
+        }
+
         getClaimedImages();
     }
 }
 
 function getClaimedImages(){
     endGeneration = false;
-    lookingClaimed = true;            
+    lookingClaimed = true;          
     if(!isSearching){ 
         isSearching = true;
 
@@ -253,6 +281,15 @@ function getClaimedImages(){
         let high = low + searchLen;
 
         getXImages(low,high,null,userObj.saved_imgs);                
+    }
+}
+
+function grabNextXClaimedSearch(x,search){
+    if(!isSearching&&!endGeneration){                
+        isSearching = true;
+        let high = low + x;
+
+        getXImages(low,high,search,userObj.saved_imgs);                
     }
 }
 

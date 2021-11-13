@@ -84,6 +84,7 @@ def handle_upload_img():
     ds.upload_img(title,img_file,tmp)
 
     #TODO: MAKE UPLOAD DISPLAY AN IMAGE WITH SUCCESS AND AUTO CLAIM
+    #      MAKE CLEAR SEARCH BUTTON    
     return redirect("/marketplace.html", code=302)
 
 
@@ -226,9 +227,15 @@ def search_image():
 @app.route('/claimedImages', methods=['POST'])
 def claimed_images():
     search = flask.request.values['search']
-    print(search)
     selections = search.split(',')
     return market.claimed_images(int(flask.request.values['low']),int(flask.request.values['high']),selections)
+
+@app.route('/searchClaimedImages', methods=['POST'])
+def search_claimed():
+    search = flask.request.values['search']
+    selections = flask.request.values['selections']
+    selections = selections.split(',')
+    return market.search_claimed_images(int(flask.request.values['low']),int(flask.request.values['high']),selections,search)
 
 
 if __name__ == '__main__':
