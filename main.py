@@ -215,18 +215,8 @@ SITE HELPER FUNCTIONS
 """
 @app.route('/updateAccountFromJson', methods=['POST'])
 def updateAccountFromJson():
-    print("welp updateAccountFromJson in main.py runs")
+    #print("welp updateAccountFromJson in main.py runs")
     return game.updateAccountFromJson()
-
-#@app.route('/updateAccount', methods=['POST'])
-#def beaconTest():
-    #print('\n\nReceived the call from beaconTest\n\n')
-    #print(flask.request.get_json(True, True)['uname'])
-
-    #print
-
-    #print('done now')
-    #return game.updateAccountFromJson()
 
 @app.route('/getAccountJson', methods=['POST'])
 def getAccountJson():
