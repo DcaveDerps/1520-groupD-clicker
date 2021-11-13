@@ -1,7 +1,7 @@
 {% extends '_game.html' %}
 {% block content %}
     </body>
-    <body id = "game-body" onpagehide = "leaveGame()">
+    <body id = "game-body">
     <br><br>
     <div class = container>
         <div class = "row">
@@ -80,7 +80,26 @@
         {% endif %}
 
         function saveAndUpdateLocal(){
-            updateAccountFromJson(cleanAccountJson(userObj));             
+            console.log("in saveAndUpdateLocal");
+            //updateAccountFromJson(userObj);
+            let userStr = JSON.stringify(userObj);
+            //console.log(userStr);
+            if(navigator.sendBeacon("/updateAccountFromJson", userStr)){
+                console.log("queued data");
+            }
+            else{
+                console.log("didn't queue data");
+            }
+            console.log("after the beacon");
+            /*fetch("/beaconTest", {
+                method: 'POST', // or 'PUT'
+                headers: {
+                    'Accept': 'applicatin/json',
+                    'Content-Type': 'application/json',
+                },
+                body: userObj,
+            });
+            */
         }
 
         function addCPSLocal(){
@@ -145,10 +164,10 @@
             //document.getElementById("total").textContent = count;
         }
 
-        // updates the datastore entity with data from the the user's session
-        function leaveGame(){
+        // updates the datastore entity with data from the the user's session when they leave the page
+        document.addEventListener('visibilitychange', function leaveGame(){
             
-            console.log("Well leaveGame() is being called at least");
+            console.log("\nWell leaveGame() is being called at least\n");
 
             {% if user is defined %}
             //let count = {{ user|tojson }}.collectibles;
@@ -169,14 +188,20 @@
                 //error: function(error){
                //     console.log(error);
                // }});
-               saveAndUpdateLocal();
 
+               // This is the surefire way to detect when the page is left
+               // Page passes through the hidden state before the terminated state
+               // Can't detect terminated state, but can detect hidden state more reliably than onunload/pagehide
+               if(document.visibilityState == "hidden"){
+                    saveAndUpdateLocal();
+                    console.log("saved");
+               }
                //setTimeout(function(){ console.log("hopefully updated") }, 700);
 
             {% else %}
                 // do nothing, doesn't have an account
             {% endif %}
-        }
+        });
 
         //drag stuff
         building.onmousedown = function(event) {

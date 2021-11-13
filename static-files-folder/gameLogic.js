@@ -93,6 +93,12 @@ function getAccountJson(username){
 
 function updateAccountFromJson(userJson){
 
+    console.log("in updateAccountFromJson");
+
+    cleanAccountJson(userJson);
+
+    console.log(userJson);
+    
     let request = new XMLHttpRequest();
     if (!(request)) { alert("Browser doesn't support AJAX."); }
 
@@ -103,7 +109,7 @@ function updateAccountFromJson(userJson){
                 // console.log(userJson.uname + " | " + userJson.collectibles);
                 // return userJson;
                 if(response.success){
-                    //console.log("updated user successfully");
+                    console.log("updated user successfully");
                 }
 
                 // update the local copy in the HTML to update stuff on the UI
@@ -121,9 +127,11 @@ function updateAccountFromJson(userJson){
         params += encodeURIComponent(i) + '=' +encodeURIComponent(userJson[i]) + '&';
     }
 
-    request.open("POST", "/updateAccountFromJson", true);
+    console.log("about to create the post request in gameLogic.js")
+    request.open("POST", "/updateAccountFromJson", false);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send(params);
+    console.log("sent the params");
     
 }
 
