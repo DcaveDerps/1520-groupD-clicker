@@ -124,6 +124,7 @@ def handle_create_account_request():
     new_user['left_game'] = datetime.datetime.now().isoformat(' ') # the exact time the player left the game screen
     new_user['factories'] = [0, 0, 0, 0, 0]
     new_user['saved_imgs']=''
+    new_user['friend_list'] = ''
     session['username'] = user_name
 
     print('Created the entity')
