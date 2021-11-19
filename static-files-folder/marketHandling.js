@@ -1,4 +1,4 @@
-function iconHover(url){          
+function iconHover(url){    
     if(document.getElementById(url).name == 'Claimed'){
         document.getElementById(url).src = '/s/unsaved_hover.png';
         document.getElementById("tool " + url).innerHTML = 'Unclaim Image';
@@ -19,8 +19,10 @@ function iconHover(url){
         document.getElementById(url).src = '/s/Global_hover.png';
         document.getElementById("mode-info").innerHTML = 'View Global Images';
         document.getElementById("mode-info").style.visibility = 'visible';
+    }else if(url=="clearsearch"){
+        document.getElementById(url).style.color="#f52020";   
+        document.getElementById(url).style.fontWeight = "900";      
     }
-    
 }
 
 function clearIconHover(url){
@@ -39,6 +41,9 @@ function clearIconHover(url){
     }else if(document.getElementById(url).name == 'MyImages'){
         document.getElementById(url).src = '/s/MyImages.png';
         document.getElementById("mode-info").style.visibility = 'hidden';
+    }else if(url=="clearsearch"){
+        document.getElementById(url).style.color="initial";   
+        document.getElementById(url).style.fontWeight = "initial";      
     }
 }
 

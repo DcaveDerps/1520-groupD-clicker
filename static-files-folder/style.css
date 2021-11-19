@@ -132,6 +132,30 @@ button:hover{
     opacity: .7;
 }
 
+.clear{
+    position:absolute;
+    cursor: default;
+    color: #000;
+    bottom: -10%;
+    right: 21%;
+    font-size: 100px;
+    font-weight: 500;
+}
+
+.clear-info{
+    position:absolute;
+    top: 0;
+    right: 120%;
+    visibility: hidden;
+    width: 100%;
+    background-color: darkcyan;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 5px 0;
+    opacity: .7;
+}
+
 #click-object {
     display: flex;
     justify-content: center;
