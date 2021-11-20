@@ -20,7 +20,10 @@ WEBPAGE ROUTING
 @app.route('/index.html')
 @app.route('/templates/index.html')
 def root():
-    session.pop('username',None)
+    # Commenting this out for now, since we have a log out button now
+    # session.pop('username',None)
+    if 'username' in session:
+        return flask.render_template('/index.html', page_title='Homepage',user = ds.get_user_account(session['username']))
     return flask.render_template('/index.html', page_title='Homepage')
 
 @app.route('/game')
@@ -39,6 +42,8 @@ def login():
 @app.route('/leaderboard.html')
 def leaderboard():
     player_list = ds.get_leaderboard()
+    if 'username' in session:
+        return flask.render_template('/leaderboard.html',page_title='Leaderboard',players=player_list, user = ds.get_user_account(session['username']))
     return flask.render_template('/leaderboard.html',page_title='Leaderboard',players=player_list)
 
 @app.route('/marketplace')
@@ -119,6 +124,7 @@ def handle_create_account_request():
     new_user['left_game'] = datetime.datetime.now().isoformat(' ') # the exact time the player left the game screen
     new_user['factories'] = [0, 0, 0, 0, 0]
     new_user['saved_imgs']=''
+    new_user['friend_list'] = ''
     session['username'] = user_name
 
     print('Created the entity')
@@ -138,8 +144,8 @@ def handle_create_account_request():
     # Essentially, when a request is processed, it takes the user away from the page,
     # so you need to send them somewhere or else it will give a server error
 
-    return redirect("/game.html", code=302)
-    #return flask.render_template('/game.html', page_title='Game', user=ds.get_user_account(user_name))
+    #return redirect("/game.html", code=302)
+    return flask.render_template('/game.html', page_title='Game', user=ds.get_user_account(user_name))
 
 @app.route('/login', methods=['POST'])
 def handle_login_request():
@@ -173,8 +179,8 @@ def handle_login_request():
     session['username'] = user_account['uname']
     print("Login successful!")
 
-    return redirect("/game.html", code=302)
-    #return flask.render_template('/game.html', page_title='Game', user=user_account)
+    #return redirect("/game.html", code=302)
+    return flask.render_template('/game.html', page_title='Game', user=user_account)
 
 """
 HELPER FUNCTIONS
@@ -205,15 +211,29 @@ def leaveGame():
 @app.route('/incCollectibles', methods=['POST'])
 def incCollectibles():
     return game.incCollectibles()
-
+"""
+SITE HELPER FUNCTIONS
+"""
 @app.route('/updateAccountFromJson', methods=['POST'])
 def updateAccountFromJson():
+    #print("welp updateAccountFromJson in main.py runs")
     return game.updateAccountFromJson()
 
 @app.route('/getAccountJson', methods=['POST'])
 def getAccountJson():
     return game.getAccountJson()
 
+@app.route('/logout')
+@app.route('/logout.html')
+def resetSessionUser():
+    # session.pop() call here essentially logs the user out in terms of the local session
+    session.pop('username', None)
+    return flask.render_template('/login.html', page_title='Login')
+
+
+"""
+IMAGES
+"""
 @app.route('/getXImages',methods=['POST'])
 def getXImages():
     return market.get_x_images(int(flask.request.values['low']),int(flask.request.values['high']))

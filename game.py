@@ -48,12 +48,16 @@ def incCollectibles():
     return flask.jsonify({'success': True, 'message': 'It ran'})
 
 def updateAccountFromJson():
-    acc = ds.get_user_account(flask.request.values['uname'])
-    acc['collectibles'] = int(flask.request.values['collectibles'])
-    acc['cps'] = int(flask.request.values['cps'])
-    acc['left_game'] = flask.request.values['left_game']
-    acc['factories'] = flask.request.values['factories']
-    acc['saved_imgs'] = flask.request.values['saved_imgs']
+    
+    accJson = flask.request.get_json(True, True)
+
+    acc = ds.get_user_account(accJson['uname'])
+    acc['collectibles'] = int(accJson['collectibles'])
+    acc['cps'] = int(accJson['cps'])
+    acc['left_game'] = accJson['left_game']
+    acc['factories'] = accJson['factories']
+    acc['saved_imgs'] = accJson['saved_imgs']
+    acc['friend_list'] = accJson['friend_list']
     ds.update_entity(acc)
     print(str(acc['uname']) + " now has " + str(acc['collectibles']) + " collectibles\n" + str(acc['cps']) + " cps\n" + str(acc['factories']))
     response = dict(success=True)
@@ -71,5 +75,6 @@ def getAccountJson():
     acc_dict['left_game'] = acc['left_game']
     acc_dict['factories'] = acc['factories']
     acc_dict['saved_imgs'] = acc['saved_imgs']
+    acc_dict['friend_list'] = acc['friend_list']
     #print("gonna try and return " + acc_dict)
     return flask.Response(json.dumps(acc_dict), mimetype='application/json')

@@ -3,6 +3,7 @@
 //console.log("gameLogic.js loaded");
 
 // finish this so clicking the button doesn't take like 5 server requests
+// deprecated
 function incCollectibles(username){
 
     sendJsonRequest({ 'uname': username }, '/getAccountJson', function(result, targetUrl, params) {
@@ -28,6 +29,7 @@ function Factory(name, cps_boost, base_price, scale_factor, ID) {
     this.scale_factor = scale_factor;
     this.ID = ID;
 
+    // current price scales the price of the factory to ensure it gets gradually more expensive as the player buys more of them
     this.currentPrice = function (num_owned){
         return Math.floor(this.base_price + (this.base_price * ((num_owned ** 2) / 8)));
     }
@@ -42,6 +44,7 @@ function getFactories(){
     return FACTORIES;
 }
 
+// deprecated, see buyFactoryLocal in game.html
 function buyFactory(username, buildingId){
 
     //console.log("in buyFactory()");
@@ -91,8 +94,16 @@ function getAccountJson(username){
 
 }
 
+// possibly deprecated, see saveAndUpdateLocal in game.html for an alternative
+// still works, but it's too slow for updating when a user switches pages
 function updateAccountFromJson(userJson){
 
+    console.log("in updateAccountFromJson");
+
+    cleanAccountJson(userJson);
+
+    console.log(userJson);
+    
     let request = new XMLHttpRequest();
     if (!(request)) { alert("Browser doesn't support AJAX."); }
 
@@ -103,7 +114,7 @@ function updateAccountFromJson(userJson){
                 // console.log(userJson.uname + " | " + userJson.collectibles);
                 // return userJson;
                 if(response.success){
-                    //console.log("updated user successfully");
+                    console.log("updated user successfully");
                 }
 
                 // update the local copy in the HTML to update stuff on the UI
@@ -121,9 +132,11 @@ function updateAccountFromJson(userJson){
         params += encodeURIComponent(i) + '=' +encodeURIComponent(userJson[i]) + '&';
     }
 
-    request.open("POST", "/updateAccountFromJson", true);
+    console.log("about to create the post request in gameLogic.js")
+    request.open("POST", "/updateAccountFromJson", false);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     request.send(params);
+    console.log("sent the params");
     
 }
 
