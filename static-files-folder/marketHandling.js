@@ -326,39 +326,11 @@ function grabNextX(x){
     }
 }
 
-function updateAccountFromJson(userJson){
-
-    let request = new XMLHttpRequest();
-    if (!(request)) { alert("Browser doesn't support AJAX."); }
-
-    request.onreadystatechange = function() {
-        if(request.readyState == 4) {
-            try {
-                let response = JSON.parse(request.responseText);
-                // console.log(userJson.uname + " | " + userJson.collectibles);
-                // return userJson;
-                if(response.success){
-                    //console.log("updated user successfully");
-                }
-
-                // update the local copy in the HTML to update stuff on the UI
-
-            }
-            catch (exc) {
-                console.log("Error in updateAccountFromJson(), couldn't update account json");
-            }
-        }
-    }
-
-    // assemble params (data from the userJson)
-    let params = "";
-    
-    for (let i in userJson){
-        params += encodeURIComponent(i) + '=' +encodeURIComponent(userJson[i]) + '&';
-    }
-
-    request.open("POST", "/updateAccountFromJson", true);
-    request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    request.send(params);
-    
+function updateAccountFromJson(rslt){
+    //updateAccountFromJson(userObj); < deprecated
+    // convert the JSON into a string, sendBeacon doesn't take JSON objects
+    let userStr = JSON.stringify(rslt);
+    // sendBeacon makes a POST request, but tells the browser to make it whenever it can
+    // Allows the POST request to be sent even if the page that requested it isn't loaded
+    navigator.sendBeacon("/updateAccountFromJson", userStr);
 }
