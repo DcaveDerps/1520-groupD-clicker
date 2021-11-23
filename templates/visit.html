@@ -1,0 +1,72 @@
+{% extends '_visit.html' %}
+{% block content %}
+    {% if noUser %}
+    <p>Welcome to the Visit portal!</p>
+    <h2>User '{{attemptedVisit}}' not found!</h2>
+    <br>
+    <div>
+        <input type='text' id='userSearch'>
+        <input type='button' value='Search' onclick='createRedirectURL()'>
+    </div>
+    {% elif visiting %}
+    <br>
+    <div class='centered'>
+        <h2>Currently visiting: {{visiting['uname']}}</h2>
+    </div>
+    <br><br> 
+
+    <div class = "container">
+        <div class = "row">
+
+            <div class = "column" style='float:left; width:10%'>
+                <div class = "box" id = "1">
+                    <span style="font-size:20px;cursor:pointer;">Buildings</span>
+                </div>
+                <div class = "box" id = "2">
+                    <span style="font-size:20px;cursor:pointer;" >Friend Search</span>
+                </div>
+                <div class = "box" id = "3">
+                    <span style="font-size:20px;cursor:pointer;">Friend List</span>
+                </div>
+            </div>
+
+            <div  class = "column" id = "gameArea" style='float:left; width:75%; margin-left:40px'>               
+                <div id="click-object">
+                    <img src="/s/click-object.png" alt="click object" height="256em" width="256em">
+                </div>
+            </div>
+            <div  class = "column" style='float:left; width:15%; margin-right:0px'>
+            </div>
+        </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+    <h2 id="total">{% if visiting['collectibles'] is defined %}{{visiting['collectibles']}}{% else %}0{% endif %}</h2>
+    <div class='centered'>
+        <h3>Collectibles</h3>
+    </div>
+
+    {% else %}
+    <p>Welcome to the Visit portal!</p>
+    <div hidden><h2>User not found!</h2></div>
+    <br>
+    <div>
+        <input type='text' id='userSearch'>
+        <input type='button' value='Search' onclick='createRedirectURL()'>
+    </div>
+    {% endif %}
+    <script>
+        function createRedirectURL(){
+            let newUrl = document.getElementById('userSearch').value;
+            console.log(newUrl);
+            window.location.href=newUrl;
+        }
+
+        {% if visiting %}
+
+        setInterval(function() { document.getElementById('total').textContent = parseInt(document.getElementById('total').textContent) + {{visiting['cps']}}; }, 1000)
+
+        {% endif %}
+        
+    </script>
+{% endblock %}

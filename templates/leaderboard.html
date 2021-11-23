@@ -10,7 +10,7 @@
         </tr>
         {% for player in players %}
         <tr>
-            {%if player['uname'] == user['uname'] %}
+            {%if user and player['uname'] == user['uname'] %}
             <td><strong>{{player['uname']}}</strong></td>
             <td><strong>{{player['collectibles']}}</strong></td>
             <td><strong>{{player['cps']}}</strong></td>
