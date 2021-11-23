@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="/s/style.css">
+        <div id = "topOfPage">
+        <h1>{% if page_title %} {{page_title}}{% endif %}</h1>
+        <nav>
+            <a href="../index.html"><button>Home</button></a>
+            <!--<a href="create.html"><button>Create Account</button></a>-->
+            {% if user %}
+            <a href="../logout.html"><button>Log Out</button></a>
+            {% else %}
+            <a href="../create.html"><button>Create Account</button></a>
+            <a href="../login.html"><button>Login</button></a>
+            {% endif %}
+            <a href="../game.html"><button>Play Game</button></a>
+            <a href="../marketplace.html"><button>Marketplace</button></a>
+            <a href="../upload.html"><button>Image Upload</button></a>
+            <a href="../leaderboard.html"><button>Leaderboard</button></a>
+        </nav>
+        </div>
+    </head>
+    <body>
+        {% block content %} {% endblock %}
+    </body>
+</html>
