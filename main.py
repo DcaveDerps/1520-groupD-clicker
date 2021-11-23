@@ -74,16 +74,22 @@ def createAcc():
 @app.route('/visit/<visit_user_name>')
 @app.route('/visit/<visit_user_name>.html')
 def visit_user(visit_user_name=''):
+    
+    if 'username' in session:
+        session_user = ds.get_user_account(session['username'])
+    
     if visit_user_name == '':
         print("ok so it got sent to visitUser even though there is no user given in the url")
         #if 'username' in session:
-            #return flask.render_template('/visit.html', page_title=f'Visit Page')#, user = ds.get_user_account(session['username']))
-        return flask.render_template('/visit.html', page_title='Visit Page')
+            #return flask.render_template('/visit.html', page_title='Visit Page', user = session_user)
+        return flask.render_template('/visit.html', page_title='Visit Page', user=session_user)
     elif game.getAccountDict(visit_user_name)['uname'] == None:
-        return flask.render_template('/visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name)
+        #if 'username' in session:
+        #    return flask.render_template('visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=ds.get_user_account(session['username']))
+        return flask.render_template('/visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=session_user)
     #if 'username' in session:
-        #return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountJsonNoReq(visit_user_name))#user = ds.get_user_account(session['username']))
-    return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name))
+        #return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountJsonNoReq(visit_user_name), user = ds.get_user_account(session['username']))
+    return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name), user=session_user)
 
 @app.route('/upload-image', methods=['POST'])
 def handle_upload_img():
