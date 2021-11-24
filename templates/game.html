@@ -93,7 +93,7 @@
             }
 
             userObj.collectibles += total;
-            document.getElementById("total").textContent = userObj.collectibles;
+            document.getElementById("total").textContent = userObj.collectibles.toLocaleString();
         }        
 
         function buyFactoryLocal(factoryID){
@@ -118,12 +118,12 @@
             {% if user is defined %}
                 
                 userObj.collectibles = userObj.collectibles + 1;
-                document.getElementById("total").textContent = userObj.collectibles;
+                document.getElementById("total").textContent = userObj.collectibles.toLocaleString();
 
             {% else %}
                 // do nothing, doesn't have an account
                 count = count + 1;
-                document.getElementById("total").textContent = count;
+                document.getElementById("total").textContent = count.toLocaleString();
             {% endif %}
 
         }
@@ -139,7 +139,8 @@
                // Page passes through the hidden state before the terminated state
                // Can't detect terminated state, but can detect hidden state more reliably than onunload/pagehide
                if(document.visibilityState == "hidden"){
-                    saveAndUpdateLocal();
+                //userObj['leftGame'] = ;   
+                saveAndUpdateLocal();
                     console.log("saved");
                }
 

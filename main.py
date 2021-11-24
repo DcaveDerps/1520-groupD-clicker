@@ -141,7 +141,7 @@ def handle_create_account_request():
     # Otherwise, create the new Entity
     new_user = ds.create_account_entity(user_name)
     new_user['uname'] = user_name
-    new_user['password'] = str(hashlib.pbkdf2_hmac('sha256', user_password.encode('utf-8'), b'saltPhrase', 100000))    # TODO hash the password before saving it
+    new_user['password'] = str(hashlib.pbkdf2_hmac('sha256', user_password.encode('utf-8'), b'saltPhrase', 100000))
     new_user['collectibles'] = 0
     new_user['cps'] = 0
     new_user['left_game'] = datetime.datetime.now().isoformat(' ') # the exact time the player left the game screen
