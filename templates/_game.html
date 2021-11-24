@@ -66,8 +66,10 @@
         <h3 id = "userinput">Collectibles</h3>        
     
         <br><br><br>
-        {% if user is defined %}        
-        <a><button id="assemblyLineBuyButton" type="button" onclick="buyFactoryLocal(1)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>
+        {% if user is defined %}
+        <a><button id="somethingTreeBuyButton" type="button" onclick="buyFactoryLocal(0)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>
+        <a><button id="3DPrinterBuyButton" type="button" onclick="buyFactoryLocal(1)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>   
+        <a><button id="assemblyLineBuyButton" type="button" onclick="buyFactoryLocal(2)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>
         <!--<input type="button" onclick="getAccountJson(userObj.uname)" value="test getUserJson"></input>-->
         <!--<input type="button" onclick="updateAccountFromJson(userObj)" value="test updateAccountFromJson"></input> -->
         <!--<input type="button" onclick="addCPS(userObj.uname)" value="test addCPS"></input>-->
