@@ -68,6 +68,29 @@ def upload_image():
 def createAcc():
     return flask.render_template('/create.html',page_title='Create Account')
 
+@app.route('/visit')
+@app.route('/visit/')
+@app.route('/visit.html')
+@app.route('/visit/<visit_user_name>')
+@app.route('/visit/<visit_user_name>.html')
+def visit_user(visit_user_name=''):
+    
+    if 'username' in session:
+        session_user = ds.get_user_account(session['username'])
+    
+    if visit_user_name == '':
+        print("ok so it got sent to visitUser even though there is no user given in the url")
+        #if 'username' in session:
+            #return flask.render_template('/visit.html', page_title='Visit Page', user = session_user)
+        return flask.render_template('/visit.html', page_title='Visit Page', user=session_user)
+    elif game.getAccountDict(visit_user_name)['uname'] == None:
+        #if 'username' in session:
+        #    return flask.render_template('visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=ds.get_user_account(session['username']))
+        return flask.render_template('/visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=session_user)
+    #if 'username' in session:
+        #return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountJsonNoReq(visit_user_name), user = ds.get_user_account(session['username']))
+    return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name), user=session_user)
+
 @app.route('/upload-image', methods=['POST'])
 def handle_upload_img():
     img_file = flask.request.files.get('img')
@@ -118,7 +141,7 @@ def handle_create_account_request():
     # Otherwise, create the new Entity
     new_user = ds.create_account_entity(user_name)
     new_user['uname'] = user_name
-    new_user['password'] = str(hashlib.pbkdf2_hmac('sha256', user_password.encode('utf-8'), b'saltPhrase', 100000))    # TODO hash the password before saving it
+    new_user['password'] = str(hashlib.pbkdf2_hmac('sha256', user_password.encode('utf-8'), b'saltPhrase', 100000))
     new_user['collectibles'] = 0
     new_user['cps'] = 0
     new_user['left_game'] = datetime.datetime.now().isoformat(' ') # the exact time the player left the game screen

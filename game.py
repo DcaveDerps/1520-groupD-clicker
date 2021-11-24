@@ -78,3 +78,22 @@ def getAccountJson():
     acc_dict['friend_list'] = acc['friend_list']
     #print("gonna try and return " + acc_dict)
     return flask.Response(json.dumps(acc_dict), mimetype='application/json')
+
+# returns a dictionary of a user account without the user password hash
+def getAccountDict(userName: str):
+    print("in game.py getAccountJsonNoReq()")
+    acc_dict = {}
+    acc = ds.get_user_account(userName)
+    if acc == None:
+        acc_dict['uname'] = None
+        return acc_dict
+    acc_dict['uname'] = acc['uname']
+    # acc_dict['password'] = acc['password']
+    acc_dict['collectibles'] = acc['collectibles']
+    acc_dict['cps'] = acc['cps']
+    acc_dict['left_game'] = acc['left_game']
+    acc_dict['factories'] = acc['factories']
+    acc_dict['saved_imgs'] = acc['saved_imgs']
+    acc_dict['friend_list'] = acc['friend_list']
+    #print("gonna try and return " + acc_dict.__str__())
+    return acc_dict

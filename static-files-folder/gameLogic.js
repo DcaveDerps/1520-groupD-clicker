@@ -36,9 +36,13 @@ function Factory(name, cps_boost, base_price, scale_factor, ID) {
 
 }
 
-const FACTORY_ASSEMBLYLINE = new Factory("Assembly Line", 11, 100, 1, 1);
+const FACTORY_SOMETHINGTREE = new Factory("Something Tree", 1, 25, 1, 0);
+const FACTORY_3DPRINTER = new Factory("3D Printer", 10, 500, 1, 1);
+const FACTORY_ASSEMBLYLINE = new Factory("Assembly Line", 80, 8000, 1, 2);
+//const FACTORY_
 
-const FACTORIES = [null, FACTORY_ASSEMBLYLINE, null, null, null];
+
+const FACTORIES = [FACTORY_SOMETHINGTREE, FACTORY_3DPRINTER, FACTORY_ASSEMBLYLINE, null, null, null];
 
 function getFactories(){
     return FACTORIES;
@@ -148,13 +152,19 @@ function updateCollectibleCounter(userJson){
 function updateUI(userJson){
 
     // update the collectible counter
-    document.getElementById("total").textContent = userJson.collectibles;
+    document.getElementById("total").textContent = userJson.collectibles.toLocaleString();
 
     // TO DO update cps when it's on the page
 
     // update the purchase buttons with the new prices
-    document.getElementById("assemblyLineBuyButton").value = "Assembly Line - " + FACTORY_ASSEMBLYLINE.currentPrice(userJson.factories[FACTORY_ASSEMBLYLINE.ID]) + "c";
-    document.getElementById("assemblyLineBuyButton").textContent = "Assembly Line - " + FACTORY_ASSEMBLYLINE.currentPrice(userJson.factories[FACTORY_ASSEMBLYLINE.ID]) + "c";
+    document.getElementById("somethingTreeBuyButton").value = "Something Tree - " + FACTORY_SOMETHINGTREE.currentPrice(userJson.factories[FACTORY_SOMETHINGTREE.ID]).toLocaleString() + "c";
+    document.getElementById("somethingTreeBuyButton").textContent = "Something Tree - " + FACTORY_SOMETHINGTREE.currentPrice(userJson.factories[FACTORY_SOMETHINGTREE.ID]).toLocaleString() + "c";
+    
+    document.getElementById("3DPrinterBuyButton").value = "3D Printer - " + FACTORY_3DPRINTER.currentPrice(userJson.factories[FACTORY_3DPRINTER.ID]).toLocaleString() + "c";
+    document.getElementById("3DPrinterBuyButton").textContent = "3D Printer - " + FACTORY_3DPRINTER.currentPrice(userJson.factories[FACTORY_3DPRINTER.ID]).toLocaleString() + "c";
+
+    document.getElementById("assemblyLineBuyButton").value = "Assembly Line - " + FACTORY_ASSEMBLYLINE.currentPrice(userJson.factories[FACTORY_ASSEMBLYLINE.ID]).toLocaleString() + "c";
+    document.getElementById("assemblyLineBuyButton").textContent = "Assembly Line - " + FACTORY_ASSEMBLYLINE.currentPrice(userJson.factories[FACTORY_ASSEMBLYLINE.ID]).toLocaleString() + "c";
 
 }
 
