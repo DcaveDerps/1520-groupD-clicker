@@ -2,22 +2,54 @@
 {% block content %}
 
         <p>Upload Page</p>
+        <p id = 'dims'></p>
         {% if status %}
             <p>Status: {{status}}</p>
         {% endif %}
 
         {% if user is defined %}
+        
+
+        
         <table id = "inputTable">
         <tr>
 
         <form action="/upload-image" enctype="multipart/form-data" method = "POST">
         <td id = "inputElement">Image File:</td> 
-        <td id = "inputElement"><input type="file" id="img" name ="img" accept="image/*" value = "Upload a new cookie design!"></td>
+        <td id = "inputElement"><input onchange="setImage(this)" type="file" id="img" name ="img" accept="image/*" value = "Upload a new cookie design!"></td>
         </tr>
+        <tr><td id = 'crop' colspan='2' style = 'visibility:hidden'>
+            <div id = 'crop-area'>
+                <div id = 'img-cropper'>
+                    <image id = 'img-cropper1' src = ''></image>                
+                </div>
+                <div id = 'img-sliders'>        
+                Zoom        
+                <span class='slider-area'>
+                    <p onmousedown = "mouseDown(-1,'zoom')" onmouseup="mouseUp()"><</p>
+                    <input onmousemove="zoom(this.value)" type="range" min="0" max="10000" value="0" class="slider" id="sz">
+                    <p onmousedown = "mouseDown(1,'zoom')" onmouseup="mouseUp()">></p>
+                </span>
+                Left-Right Slider
+                <span class='slider-area'>
+                    <p onmousedown = "mouseDown(-1,'side')" onmouseup="mouseUp()"><</p>
+                    <input onmousemove="shiftSide(this.value)" type="range" min="0" max="0" value="0" class="slider" id="side">
+                    <p onmousedown = "mouseDown(1,'side')" onmouseup="mouseUp()">></p>
+                </span>
+                Up-Down Slider
+                <span class='slider-area'>
+                    <p onmousedown = "mouseDown(-1,'elev')" onmouseup="mouseUp()"><</p>
+                    <input onmousemove="shiftElev(this.value)" type="range" min="0" max="0" value="0" class="slider" id="elev">
+                    <p onmousedown = "mouseDown(1,'elev')" onmouseup="mouseUp()">></p>
+                </span>
+                </div>
+                </div>
+        
+            </td>    </tr>
         <tr>
         <td id = "inputElement">
         Image Name: </td> 
-        <td id = "inputElement"><input type="text" id="name" name="name"> </td>
+        <td id = "inputElement"><input onkeyup="checkText(this.value)" type="text" id="name" name="name"> </td>
         </tr>
         <tr>
         <td id = "inputElement">
@@ -26,10 +58,226 @@
         </table>
         <br>
         <div id = "userinput">
-        <input type="submit" value="Upload"> 
+            <input type="text" class="hidden-value" id = 'hidden-width' value = "0" disabled>
+            <input type="text" class="hidden-value" id = 'hidden-height' value = "0" disabled>
+            <input type="text" class="hidden-value" id = 'hidden-top' value = "0" disabled>
+            <input type="text" class="hidden-value" id = 'hidden-left' value = "0" disabled>            
+        <input onmouseover="assignValues()" id = 'button' type="submit" value="Upload" disabled> 
         {% else %}
         <p>Sign in to upload images!</p>
         {% endif %}
         </div>
         </form>
+
+
+        <script>
+            var initW = document.getElementById('img-cropper1').width;
+            var initH = document.getElementById('img-cropper1').height;
+            var currSide = 0;
+            var currElev = 0;
+            var ratio = 0;
+            var mouseID = -1;
+            var hasImg = false;
+            var hasTitle = false;
+
+            if(initW>initH){
+                ratio = initW/initH;                
+                initH = 500;
+                document.getElementById('img-cropper1').height = 500;
+                initW = 500*ratio;
+                document.getElementById('img-cropper1').width = 500*ratio;
+                document.getElementById('side').max = initW-500;
+                document.getElementById('elev').max = initH-500;
+
+                document.getElementById('elev').disabled = true;
+            }else if(initW<initH){
+                ratio = initH/initW;
+                initH = 500*ratio;
+                document.getElementById('img-cropper1').height = 500*ratio;
+                initW = 500;
+                document.getElementById('img-cropper1').width = 500;
+                document.getElementById('side').max = initW-500;
+                document.getElementById('elev').max = initH-500;
+                
+                document.getElementById('side').disabled = true;
+            }else{
+                ratio = 1;
+                initH = 500;
+                document.getElementById('img-cropper1').height = 500;
+                initW = 500;
+                document.getElementById('img-cropper1').width = 500;
+                document.getElementById('side').max = initW-500;
+                document.getElementById('elev').max = initH-500;
+
+                document.getElementById('elev').disabled = true;
+                document.getElementById('side').disabled = true;
+            }
+
+            function assignValues(){
+                document.getElementById('hidden-width').value = document.getElementById('img-cropper1').width;
+                document.getElementById('hidden-height').value = document.getElementById('img-cropper1').height;
+                document.getElementById('hidden-top').value = currElev;
+                document.getElementById('hidden-left').value = currSide;
+            }
+
+            function setImage(toLoad){
+                document.getElementById('img-cropper1').src = URL.createObjectURL(toLoad.files[0]);
+
+                var image = new Image();
+                image.src = URL.createObjectURL(toLoad.files[0]);
+
+                image.onload = function () {
+                    document.getElementById('img-cropper1').height = this.height;
+                    document.getElementById('img-cropper1').width = this.width;
+                    initW = this.width;
+                    initH = this.height;
+                    URL.revokeObjectURL(this.src);
+
+            currSide = 0;
+            currElev = 0;
+            ratio = 0;
+            mouseID = -1;
+            document.getElementById('side').value = 0;
+            document.getElementById('elev').value = 0;
+            document.getElementById('sz').value = 0;
+
+            document.getElementById('img-cropper1').style.top = '0px';
+            document.getElementById('img-cropper1').style.left = '0px';
+            
+            document.getElementById('crop').style.visibility = 'visible';
+            document.getElementById('crop-area').style.display = 'flex';
+
+            if(initW>initH){
+                ratio = initW/initH;                
+                initH = 500;
+                document.getElementById('img-cropper1').height = 500;
+                initW = 500*ratio;
+                document.getElementById('img-cropper1').width = 500*ratio;
+                document.getElementById('side').max = initW-500;
+                document.getElementById('elev').max = initH-500;
+
+                document.getElementById('side').disabled = false;
+                document.getElementById('elev').disabled = true;
+            }else if(initW<initH){
+                ratio = initH/initW;
+                initH = 500*ratio;
+                document.getElementById('img-cropper1').height = 500*ratio;
+                initW = 500;
+                document.getElementById('img-cropper1').width = 500;
+                document.getElementById('side').max = initW-500;
+                document.getElementById('elev').max = initH-500;
+                
+                document.getElementById('side').disabled = true;
+                document.getElementById('elev').disabled = false;
+            }else{
+                ratio = 1;
+                initH = 500;
+                document.getElementById('img-cropper1').height = 500;
+                initW = 500;
+                document.getElementById('img-cropper1').width = 500;
+                document.getElementById('side').max = initW-500;
+                document.getElementById('elev').max = initH-500;
+
+                document.getElementById('elev').disabled = true;
+                document.getElementById('side').disabled = true;
+            }
+                }
+                hasImg = true;
+
+                if(hasImg&&hasTitle){
+                    document.getElementById('button').disabled = false;
+                }
+            }
+
+            function checkText(txt){
+                if(txt!=''){
+                    hasTitle=true;
+                }else{
+                    document.getElementById('button').disabled = true;
+                    hasTitle=false;
+                }
+
+                if(hasImg&&hasTitle){
+                    document.getElementById('button').disabled = false;
+                }
+            }
+
+            function mouseDown(n,src){
+                if(mouseID==-1){
+                    mouseID = setInterval(bump, 10, n,src);
+                }
+            }
+
+            function mouseUp(){
+                if(mouseID!=-1) {  //Only stop if exists
+                    clearInterval(mouseID);
+                    mouseID=-1;
+                }
+            }            
+                        
+            function bump(n,src){
+                if(src=='zoom'){
+                    var val = parseInt(document.getElementById('sz').value);
+                    if(val + n>=document.getElementById('sz').min&&val + n<=document.getElementById('sz').max){
+                        document.getElementById('sz').value = val + n;
+                        zoom(val+n);
+                    }
+                }else if(src=='side'){
+                    var val = parseInt(document.getElementById('side').value);
+                    if(val + n>=document.getElementById('side').min&&val + n<=document.getElementById('side').max){
+                        document.getElementById('side').value = val + n;
+                        shiftSide(val+n);
+                    }
+                }else if(src=='elev'){
+                    var val = parseInt(document.getElementById('elev').value);
+                    if(val + n>=document.getElementById('elev').min&&val + n<=document.getElementById('elev').max){
+                        document.getElementById('elev').value = val + n;
+                        shiftElev(val+n);
+                    }
+                }
+                
+            }
+            function zoom(n){
+                num = parseInt(n);                
+                document.getElementById('img-cropper1').width = initW*(1 + num/1000);
+                document.getElementById('img-cropper1').height = initH*(1 + num/1000);
+                
+                if(document.getElementById('img-cropper1').width+currSide<500){
+                    currSide+= 500-(document.getElementById('img-cropper1').width+currSide);
+                }
+                document.getElementById('img-cropper1').style.left = currSide + "px";
+                document.getElementById('side').max = document.getElementById('img-cropper1').width-500;
+
+                if(document.getElementById('img-cropper1').height+currElev<500){
+                    currElev+= 500-(document.getElementById('img-cropper1').width+currElev);
+                }
+                document.getElementById('img-cropper1').style.top = currElev + "px";
+                document.getElementById('elev').max = document.getElementById('img-cropper1').height-500;
+                
+                if(document.getElementById('side').max==0){
+                    document.getElementById('side').disabled = true;
+                }else{
+                    document.getElementById('side').disabled = false;
+                }
+
+                if(document.getElementById('elev').max==0){
+                    document.getElementById('elev').disabled = true;
+                }else{
+                    document.getElementById('elev').disabled = false;
+                }
+            }
+
+            function shiftSide(n){ 
+                document.getElementById('img-cropper1').style.left=-n+"px";
+                currSide = -n;
+            }
+
+            function shiftElev(n){ 
+                document.getElementById('img-cropper1').style.top=-n+"px";
+                currElev = -n;
+            }
+
+
+            
+        </script>
 {% endblock %}
