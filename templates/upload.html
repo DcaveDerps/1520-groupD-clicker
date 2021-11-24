@@ -62,7 +62,7 @@
             <input type="text" class="hidden-value" id = 'hidden-height' value = "0" disabled>
             <input type="text" class="hidden-value" id = 'hidden-top' value = "0" disabled>
             <input type="text" class="hidden-value" id = 'hidden-left' value = "0" disabled>            
-        <input onmouseover="assignValues()" id = 'button' type="submit" value="Upload" disabled> 
+        <input onfocus="assignValues()" onmouseover="assignValues()" id = 'button' type="submit" value="Upload" disabled> 
         {% else %}
         <p>Sign in to upload images!</p>
         {% endif %}
