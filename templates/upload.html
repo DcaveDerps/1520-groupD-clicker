@@ -49,7 +49,7 @@
         <tr>
         <td id = "inputElement">
         Image Name: </td> 
-        <td id = "inputElement"><input onkeyup="checkText(this.value)" type="text" id="name" name="name"> </td>
+        <td id = "inputElement"><input onfocus="assignValues()" onkeyup="checkText(this.value)" type="text" id="name" name="name"> </td>
         </tr>
         <tr>
         <td id = "inputElement">
@@ -57,11 +57,13 @@
         </tr>
         </table>
         <br>
-        <div id = "userinput">
-            <input type="text" class="hidden-value" id = 'hidden-width' value = "0" disabled>
-            <input type="text" class="hidden-value" id = 'hidden-height' value = "0" disabled>
-            <input type="text" class="hidden-value" id = 'hidden-top' value = "0" disabled>
-            <input type="text" class="hidden-value" id = 'hidden-left' value = "0" disabled>            
+        <div class = 'img-values'>
+            <input type="text" class="hidden-value" name = 'hidden-width' id = 'hidden-width' value = "0">
+            <input type="text" class="hidden-value" name = 'hidden-height' id = 'hidden-height' value = "0">
+            <input type="text" class="hidden-value" name = 'hidden-top' id = 'hidden-top' value = "0">
+            <input type="text" class="hidden-value" name = 'hidden-left' id = 'hidden-left' value = "0">   
+        </div>
+        <div id = "userinput">         
         <input onfocus="assignValues()" onmouseover="assignValues()" id = 'button' type="submit" value="Upload" disabled> 
         {% else %}
         <p>Sign in to upload images!</p>

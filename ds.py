@@ -1,6 +1,8 @@
 from google.cloud import datastore
 import datetime
 from google.cloud import storage
+from PIL import Image
+from io import BytesIO
 
 """
 DATA STORAGE FUNCTIONS
@@ -35,13 +37,21 @@ def create_img_entity(title,url,username):
     entity['username']=username
     ds_client.put(entity)
 
-def upload_img(title,img_file,username):
+def upload_img(title,img_file,username,width,height,top,left):
     gcs_client = storage.Client()
     bucket = gcs_client.get_bucket('1520-img-bucket')
+    img = Image.open(img_file)
+    img = img.resize((width,height))
+    img = img.crop((left,top,left+500,top+500))
     blob = bucket.blob(img_file.filename)
 
-    c_type = img_file.content_type
-    blob.upload_from_string(img_file.read(),content_type=c_type)
+    c_type = (img_file.content_type).split('/')[-1]
+    output = BytesIO()
+    img.save(output, c_type)
+    contents = output.getvalue()
+    output.close()
+
+    blob.upload_from_string(contents,c_type)
     create_img_entity(title,blob.public_url,username)
 
 

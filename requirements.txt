@@ -1,4 +1,5 @@
 flask==2.0.1
+Pillow==7.1.2
 google-cloud-datastore
 google-cloud-storage
 gunicorn

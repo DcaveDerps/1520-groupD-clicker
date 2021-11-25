@@ -107,9 +107,14 @@ def handle_upload_img():
     
     img_file.filename = (str(datetime.datetime.now())+img_file.filename+" ")
 
+    w = int(flask.request.form.get('hidden-width'))
+    h = int(flask.request.form.get('hidden-height'))
+    top = int(flask.request.form.get('hidden-top'))
+    left = int(flask.request.form.get('hidden-left'))
+
     tmp = flask.request.form.get('temp-username')
 
-    ds.upload_img(title,img_file,tmp)
+    ds.upload_img(title,img_file,tmp,w,h,-top,-left)
 
     #TODO: MAKE UPLOAD DISPLAY AN IMAGE WITH SUCCESS AND AUTO CLAIM
     #      MAKE CLEAR SEARCH BUTTON    

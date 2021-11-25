@@ -33,6 +33,10 @@ button:hover{
     flex-direction: row;
 }
 
+.img-values{
+    display:none;
+}
+
 #crop-area{
     display:none; 
     justify-content: center;
