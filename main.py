@@ -149,7 +149,7 @@ def handle_create_account_request():
     new_user['password'] = str(hashlib.pbkdf2_hmac('sha256', user_password.encode('utf-8'), b'saltPhrase', 100000))
     new_user['collectibles'] = 0
     new_user['cps'] = 0
-    new_user['left_game'] = datetime.datetime.now().isoformat(' ') # the exact time the player left the game screen
+    new_user['left_game'] = -1 # the exact time the player left the game screen, initialize it as -1 to signify new account
     new_user['factories'] = [0, 0, 0, 0, 0]
     new_user['saved_imgs']=''
     new_user['friend_list'] = ''

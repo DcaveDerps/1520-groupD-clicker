@@ -62,6 +62,19 @@
         {% if user is defined %}
             let userObj = cleanAccountJson( {{ user|tojson }} );
 
+            // check if user gained collectibles offline
+            if (userObj.left_game > 0) {
+                // do calculations
+                let elapsedSeconds = Math.floor((Date.now() - userObj.left_game) / 1000);
+                console.log("It has been " + elapsedSeconds + " seconds since the last game page visit");
+                userObj.collectibles = userObj.collectibles + (elapsedSeconds * userObj.cps);
+                console.log("generated " + (elapsedSeconds * userObj.cps) + " collectibles since they were gone! " + elapsedSeconds + " seconds away at a rate of " + userObj.cps + " cps");
+                saveAndUpdateLocal();
+            }
+            else{
+                console.log("first time visiting the game page!");
+            }
+
             updateUIOnLoad(userObj.uname);
 
             // initialize cps incrementing and saving interval
@@ -82,6 +95,8 @@
         }
 
         function addCPSLocal(){
+            
+            /*
             let total = 0;
 
             for(let i = 0; i < userObj.factories.length; i++){
@@ -91,8 +106,9 @@
                     total += getFactories()[i].cps_boost * userObj.factories[i];
                 }
             }
+            */
 
-            userObj.collectibles += total;
+            userObj.collectibles += userObj.cps;
             document.getElementById("total").textContent = userObj.collectibles.toLocaleString();
         }        
 
@@ -139,8 +155,9 @@
                // Page passes through the hidden state before the terminated state
                // Can't detect terminated state, but can detect hidden state more reliably than onunload/pagehide
                if(document.visibilityState == "hidden"){
-                //userObj['leftGame'] = ;   
-                saveAndUpdateLocal();
+                //userObj['leftGame'] = ;
+                    userObj.left_game = Date.now();
+                    saveAndUpdateLocal();
                     console.log("saved");
                }
 
