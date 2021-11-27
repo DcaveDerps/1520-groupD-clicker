@@ -154,7 +154,8 @@ function updateUI(userJson){
     // update the collectible counter
     document.getElementById("total").textContent = userJson.collectibles.toLocaleString();
 
-    // TO DO update cps when it's on the page
+    // update cps
+    document.getElementById("cpsVal").textContent = userJson.cps.toLocaleString();
 
     // update the purchase buttons with the new prices
     document.getElementById("somethingTreeBuyButton").value = "Something Tree - " + FACTORY_SOMETHINGTREE.currentPrice(userJson.factories[FACTORY_SOMETHINGTREE.ID]).toLocaleString() + "c";

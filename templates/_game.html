@@ -62,9 +62,18 @@
         <p></p>
         <p></p>
 
-        <h2 id="total">{% if user is defined and user['collectibles'] is defined %}{{user['collectibles']}}{% else %}0{% endif %}</h2>
-        <h3 id = "userinput">Collectibles</h3>        
-    
+        <div class="gamePageStatsUI">
+            <div class="gamePageStat">
+                <strong id="total">{% if user is defined and user['collectibles'] is defined %}{{user['collectibles']}}{% else %}0{% endif %}</strong>
+                <br>
+                <strong>Collectibles</strong>       
+            </div>
+            <div class="gamePageStat">
+            <strong id="cpsVal">{% if user is defined and user['cps'] is defined %}{{user['cps']}}{% else %}0{% endif %}</strong>
+            <strong>CpS</strong>
+            </div>
+        </div>  
+
         <br><br><br>
         {% if user is defined %}
         <a><button id="somethingTreeBuyButton" type="button" onclick="buyFactoryLocal(0)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>

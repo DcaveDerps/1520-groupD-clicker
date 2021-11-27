@@ -344,4 +344,19 @@ a{
     .sidenav a {font-size: 18px;}
 }
 
+.gamePageStatsUI {
+    display: flex;
+    justify-content: center;
+}
 
+.gamePageStat {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px 12px 12px 12px;
+    font-size: 24px;
+    border: 2px solid black;
+    background-color: white;
+    margin: 10px;
+}
