@@ -151,14 +151,16 @@ function updateCollectibleCounter(userJson){
 
 function updateUI(userJson){
 
-    // update the collectible counter
+    // update the collectible counter (value and label)
     document.getElementById("total").textContent = userJson.collectibles.toLocaleString();
+    document.getElementById("totalLabel").textContent = userJson.collectible_label_p;
 
-    // TO DO update cps when it's on the page
+    // update cps (value and label)
+    document.getElementById("cpsVal").textContent = userJson.cps.toLocaleString();
 
     // update the purchase buttons with the new prices
-    document.getElementById("somethingTreeBuyButton").value = "Something Tree - " + FACTORY_SOMETHINGTREE.currentPrice(userJson.factories[FACTORY_SOMETHINGTREE.ID]).toLocaleString() + "c";
-    document.getElementById("somethingTreeBuyButton").textContent = "Something Tree - " + FACTORY_SOMETHINGTREE.currentPrice(userJson.factories[FACTORY_SOMETHINGTREE.ID]).toLocaleString() + "c";
+    document.getElementById("somethingTreeBuyButton").value = userJson.collectible_label_s + " Tree - " + FACTORY_SOMETHINGTREE.currentPrice(userJson.factories[FACTORY_SOMETHINGTREE.ID]).toLocaleString() + "c";
+    document.getElementById("somethingTreeBuyButton").textContent = userJson.collectible_label_s + " Tree - " + FACTORY_SOMETHINGTREE.currentPrice(userJson.factories[FACTORY_SOMETHINGTREE.ID]).toLocaleString() + "c";
     
     document.getElementById("3DPrinterBuyButton").value = "3D Printer - " + FACTORY_3DPRINTER.currentPrice(userJson.factories[FACTORY_3DPRINTER.ID]).toLocaleString() + "c";
     document.getElementById("3DPrinterBuyButton").textContent = "3D Printer - " + FACTORY_3DPRINTER.currentPrice(userJson.factories[FACTORY_3DPRINTER.ID]).toLocaleString() + "c";

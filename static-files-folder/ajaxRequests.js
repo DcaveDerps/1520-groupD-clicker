@@ -44,6 +44,7 @@ function cleanAccountJson(accJson){
     // convert all of the numbers back into integers from strings
     accJson.collectibles = parseInt(accJson.collectibles);
     accJson.cps = parseInt(accJson.cps);
+    accJson.left_game = parseInt(accJson.left_game);
 
     if(typeof(accJson.factories) == "string"){
         accJson.factories = accJson.factories.split(',');

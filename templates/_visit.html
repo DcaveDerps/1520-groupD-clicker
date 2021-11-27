@@ -2,25 +2,45 @@
 <html>
     <head>
         <link rel="stylesheet" href="/s/style.css">
+        <script src="/s/ajaxRequests.js"></script>
+        <script src="/s/gameLogic.js"></script>
         <div id = "topOfPage">
         <h1>{% if page_title %} {{page_title}}{% endif %}</h1>
         <nav>
-            <a href="../index.html"><button>Home</button></a>
+            <a href="../index.html"><button class="buttonFixedWidth">Home</button></a>
             <!--<a href="create.html"><button>Create Account</button></a>-->
             {% if user %}
-            <a href="../logout.html"><button>Log Out</button></a>
+            <a href="../logout.html"><button class="buttonFixedWidth">Log Out</button></a>
             {% else %}
-            <a href="../create.html"><button>Create Account</button></a>
-            <a href="../login.html"><button>Login</button></a>
+            <a href="../create.html"><button class="buttonFixedWidth">Create Account</button></a>
+            <a href="../login.html"><button class="buttonFixedWidth">Login</button></a>
             {% endif %}
-            <a href="../game.html"><button>Play Game</button></a>
-            <a href="../marketplace.html"><button>Marketplace</button></a>
-            <a href="../upload.html"><button>Image Upload</button></a>
-            <a href="../leaderboard.html"><button>Leaderboard</button></a>
+            <a href="../game.html"><button class="buttonFixedWidth">Play Game</button></a>
+            <a href="../marketplace.html"><button class="buttonFixedWidth">Marketplace</button></a>
+            <a href="../upload.html"><button class="buttonFixedWidth">Image Upload</button></a>
+            <a href="../leaderboard.html"><button class="buttonFixedWidth">Leaderboard</button></a>
         </nav>
         </div>
     </head>
     <body>
         {% block content %} {% endblock %}
+        {% if visiting is defined %}
+        <div class="gamePageStatsUI">
+            <div class="gamePageStat">
+                <strong id="total">{% if visiting is defined and visiting['collectibles'] is defined %}{{visiting['collectibles']}}{% else %}0{% endif %}</strong>
+                <br>
+                <strong id="totalLabel">{% if visiting %}{{visiting['collectible_label_p']}}{% else %}Collectibles{% endif %}</strong>       
+            </div>
+            <div class="gamePageStat">
+            <strong id="cpsVal">{% if visiting is defined %}{{visiting['cps']}}{% else %}0{% endif %}</strong>
+            <strong id="cpsLabel">CpS</strong>
+            </div>
+        </div>
+
+        <script>            
+            document.getElementById("total").textContent = ({{visiting['collectibles']}} + (Math.floor((Date.now() - {{visiting['left_game']}}) / 1000) * {{visiting['cps']}})).toLocaleString();  
+        </script>
+        {% endif %}  
+
     </body>
 </html>
