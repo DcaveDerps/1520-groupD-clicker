@@ -75,20 +75,25 @@ def createAcc():
 @app.route('/visit/<visit_user_name>.html')
 def visit_user(visit_user_name=''):
     
+    session_user = None
+
     if 'username' in session:
         session_user = ds.get_user_account(session['username'])
     
+    # no visit account given in URL
     if visit_user_name == '':
         print("ok so it got sent to visitUser even though there is no user given in the url")
-        #if 'username' in session:
-            #return flask.render_template('/visit.html', page_title='Visit Page', user = session_user)
-        return flask.render_template('/visit.html', page_title='Visit Page', user=session_user)
+        if session_user != None:
+            return flask.render_template('/visit.html', page_title='Visit Page', user = session_user)
+        return flask.render_template('/visit.html', page_title='Visit Page')
+    # account user is trying to visit doesn't exist
     elif game.getAccountDict(visit_user_name)['uname'] == None:
-        #if 'username' in session:
-        #    return flask.render_template('visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=ds.get_user_account(session['username']))
+        if session_user != None:
+            return flask.render_template('visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=session_user)
         return flask.render_template('/visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=session_user)
-    #if 'username' in session:
-        #return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountJsonNoReq(visit_user_name), user = ds.get_user_account(session['username']))
+    
+    if session_user != None:
+        return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name), user = session_user)
     return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name), user=session_user)
 
 @app.route('/upload-image', methods=['POST'])
@@ -153,6 +158,8 @@ def handle_create_account_request():
     new_user['factories'] = [0, 0, 0, 0, 0]
     new_user['saved_imgs']=''
     new_user['friend_list'] = ''
+    new_user['collectible_label_s'] = 'collectible'
+    new_user['collectible_label_p'] = 'collectibles'
     session['username'] = user_name
 
     print('Created the entity')

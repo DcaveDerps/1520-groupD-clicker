@@ -32,6 +32,18 @@
                     List Here.
                 </a>           
             </div>
+            <div class = "nav" id = "customNav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav4()">&times;</a>
+                <a>  
+                    <strong>Change Collectible Label</strong>
+                    Singular:
+                    <input type="text" id="singular" value="">
+                    Plural:
+                    <input type="text" id="plural" value="">
+                    <input type="button" id="updateColLabelButton" value="Update" onclick="updateCollectionLabel()">
+                    <div id="updateColLabelError" hidden></div>
+                </a>  
+            </div>            
 
             <div class = "column" style='float:left; width:10%'>
                 <div class = "box" id = "1" onclick="openNav()">
@@ -42,6 +54,9 @@
                 </div>
                 <div class = "box" id = "3" onclick="openNav3()">
                     <span style="font-size:20px;cursor:pointer;">Friend List</span>
+                </div>
+                <div class = "box" id = "4" onclick="openNav4()">
+                    <span style="font-size:20px;cursor:pointer;">Customize</span>
                 </div>
             </div>
 
@@ -147,7 +162,7 @@
         // updates the datastore entity with data from the the user's session when they leave the page
         document.addEventListener('visibilitychange', function leaveGame(){
             
-            console.log("\nWell leaveGame() is being called at least\n");
+            //console.log("\nWell leaveGame() is being called at least\n");
 
             {% if user is defined %}
 
@@ -226,7 +241,58 @@
 
             function closeNav3() {
             document.getElementById("listNav").style.width = "0";
-        }
+            }
+
+            // customize menu
+            function openNav4() {
+                document.getElementById("customNav").style.width = "250px";
+            }
+
+            function closeNav4() {
+                document.getElementById("customNav").style.width = "0";
+                document.getElementById("updateColLabelError").setAttribute("hidden", "true");
+            }
+
+            function updateCollectionLabel() {
+
+                let sinOptionContent = document.getElementById("singular").value;
+                let plurOptionContent = document.getElementById("plural").value;
+                let errMsg = document.getElementById("updateColLabelError");
+
+                {% if user is defined %}
+                if ((sinOptionContent.trim() != '' && sinOptionContent.trim().length <= 20) && (plurOptionContent.trim() != '' && plurOptionContent.trim().length <= 25)){
+                    userObj.collectible_label_s = sinOptionContent;
+                    userObj.collectible_label_p = plurOptionContent;
+                    saveAndUpdateLocal();
+                    updateUI(userObj);
+                    errMsg.innerHTML = "<strong>Updated successfully!</strong>";
+                }
+                else if (sinOptionContent.trim() == '' && plurOptionContent.trim() != ''){
+                    errMsg.innerHTML = "<strong>Singular option is blank!</strong>";
+                }
+                else if (sinOptionContent.trim() != '' && plurOptionContent.trim() == ''){
+                    errMsg.innerHTML = "<strong>Plural option is blank!</strong>";
+                }
+                else if (sinOptionContent.trim() == '' && plurOptionContent.trim() == ''){
+                    errMsg.innerHTML = "<strong>Both options are blank!</strong>";
+                }
+                else if (sinOptionContent.trim().length > 20){
+                    errMsg.innerHTML = "<strong>Singular label must be less than or equal to 20 characters!</strong>";
+                }
+                else if (plurOptionContent.trim().length > 25){
+                    errMsg.innerHTML = "<strong>Plural label must be less than or equal to 25 characters!</strong>";
+                }
+                {% else %}
+                    errMsg.innerHTML = "<strong>Please log in first!</strong>";
+                {% endif %}
+
+                errMsg.removeAttribute("hidden");
+
+                //console.log("'" + sinOptionContent + "' | '" + plurOptionContent + "'");
+                //console.log(typeof(sinOptionContent) + " | " + typeof(plurOptionContent));
+                //console.log(typeof(sinOptionContent.trim()) + " | " + typeof(plurOptionContent.trim()));
+
+            }
 
     </script>
 

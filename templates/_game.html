@@ -8,17 +8,17 @@
         <div id = "topOfPage">
         <h1>{% if page_title %} {{page_title}}{% endif %}</h1>
         <nav>
-            <a href="index.html"><button>Home</button></a>
+            <a href="index.html"><button class="buttonFixedWidth">Home</button></a>
             {% if user %}
-            <a href="logout.html"><button>Log Out</button></a>
+            <a href="logout.html"><button class="buttonFixedWidth">Log Out</button></a>
             {% else %}
-            <a href="create.html"><button>Create Account</button></a>
-            <a href="login.html"><button>Login</button></a>
+            <a href="create.html"><button class="buttonFixedWidth">Create Account</button></a>
+            <a href="login.html"><button class="buttonFixedWidth">Login</button></a>
             {% endif %}
-            <a href="game.html"><button>Play Game</button></a>
-            <a href="marketplace.html"><button>Marketplace</button></a>
-            <a href="upload.html"><button>Image Upload</button></a>
-            <a href="leaderboard.html"><button>Leaderboard</button></a>
+            <a href="game.html"><button class="buttonFixedWidth">Play Game</button></a>
+            <a href="marketplace.html"><button class="buttonFixedWidth">Marketplace</button></a>
+            <a href="upload.html"><button class="buttonFixedWidth">Image Upload</button></a>
+            <a href="leaderboard.html"><button class="buttonFixedWidth">Leaderboard</button></a>
         </nav>
         </div>
     </head>
@@ -66,19 +66,19 @@
             <div class="gamePageStat">
                 <strong id="total">{% if user is defined and user['collectibles'] is defined %}{{user['collectibles']}}{% else %}0{% endif %}</strong>
                 <br>
-                <strong>Collectibles</strong>       
+                <strong id="totalLabel">{% if user is defined and user['collectible_label_p'] is defined%}{{user['collectible_label_p]}}{% else %}Collectibles{% endif %}</strong>       
             </div>
             <div class="gamePageStat">
             <strong id="cpsVal">{% if user is defined and user['cps'] is defined %}{{user['cps']}}{% else %}0{% endif %}</strong>
-            <strong>CpS</strong>
+            <strong id="cpsLabel">CpS</strong>
             </div>
         </div>  
 
         <br><br><br>
         {% if user is defined %}
-        <a><button id="somethingTreeBuyButton" type="button" onclick="buyFactoryLocal(0)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>
-        <a><button id="3DPrinterBuyButton" type="button" onclick="buyFactoryLocal(1)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>   
-        <a><button id="assemblyLineBuyButton" type="button" onclick="buyFactoryLocal(2)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>
+        <a><button class="gamePageFactoryButton" id="somethingTreeBuyButton" type="button" onclick="buyFactoryLocal(0)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>
+        <a><button class="gamePageFactoryButton" id="3DPrinterBuyButton" type="button" onclick="buyFactoryLocal(1)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>   
+        <a><button class="gamePageFactoryButton" id="assemblyLineBuyButton" type="button" onclick="buyFactoryLocal(2)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>
         <!--<input type="button" onclick="getAccountJson(userObj.uname)" value="test getUserJson"></input>-->
         <!--<input type="button" onclick="updateAccountFromJson(userObj)" value="test updateAccountFromJson"></input> -->
         <!--<input type="button" onclick="addCPS(userObj.uname)" value="test addCPS"></input>-->
