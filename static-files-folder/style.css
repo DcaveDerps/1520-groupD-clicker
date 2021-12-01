@@ -66,6 +66,18 @@ button:hover{
     left:0px;
 }
 
+#user-imgs{
+    display:flex; 
+    justify-content: center;
+    gap: 20px;
+    flex-direction: row;
+    overflow: auto;
+    white-space: nowrap;
+    top: -40px;
+    left:20px;
+    right: -20px;
+}
+
 
 .error{
     color: red;

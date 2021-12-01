@@ -2,6 +2,12 @@ import ds
 import flask
 import json
 
+def get_all_claimed_images(selections):
+    image_list = ds.get_img_entities_by_url_list(selections)
+    image_list.append({'url':"EOI",'title':"EOI",'username':"EOI"})
+    
+    return flask.Response(json.dumps(image_list), mimetype='application/json')
+
 def get_x_images(low, high):
     image_list = []  
     items = ds.get_all_img_entities()

@@ -101,14 +101,14 @@ def handle_upload_img():
     img_file = flask.request.files.get('img')
 
     if not img_file:
-        return flask.render_template('/upload.html', page_title='Image Upload',status = 'No Image Selected', imgheader='User Images',items = ds.get_all_img_entities())
+        return flask.render_template('/upload.html', page_title='Image Upload',status = 'No Image Selected', imgheader='User Images',user=ds.get_user_account(session['username']))
     
     title = flask.request.form.get('name')
     if title=="":
-        return flask.render_template('/upload.html', page_title='Image Upload',status = 'No Name Provided',imgheader='User Images',items = ds.get_all_img_entities())    
+        return flask.render_template('/upload.html', page_title='Image Upload',status = 'No Name Provided',imgheader='User Images',user=ds.get_user_account(session['username']))    
     
     if not check_image(img_file.filename):
-        return flask.render_template('/upload.html', page_title='Image Upload',status = 'Invalid File Type (use png, jpg, jpeg, gif)',imgheader='User Images',items = ds.get_all_img_entities())    
+        return flask.render_template('/upload.html', page_title='Image Upload',status = 'Invalid File Type (use png, jpg, jpeg, gif)',imgheader='User Images',user=ds.get_user_account(session['username']))    
     
     img_file.filename = (str(datetime.datetime.now())+img_file.filename+" ")
 
@@ -117,9 +117,7 @@ def handle_upload_img():
     top = int(flask.request.form.get('hidden-top'))
     left = int(flask.request.form.get('hidden-left'))
 
-    tmp = flask.request.form.get('temp-username')
-
-    ds.upload_img(title,img_file,tmp,w,h,-top,-left)
+    ds.upload_img(title,img_file,session['username'],w,h,-top,-left)    
 
     #TODO: MAKE UPLOAD DISPLAY AN IMAGE WITH SUCCESS AND AUTO CLAIM
     #      MAKE CLEAR SEARCH BUTTON    
@@ -269,6 +267,12 @@ def resetSessionUser():
 """
 IMAGES
 """
+@app.route('/getAllClaimedImages',methods=['POST'])
+def getAllImages():
+    search = flask.request.values['search']
+    selections = search.split(',')
+    return market.get_all_claimed_images(selections)
+
 @app.route('/getXImages',methods=['POST'])
 def getXImages():
     return market.get_x_images(int(flask.request.values['low']),int(flask.request.values['high']))

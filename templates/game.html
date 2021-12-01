@@ -43,7 +43,23 @@
                     <input type="button" id="updateColLabelButton" value="Update" onclick="updateCollectionLabel()">
                     <div id="updateColLabelError" hidden></div>
                 </a>  
-            </div>            
+            </div>  
+            
+            <div class = "nav" id = "templateNav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav5()">&times;</a>
+                <strong>Template Selection</strong>
+                <div id = 'template-imgs'>  
+
+                </div>  
+            </div>  
+
+            <div class = "nav" id = "imageNav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav6()">&times;</a>
+                <strong>Image Selection</strong>
+                <div id = 'user-imgs'>  
+
+                </div>  
+            </div>  
 
             <div class = "column" style='float:left; width:10%'>
                 <div class = "box" id = "1" onclick="openNav()">
@@ -56,7 +72,13 @@
                     <span style="font-size:20px;cursor:pointer;">Friend List</span>
                 </div>
                 <div class = "box" id = "4" onclick="openNav4()">
-                    <span style="font-size:20px;cursor:pointer;">Customize</span>
+                    <span style="font-size:20px;cursor:pointer;">Collectible</span>
+                </div>
+                <div class = "box" id = "4" onclick="openNav5()">
+                    <span style="font-size:20px;cursor:pointer;">Template</span>
+                </div>
+                <div class = "box" id = "4" onclick="openNav6()">
+                    <span style="font-size:20px;cursor:pointer;">Image</span>
                 </div>
             </div>
 
@@ -72,6 +94,7 @@
         </div>
     </div>
 
+    <script src="/s/ajaxRequests.js"></script>
     <script>
         
         {% if user is defined %}
@@ -95,6 +118,43 @@
             // initialize cps incrementing and saving interval
             setInterval(addCPSLocal, 1000);
             setInterval(saveAndUpdateLocal, 10000);
+
+            var search = userObj.saved_imgs;
+
+            sendJsonRequest({'search':search}, '/getAllClaimedImages', function(result, targetUrl, params) {                
+                navCallback(result);
+                return result;
+            });
+            
+            function navCallback(imgs){
+                for(let i = 0; i<imgs.length;i++){                  
+                    if(imgs[i].url=="EOI"){ 
+                        if(i==0){
+                            var new_div = document.createElement("div");
+                            new_div.id = 'ImgFailure';
+                            var new_p = document.createElement("p");
+                            new_p.innerHTML = 'No Images Found';
+                            new_div.appendChild(new_p);
+                            document.getElementById('user_imgs').appendChild(new_div);
+                        }
+                        return;
+                    }
+                    var new_div = document.createElement("div");
+                    new_div.id = "div " + imgs[i].url;
+                    var new_p = document.createElement("p");
+                    new_p.innerHTML = imgs[i].title;
+                    new_p.style.textAlign="center";
+                    new_img = document.createElement('img');
+                    new_img.id = "img " + imgs[i].url;
+                    new_img.src = imgs[i].url;
+                    new_img.style.width = "100px";
+                    new_img.style.height = "100px";
+                    new_img.style.textAlign="center";
+                    new_div.appendChild(new_p);
+                    new_div.appendChild(new_img);
+                    document.getElementById('user-imgs').appendChild(new_div);
+                }
+            }            
 
         {% else %}
             let count = 0;
@@ -251,6 +311,22 @@
             function closeNav4() {
                 document.getElementById("customNav").style.width = "0";
                 document.getElementById("updateColLabelError").setAttribute("hidden", "true");
+            }
+
+            function openNav5() {
+                document.getElementById("templateNav").style.width = "100%";
+            }
+
+            function closeNav5() {
+                document.getElementById("templateNav").style.width = "0";
+            }
+
+            function openNav6() {
+                document.getElementById("imageNav").style.width = "100%";
+            }
+
+            function closeNav6() {
+                document.getElementById("imageNav").style.width = "0";
             }
 
             function updateCollectionLabel() {
