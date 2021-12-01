@@ -158,8 +158,8 @@ def handle_create_account_request():
     new_user['factories'] = [0, 0, 0, 0, 0]
     new_user['saved_imgs']=''
     new_user['friend_list'] = ''
-    new_user['collectible_label_s'] = 'collectible'
-    new_user['collectible_label_p'] = 'collectibles'
+    new_user['collectible_label_s'] = 'Collectible'
+    new_user['collectible_label_p'] = 'Collectibles'
     session['username'] = user_name
 
     print('Created the entity')

@@ -66,11 +66,11 @@
             <div class="gamePageStat">
                 <strong id="total">{% if user is defined and user['collectibles'] is defined %}{{user['collectibles']}}{% else %}0{% endif %}</strong>
                 <br>
-                <strong id="totalLabel">{% if user is defined and user['collectible_label_p'] is defined%}{{user['collectible_label_p]}}{% else %}Collectibles{% endif %}</strong>       
+                <strong id="totalLabel">{% if user is defined and user['collectible_label_p'] is defined %}{{user['collectible_label_p']}}{% else %}Collectibles{% endif %}</strong>       
             </div>
             <div class="gamePageStat">
-            <strong id="cpsVal">{% if user is defined and user['cps'] is defined %}{{user['cps']}}{% else %}0{% endif %}</strong>
-            <strong id="cpsLabel">CpS</strong>
+                <strong id="cpsVal">{% if user is defined and user['cps'] %}{{user['cps']}}{% else %}0{% endif %}</strong>
+                <strong id="cpsLabel">CpS</strong>
             </div>
         </div>  
 
