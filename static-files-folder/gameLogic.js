@@ -135,7 +135,6 @@ function updateAccountFromJson(userJson){
     for (let i in userJson){
         params += encodeURIComponent(i) + '=' +encodeURIComponent(userJson[i]) + '&';
     }
-    alert(params)
     console.log("about to create the post request in gameLogic.js")
     request.open("POST", "/updateAccountFromJson", false);
     request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

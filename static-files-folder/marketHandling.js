@@ -332,6 +332,5 @@ function updateAccountFromJson(rslt){
     let userStr = JSON.stringify(rslt);
     // sendBeacon makes a POST request, but tells the browser to make it whenever it can
     // Allows the POST request to be sent even if the page that requested it isn't loaded
-    alert(userStr)
     navigator.sendBeacon("/updateAccountFromJson", userStr);
 }
