@@ -18,7 +18,8 @@
         <div class = 'mode'>
         <image id = 'mode-changer' name = "Global" src = '/s/Global.png' onclick="switchMode(this.id)" onmouseover = 'iconHover(this.id)' onmouseout="clearIconHover(this.id)">
         <p id = 'mode-info' class = 'mode-info'>View Claimed Images Only</p>
-        <p id = 'clearsearch' name = "vis"  class = 'clear' onmouseover="iconHover(this.id)" onmouseout="clearIconHover(this.id)">&times;</p>
+        <p id = 'clear-info' class = 'clear-info'>Clear Search</p>
+        <p id = 'clearsearch' name = "vis"  class = 'clear' onclick = "clearSearch()" onmouseover="iconHover(this.id)" onmouseout="clearIconHover(this.id)">&times;</p>
         </div>
         {% endif %}      
         <br>
@@ -130,7 +131,12 @@
             }
             function updateClaimedImages(list){
                 userObj.saved_imgs = list;
-            }            
+            } 
+            
+            function clearSearch(){
+                updateSearch("");
+                document.getElementById('clearsearch').visibility='hidden';
+            }
         </script>
 
 

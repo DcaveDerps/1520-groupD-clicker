@@ -40,6 +40,8 @@ def search_image(low,high,search):
 
     if high == len(items):
         image_list.append({'url':"EOI",'title':"EOI",'username':"EOI"})
+
+    print(image_list)
     
     return flask.Response(json.dumps(image_list), mimetype='application/json')
 

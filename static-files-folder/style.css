@@ -232,7 +232,7 @@ button:hover{
 
 .clear-info{
     position:absolute;
-    top: 0;
+    top: -70%;
     right: 120%;
     visibility: hidden;
     width: 100%;

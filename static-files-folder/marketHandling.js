@@ -21,7 +21,8 @@ function iconHover(url){
         document.getElementById("mode-info").style.visibility = 'visible';
     }else if(url=="clearsearch"){
         document.getElementById(url).style.color="#f52020";   
-        document.getElementById(url).style.fontWeight = "900";      
+        document.getElementById(url).style.fontWeight = "900";
+        document.getElementById("clear-info").style.visibility = 'visible';      
     }
 }
 
@@ -43,7 +44,8 @@ function clearIconHover(url){
         document.getElementById("mode-info").style.visibility = 'hidden';
     }else if(url=="clearsearch"){
         document.getElementById(url).style.color="initial";   
-        document.getElementById(url).style.fontWeight = "initial";      
+        document.getElementById(url).style.fontWeight = "initial";  
+        document.getElementById("clear-info").style.visibility = 'hidden';      
     }
 }
 
@@ -86,11 +88,7 @@ function getClaimedIcon(url){
     return new_copy;
 }
 
-function getUnclaimedIcon(url){
-    //<img src = "/s/unsaved.png" class='icon' onmouseover = "iconHover(this.id)" 
-    //onmouseout="clearIconHover(this.id)" name = "Unclaimed" id = "{ {i['url']}}" 
-    //onclick = "addOrRemove(this.id)">
-    
+function getUnclaimedIcon(url){    
     new_copy = document.createElement("img");
     new_copy.id = url;
     new_copy.src = "/s/unsaved.png";
@@ -206,12 +204,14 @@ function updateSearch(){
         document.getElementById("search-bar").value = "";
         document.getElementById("search-bar").blur();
         if(search==""){
+            document.getElementById('clearsearch').style.visibility = 'hidden';
             if(claimMode){
                 document.getElementById("imagedisplay").innerHTML="Your Claimed Images";
             }else{
                 document.getElementById("imagedisplay").innerHTML="All Images";
             }
         }else{
+            document.getElementById('clearsearch').style.visibility='visible';
             if(claimMode){
                 document.getElementById("imagedisplay").innerHTML="Claimed Search Results For: \"" + search + "\"";
             }else{
