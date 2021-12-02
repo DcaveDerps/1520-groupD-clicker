@@ -1,5 +1,90 @@
 
 {% extends '_base.html' %}
 {% block content %}
+<div id='content'>
+    <div class = "outer" id = 'outer'>    
+    <div class = 'line' id = 'line1'>
+        
+    </div>
+    </div>
 <h2>Welcome to the Clicker Game Website</h2>
+    <div class = "outer">
+    <div class = 'line' id = 'line2'>
+    
+    </div>
+    </div>
+</div>
+
+<script src="/s/ajaxRequests.js"></script>
+<script src = "/s/getTemplates.js"></script>
+<script>
+    var allTemplates = [];
+    var allImages = [];
+    winSize = 50*150;    
+    var left = 100000000;    
+
+    allTemplates = allTemplates.concat(getMuffins());
+
+    sendJsonRequest({}, '/getAllImages', function(result, targetUrl, params) {               
+        navCallback(result);
+        return result;
+    });
+
+    function navCallback(imgs){
+        allImages = imgs;
+        
+        genRandomImageLists();
+    } 
+
+    function genRandomImageLists(){
+        for(let i = 0;i<50;i++){
+            var new_div = document.createElement("div");
+            new_div.class = "ribbon";
+            new_div.style.textAlign='center';
+            new_img = document.createElement('img');
+            new_img.class = 'ribbonTemplate'
+            new_img.src = allTemplates[Math.floor(Math.random()*allTemplates.length)];
+            new_img.style.width = "120px";
+            new_img.style.height = "120px";            
+            new_div.appendChild(new_img);
+            new_img = document.createElement('img');
+            new_img.class = 'ribbonImage'
+            new_img.src = allImages[Math.floor(Math.random()*allImages.length)];
+            new_img.style.width = "120px";
+            new_img.style.height = "120px";      
+            new_div.appendChild(new_img);            
+            document.getElementById('line1').appendChild(new_div);
+
+            new_div = document.createElement("div");
+            new_div.class = "ribbon";
+            new_div.style.textAlign='center';
+            new_img = document.createElement('img');
+            new_img.class = 'ribbonTemplate'
+            new_img.src = allTemplates[Math.floor(Math.random()*allTemplates.length)];
+            new_img.style.width = "120px";
+            new_img.style.height = "120px";       
+            new_div.appendChild(new_img);
+            new_img = document.createElement('img');
+            new_img.class = 'ribbonImage'
+            new_img.src = allImages[Math.floor(Math.random()*allImages.length)];
+            new_img.style.width = "120px";
+            new_img.style.height = "120px";     
+            new_div.appendChild(new_img);            
+            document.getElementById('line2').appendChild(new_div);
+        }
+        setInterval(rotate, 50);
+
+    }
+
+    function rotate(){
+        if(winSize-left-document.getElementById('line1').clientWidth*2 - window.innerWidth<=0){
+            left = 0;
+            document.getElementById('line1').style.left = 0;
+            document.getElementById('line2').style.left = left-document.getElementById('line1').clientWidth*2 - window.innerWidth + 'px';
+        }
+        document.getElementById('line1').style.left = -left + 'px'
+        document.getElementById('line2').style.left = (left-document.getElementById('line1').clientWidth*2 - window.innerWidth) + 'px';
+        left+=1;
+    }    
+</script>
 {% endblock %}

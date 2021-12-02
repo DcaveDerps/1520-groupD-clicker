@@ -104,6 +104,7 @@
     </div>
 
     <script src="/s/ajaxRequests.js"></script>
+    <script src="/s/getTemplates.js"></script>
     <script>
         {% if user is defined %}
             let userObj = cleanAccountJson( {{ user|tojson }} );
@@ -135,8 +136,9 @@
 
             var search = userObj.saved_imgs;
 
-            for(let i = 1; i<15;i++){//muffin length               
-                createTemplateElement("/s/Muffins/Muffin-"+i+".png");        
+            let muffinList = getMuffins();
+            for(let i = 1; i<muffinList.length;i++){
+                createTemplateElement(muffinList[i]);
             }
 
             sendJsonRequest({'search':search}, '/getAllClaimedImages', function(result, targetUrl, params) {                

@@ -270,8 +270,16 @@ def resetSessionUser():
 """
 IMAGES
 """
-@app.route('/getAllClaimedImages',methods=['POST'])
+@app.route('/getAllImages',methods=['POST'])
 def getAllImages():
+    images = ds.get_all_img_entities()
+    urls = []
+    for image in images:
+        urls.append(image['url'])
+    return flask.Response(json.dumps(urls), mimetype='application/json')
+
+@app.route('/getAllClaimedImages',methods=['POST'])
+def getAllClaimedImages():
     search = flask.request.values['search']
     selections = search.split(',')
     return market.get_all_claimed_images(selections)

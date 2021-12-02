@@ -220,6 +220,22 @@ button:hover{
     opacity: .7;
 }
 
+.line{
+    position: relative;
+    display:flex;
+    flex-direction: row;
+    overflow: visible;
+}
+
+.outer{
+    overflow: hidden;
+    width: 100vw;    
+}
+
+.ribbon{
+    display:inline-block;
+}
+
 .clear{
     position:absolute;
     cursor: default;
