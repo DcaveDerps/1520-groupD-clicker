@@ -26,7 +26,7 @@ def create_account_entity(username):
     ds_client = get_datastore_client()
 
     key = ds_client.key('user_account', username) # id will be the given username
-    return datastore.Entity(key, exclude_from_indexes=["saved_imgs"]) #allows for more user imgs
+    return datastore.Entity(key, exclude_from_indexes=["saved_imgs","friend_list","sel_img","sel_template"]) #allows for more user imgs
 
 def create_img_entity(title,url,username):
     ds_client = get_datastore_client()
@@ -36,6 +36,10 @@ def create_img_entity(title,url,username):
     entity['title']=title
     entity['username']=username
     ds_client.put(entity)
+
+    tmp = get_user_account(username)
+    tmp['saved_imgs']+= ","+url
+    update_entity(tmp)
 
 def upload_img(title,img_file,username,width,height,top,left):
     gcs_client = storage.Client()
@@ -187,10 +191,11 @@ def remove_account_entity(id):
 
 # Returns the database Entity whose id is 'username'
 # Returns None if the Entity does not exist
-def get_user_account(username):
+def get_user_account(username): #for logging in
     ds_client = get_datastore_client()
     key = ds_client.key('user_account', username)
     return ds_client.get(key)
+
 
 #Get leaderboard list
 def get_leaderboard():

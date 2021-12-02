@@ -47,15 +47,23 @@
             
             <div class = "nav" id = "templateNav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav5()">&times;</a>
-                <strong>Template Selection</strong>
-                <div id = 'template-imgs'>  
+                <h3 style = "text-align: center"><strong>Template Selection</strong></h3>
+                <div>
+                <h4 style = "text-align: center"><strong>Muffins</strong></h4>                
+                <div id = 'template-muffins'>  
+
+                </div> 
+                <h4 style = "text-align: center"><strong>Cookies</strong></h4>
+                <div id = 'template-muffins'>  
 
                 </div>  
+                </div>
             </div>  
 
             <div class = "nav" id = "imageNav">
+                
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav6()">&times;</a>
-                <strong>Image Selection</strong>
+                <h3 style = "text-align: center"><strong>Image Selection</strong></h3>
                 <div id = 'user-imgs'>  
 
                 </div>  
@@ -84,8 +92,9 @@
 
             <div  class = "column" id = "gameArea" style='float:left; width:75%; margin-left:40px'>
                 <div id="test" draggable="true" ondragstart="drag(this.id,event);"> </div>                  
-                <div id="click-object">
-                    <img src="/s/click-object.png" onclick="inc()" alt="click object" height="256em" width="256em">
+                <div id="click-object">                    
+                    <img src="/s/click-object.png" id = "click-button" onclick="inc()" alt="click object" height="256em" width="256em">
+                    <img src="/s/click-object.png" id = "user-image" height="256em" width="256em">    
                 </div>
             </div>       
             
@@ -96,10 +105,12 @@
 
     <script src="/s/ajaxRequests.js"></script>
     <script>
-        
         {% if user is defined %}
             let userObj = cleanAccountJson( {{ user|tojson }} );
+            let chosenImage = "/s/click-object.png";
+            let chosenTemplate = "/s/click-object.png";
 
+            
             // check if user gained collectibles offline
             if (userObj.left_game > 0) {
                 // do calculations
@@ -119,42 +130,134 @@
             setInterval(addCPSLocal, 1000);
             setInterval(saveAndUpdateLocal, 10000);
 
+            document.getElementById("user-image").style.top = document.getElementById("click-button").style.top;
+            document.getElementById("user-image").style.left = document.getElementById("click-button").style.left;
+
             var search = userObj.saved_imgs;
+
+            for(let i = 1; i<15;i++){//muffin length               
+                createTemplateElement("/s/Muffins/Muffin-"+i+".png");        
+            }
 
             sendJsonRequest({'search':search}, '/getAllClaimedImages', function(result, targetUrl, params) {                
                 navCallback(result);
                 return result;
             });
             
+            function createTemplateElement(src){
+                    var new_div = document.createElement("div");
+                    new_div.id = "div " + src;
+                    new_div.style.textAlign='center';
+                    new_img = document.createElement('img');
+                    new_img.id = "template " + src;
+                    new_img.src = src;
+                    new_img.style.width = "110px";
+                    new_img.style.height = "110px";
+                    new_img.name = 'unchosen'
+                    new_img.onclick = function(){addOrRemove(this.id,"template")};
+                    new_div.appendChild(new_img);
+                    document.getElementById('template-muffins').appendChild(new_div);
+            }
+            
             function navCallback(imgs){
-                for(let i = 0; i<imgs.length;i++){                  
+                if(imgs.length==1){
+                    var new_div = document.createElement("div");
+                    new_div.id = 'ImgFailure';
+                    var new_p = document.createElement("p");
+                    new_p.innerHTML = 'No Images Found';
+                    new_div.appendChild(new_p);
+                    document.getElementById('user-imgs').appendChild(new_div);
+                    selectionsOnStart();
+                    return;
+                }
+                for(let i = 0; i<imgs.length;i++){                 
                     if(imgs[i].url=="EOI"){ 
-                        if(i==0){
-                            var new_div = document.createElement("div");
-                            new_div.id = 'ImgFailure';
-                            var new_p = document.createElement("p");
-                            new_p.innerHTML = 'No Images Found';
-                            new_div.appendChild(new_p);
-                            document.getElementById('user_imgs').appendChild(new_div);
-                        }
+                        selectionsOnStart();
                         return;
                     }
                     var new_div = document.createElement("div");
                     new_div.id = "div " + imgs[i].url;
+                    new_div.style.textAlign='center';
                     var new_p = document.createElement("p");
                     new_p.innerHTML = imgs[i].title;
                     new_p.style.textAlign="center";
                     new_img = document.createElement('img');
                     new_img.id = "img " + imgs[i].url;
                     new_img.src = imgs[i].url;
-                    new_img.style.width = "100px";
-                    new_img.style.height = "100px";
-                    new_img.style.textAlign="center";
+                    new_img.style.width = "110px";
+                    new_img.style.height = "110px";
+                    new_img.name = 'unchosen'
+                    new_img.onclick = function(){addOrRemove(this.id,"image")};
                     new_div.appendChild(new_p);
                     new_div.appendChild(new_img);
                     document.getElementById('user-imgs').appendChild(new_div);
                 }
-            }            
+
+            } 
+
+            function selectionsOnStart(){
+                if(userObj.sel_img!=null&&userObj.sel_img!=""){
+                    var imgStr = userObj.sel_img;
+                    chosenImage = imgStr;
+                document.getElementById('user-image').src=imgStr;
+                if(document.getElementById("img "+imgStr)!=null){
+                    document.getElementById("img "+imgStr).style.border = "thick solid green";
+                    document.getElementById("img "+imgStr).name = 'chosen';
+                }
+            }
+            if(userObj.sel_template!=null&&userObj.sel_template!=""){
+                var imgStr = userObj.sel_template;
+                    chosenTemplate = imgStr;
+                document.getElementById('click-button').src=imgStr;
+                if(document.getElementById("template "+imgStr)!=null){
+                    document.getElementById("template "+imgStr).style.border = "thick solid green";
+                    document.getElementById("template "+imgStr).name = 'chosen';
+                }
+            }
+            }
+            
+            function addOrRemove(id,type){
+                if(document.getElementById(id).name=="unchosen"){
+                    document.getElementById(id).style.border = "thick solid green";
+                    document.getElementById(id).name = 'chosen';
+                    if(type=="image"){
+                        if(document.getElementById("img " + chosenImage)){
+                            document.getElementById("img " + chosenImage).name = "unchosen"
+                            document.getElementById("img " + chosenImage).style.border = "thick none green";
+                        }
+                        document.getElementById('user-image').src = id.substring(4);
+                        chosenImage = id.substring(4);
+                    }else if(type=="template"){
+                        if(document.getElementById("template " + chosenTemplate)){
+                            document.getElementById("template " + chosenTemplate).name = "unchosen"
+                            document.getElementById("template " + chosenTemplate).style.border = "thick none green";
+                        }
+                        document.getElementById('click-button').src = id.substring(9);
+                        chosenTemplate = id.substring(9);
+                    }
+                    
+                }else{
+                    document.getElementById(id).style.border = "thick none green";
+                    document.getElementById(id).name = 'unchosen';
+                    if(type=="image"){
+                        document.getElementById('user-image').src = "/s/click-object.png";
+                        chosenImage = "";
+                    }else if(type=="template"){
+                        document.getElementById('click-button').src = "/s/click-object.png";
+                        chosenTemplate = "";
+                    }
+                }
+                sel(type);
+            }
+
+            function sel(type){
+                if(type=="image"){
+                    userObj.sel_img=chosenImage;
+                }else if(type=="template"){
+                    userObj.sel_template=chosenTemplate;
+                }    
+                saveAndUpdateLocal(userObj);
+            };        
 
         {% else %}
             let count = 0;

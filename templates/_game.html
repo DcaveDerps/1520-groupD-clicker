@@ -30,13 +30,7 @@
 
         {% block content %} {% endblock %}
         <!-- My totally inefficient way to space stuff out-->
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
+
         <p></p>
         <p></p>
         <p></p>
@@ -74,14 +68,16 @@
             </div>
         </div>  
 
-        <br><br><br>
+        <br>
         {% if user is defined %}
+        <div class = "buttons">        
         <a><button class="gamePageFactoryButton" id="somethingTreeBuyButton" type="button" onclick="buyFactoryLocal(0)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>
         <a><button class="gamePageFactoryButton" id="3DPrinterBuyButton" type="button" onclick="buyFactoryLocal(1)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>   
         <a><button class="gamePageFactoryButton" id="assemblyLineBuyButton" type="button" onclick="buyFactoryLocal(2)" value="Assembly Line - 100c">Assembly Line - 100c</button></a>
         <!--<input type="button" onclick="getAccountJson(userObj.uname)" value="test getUserJson"></input>-->
         <!--<input type="button" onclick="updateAccountFromJson(userObj)" value="test updateAccountFromJson"></input> -->
         <!--<input type="button" onclick="addCPS(userObj.uname)" value="test addCPS"></input>-->
+        </div>
         {% endif %}
     
     </body>

@@ -117,7 +117,8 @@ def handle_upload_img():
     top = int(flask.request.form.get('hidden-top'))
     left = int(flask.request.form.get('hidden-left'))
 
-    ds.upload_img(title,img_file,session['username'],w,h,-top,-left)    
+    ds.upload_img(title,img_file,session['username'],w,h,-top,-left) 
+
 
     #TODO: MAKE UPLOAD DISPLAY AN IMAGE WITH SUCCESS AND AUTO CLAIM
     #      MAKE CLEAR SEARCH BUTTON    
@@ -158,6 +159,8 @@ def handle_create_account_request():
     new_user['friend_list'] = ''
     new_user['collectible_label_s'] = 'Collectible'
     new_user['collectible_label_p'] = 'Collectibles'
+    new_user['sel_img'] = ''
+    new_user['sel_template'] = ''
     session['username'] = user_name
 
     print('Created the entity')
