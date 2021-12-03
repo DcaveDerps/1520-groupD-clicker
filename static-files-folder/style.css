@@ -96,7 +96,7 @@ button:hover{
 
 #user-image{
     position:absolute;
-    border-radius: 60px;
+    border-radius: 50px;
     z-index: 0;
 }
 
@@ -245,7 +245,7 @@ button:hover{
 }
 
 .outer{
-    overflow: hidden;
+    overflow: hidden;    
     width: 100vw;   
 }
 
