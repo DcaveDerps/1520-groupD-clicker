@@ -23,8 +23,8 @@ def root():
     # Commenting this out for now, since we have a log out button now
     # session.pop('username',None)
     if 'username' in session:
-        return flask.render_template('/index.html', page_title='Homepage',user = ds.get_user_account(session['username']))
-    return flask.render_template('/index.html', page_title='Homepage')
+        return flask.render_template('/index.html', page_title='Boulangerie',user = ds.get_user_account(session['username']))
+    return flask.render_template('/index.html', page_title='Boulangerie')
 
 @app.route('/game')
 @app.route('/game.html')
@@ -92,9 +92,14 @@ def visit_user(visit_user_name=''):
             return flask.render_template('visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=session_user)
         return flask.render_template('/visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=session_user)
     
+    template = '/s/Null_Template.png'    
+    tmp = game.getAccountDict(visit_user_name)
+    if tmp['sel_template']!='':
+        template=tmp['sel_template']
+
     if session_user != None:
-        return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name), user = session_user)
-    return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name), user=session_user)
+        return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name), user = session_user,template=template)
+    return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name), user=session_user,template=template)
 
 @app.route('/upload-image', methods=['POST'])
 def handle_upload_img():
@@ -117,7 +122,10 @@ def handle_upload_img():
     top = int(flask.request.form.get('hidden-top'))
     left = int(flask.request.form.get('hidden-left'))
 
-    ds.upload_img(title,img_file,session['username'],w,h,-top,-left) 
+    if 'gif' in img_file.content_type.lower():
+        ds.upload_gif(title,img_file,session['username'])
+    else:    
+        ds.upload_img(title,img_file,session['username'],w,h,-top,-left) 
 
 
     #TODO: MAKE UPLOAD DISPLAY AN IMAGE WITH SUCCESS AND AUTO CLAIM

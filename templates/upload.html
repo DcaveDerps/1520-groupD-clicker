@@ -77,6 +77,7 @@
             var mouseID = -1;
             var hasImg = false;
             var hasTitle = false;
+            var isGif = false;
 
             if(initW>initH){
                 ratio = initW/initH;                
@@ -119,6 +120,11 @@
             }
 
             function setImage(toLoad){
+                let name = toLoad.files[0].name;
+                name = name.substring(name.length-3);
+                if(name=="gif"){
+                    isGif = true;
+                }
                 document.getElementById('img-cropper1').src = URL.createObjectURL(toLoad.files[0]);
 
                 var image = new Image();
@@ -178,6 +184,19 @@
 
                 document.getElementById('elev').disabled = true;
                 document.getElementById('side').disabled = true;
+            }
+            if(isGif){
+                ratio = 1;
+                initH = 500;
+                document.getElementById('img-cropper1').height = 500;
+                initW = 500;
+                document.getElementById('img-cropper1').width = 500;
+                document.getElementById('side').max = initW-500;
+                document.getElementById('elev').max = initH-500;
+                
+                    document.getElementById('sz').disabled = true;
+                    document.getElementById('elev').disabled = true;
+                    document.getElementById('side').disabled = true;
             }
                 }
                 hasImg = true;

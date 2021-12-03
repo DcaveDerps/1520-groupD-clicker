@@ -7,7 +7,13 @@
         
     </div>
     </div>
-<h2>Welcome to the Clicker Game Website</h2>
+    <div class = 'scores'>
+
+    </div>
+    <h2>Bienvenue!</h2>
+    <div class = 'scores'>
+ 
+    </div>
     <div class = "outer">
     <div class = 'line' id = 'line2'>
     
@@ -18,10 +24,12 @@
 <script src="/s/ajaxRequests.js"></script>
 <script src = "/s/getTemplates.js"></script>
 <script>
-    var allTemplates = [];
+    var allTemplates = ['/s/Null_Template.png'];
     var allImages = [];
-    winSize = 50*150;    
-    var left = 100000000;    
+    winSize = 100*120;    
+    var left = 100000000; 
+    var rect = document.getElementById('outer').getBoundingClientRect();  
+    var right = parseInt(rect.right);
 
     allTemplates = allTemplates.concat(getMuffins());
 
@@ -37,38 +45,40 @@
     } 
 
     function genRandomImageLists(){
-        for(let i = 0;i<50;i++){
+        for(let i = 0;i<100;i++){
             var new_div = document.createElement("div");
-            new_div.class = "ribbon";
+            new_div.className = "ribbon";
             new_div.style.textAlign='center';
             new_img = document.createElement('img');
-            new_img.class = 'ribbonTemplate'
+            new_img.className = 'ribbonTemplate'
             new_img.src = allTemplates[Math.floor(Math.random()*allTemplates.length)];
             new_img.style.width = "120px";
             new_img.style.height = "120px";            
             new_div.appendChild(new_img);
             new_img = document.createElement('img');
-            new_img.class = 'ribbonImage'
+            new_img.className = 'ribbonImage'
             new_img.src = allImages[Math.floor(Math.random()*allImages.length)];
             new_img.style.width = "120px";
-            new_img.style.height = "120px";      
+            new_img.style.height = "120px";  
+            new_img.style.borderRadius = "40px";    
             new_div.appendChild(new_img);            
             document.getElementById('line1').appendChild(new_div);
 
             new_div = document.createElement("div");
-            new_div.class = "ribbon";
+            new_div.className = "ribbon";
             new_div.style.textAlign='center';
             new_img = document.createElement('img');
-            new_img.class = 'ribbonTemplate'
+            new_img.className = 'ribbonTemplate'
             new_img.src = allTemplates[Math.floor(Math.random()*allTemplates.length)];
             new_img.style.width = "120px";
             new_img.style.height = "120px";       
             new_div.appendChild(new_img);
             new_img = document.createElement('img');
-            new_img.class = 'ribbonImage'
+            new_img.className = 'ribbonImage'
             new_img.src = allImages[Math.floor(Math.random()*allImages.length)];
             new_img.style.width = "120px";
-            new_img.style.height = "120px";     
+            new_img.style.height = "120px"; 
+            new_img.style.borderRadius = "40px";     
             new_div.appendChild(new_img);            
             document.getElementById('line2').appendChild(new_div);
         }
@@ -77,14 +87,16 @@
     }
 
     function rotate(){
-        if(winSize-left-document.getElementById('line1').clientWidth*2 - window.innerWidth<=0){
+        rect = document.getElementById('outer').getBoundingClientRect();  
+        right = parseInt(rect.right);
+        if((-left+winSize)<=document.getElementById('outer').clientWidth*2){
             left = 0;
             document.getElementById('line1').style.left = 0;
-            document.getElementById('line2').style.left = left-document.getElementById('line1').clientWidth*2 - window.innerWidth + 'px';
+            document.getElementById('line2').style.right = right*2-winSize;
         }
         document.getElementById('line1').style.left = -left + 'px'
-        document.getElementById('line2').style.left = (left-document.getElementById('line1').clientWidth*2 - window.innerWidth) + 'px';
-        left+=1;
+        document.getElementById('line2').style.left = -winSize+left+right*2 + 'px';
+        left+=5;
     }    
 </script>
 {% endblock %}

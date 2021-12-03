@@ -113,6 +113,16 @@ button:hover{
     height: 280px;
 }
 
+.ribbonImage{
+    position: absolute;
+    top:0;
+    z-index: -1;
+}
+
+.ribbonTemplate{
+    z-index:4;
+}
+
 
 .error{
     color: red;
@@ -227,9 +237,16 @@ button:hover{
     overflow: visible;
 }
 
+#content{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5vh;
+}
+
 .outer{
     overflow: hidden;
-    width: 100vw;    
+    width: 100vw;   
 }
 
 .ribbon{

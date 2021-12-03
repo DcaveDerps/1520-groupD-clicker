@@ -93,7 +93,7 @@
             <div  class = "column" id = "gameArea" style='float:left; width:75%; margin-left:40px'>
                 <div id="test" draggable="true" ondragstart="drag(this.id,event);"> </div>                  
                 <div id="click-object">                    
-                    <img src="/s/click-object.png" id = "click-button" onclick="inc()" alt="click object" height="256em" width="256em">
+                    <img src="/s/Null_Template.png" id = "click-button" onclick="inc()" alt="click object" height="256em" width="256em">
                     <img src="/s/click-object.png" id = "user-image" height="256em" width="256em">    
                 </div>
             </div>       
@@ -109,7 +109,7 @@
         {% if user is defined %}
             let userObj = cleanAccountJson( {{ user|tojson }} );
             let chosenImage = "/s/click-object.png";
-            let chosenTemplate = "/s/click-object.png";
+            let chosenTemplate = "/s/Null_Template.png";
 
             
             // check if user gained collectibles offline
@@ -245,7 +245,7 @@
                         document.getElementById('user-image').src = "/s/click-object.png";
                         chosenImage = "";
                     }else if(type=="template"){
-                        document.getElementById('click-button').src = "/s/click-object.png";
+                        document.getElementById('click-button').src = "/s/Null_Template.png";
                         chosenTemplate = "";
                     }
                 }
