@@ -169,7 +169,7 @@
                 }
             }
 
-            
+
 
             
             // check if user gained collectibles offline
@@ -228,11 +228,17 @@
             
             function navCallback(imgs){
                 if(imgs.length==1){
+                    document.getElementById('user-imgs').style.justifyContent = 'center';
                     var new_div = document.createElement("div");
                     new_div.id = 'ImgFailure';
                     var new_p = document.createElement("p");
                     new_p.innerHTML = 'No Images Found';
                     new_div.appendChild(new_p);
+                    var new_link = document.createElement("a");
+                    new_link.innerHTML = 'Visit the Marketplace!';
+                    new_link.href = '/marketplace';
+                    new_link.id = 'm-link';
+                    new_div.appendChild(new_link);
                     document.getElementById('user-imgs').appendChild(new_div);
                     selectionsOnStart();
                     return;

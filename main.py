@@ -97,9 +97,13 @@ def visit_user(visit_user_name=''):
     if tmp['sel_template']!='':
         template=tmp['sel_template']
 
+    img = '/s/click-object.png'
+    if tmp['sel_img']!='':
+        img=tmp['sel_img']
+
     if session_user != None:
-        return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name), user = session_user,template=template,colors=tmp['colors'])
-    return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name), user=session_user,template=template,colors=tmp['colors'])
+        return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name), user = session_user,image=img,template=template,colors=tmp['colors'])
+    return flask.render_template('/visit.html', page_title=f'Visiting {visit_user_name}\'s Page', visiting=game.getAccountDict(visit_user_name), user=session_user,image=img,template=template,colors=tmp['colors'])
 
 @app.route('/upload-image', methods=['POST'])
 def handle_upload_img():

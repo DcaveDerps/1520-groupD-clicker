@@ -294,6 +294,16 @@ button:hover{
     opacity: .7;
 }
 
+#m-link{
+    font-size: 50px;
+    font-weight: 500; 
+    color: #fff;  
+}
+
+#m-link:hover{
+    color: lightblue; 
+}
+
 .arrow{
     position: fixed;
     cursor: default;
@@ -324,7 +334,18 @@ button:hover{
     justify-content: center;
 }
 
+.visit-links{
+    color: lightseagreen;
+    text-decoration: none;
+}
+
+.visit-links:hover{
+    font-weight: bold;
+    color: lightblue;
+}
+
 body {
+    overflow-y:scroll;
     background-color: lightblue;  
     font-family: Helvetica, sans-serif;
 }
