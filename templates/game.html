@@ -53,6 +53,10 @@
                 <div class='innerNav' id = 'template-muffins'>  
 
                 </div> 
+                <h4 style = "text-align: center"><strong>Cupcakes</strong></h4>
+                <div class='innerNav' id = 'template-cupcakes'>  
+
+                </div> 
                 <h4 style = "text-align: center"><strong>Cookies</strong></h4>
                 <div class='innerNav' id = 'template-cookies'>  
 
@@ -191,8 +195,13 @@
             var search = userObj.saved_imgs;
 
             let muffinList = getMuffins();
-            for(let i = 1; i<muffinList.length;i++){
-                createTemplateElement(muffinList[i]);
+            for(let i = 0; i<muffinList.length;i++){
+                createTemplateElement(muffinList[i],'template-muffins');
+            }
+
+            let cupcakeList = getCupcakes();
+            for(let i = 0; i<cupcakeList.length;i++){
+                createTemplateElement(cupcakeList[i],'template-cupcakes');
             }
 
             sendJsonRequest({'search':search}, '/getAllClaimedImages', function(result, targetUrl, params) {                
@@ -200,7 +209,7 @@
                 return result;
             });
             
-            function createTemplateElement(src){
+            function createTemplateElement(src,dest){
                     var new_div = document.createElement("div");
                     new_div.id = "div " + src;
                     new_div.style.textAlign='center';
@@ -212,7 +221,7 @@
                     new_img.name = 'unchosen'
                     new_img.onclick = function(){addOrRemove(this.id,"template")};
                     new_div.appendChild(new_img);
-                    document.getElementById('template-muffins').appendChild(new_div);
+                    document.getElementById(dest).appendChild(new_div);
             }
             
             function navCallback(imgs){

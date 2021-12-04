@@ -32,6 +32,7 @@
     var right = parseInt(rect.right);
 
     allTemplates = allTemplates.concat(getMuffins());
+    allTemplates = allTemplates.concat(getCupcakes());
 
     sendJsonRequest({}, '/getAllImages', function(result, targetUrl, params) {               
         navCallback(result);

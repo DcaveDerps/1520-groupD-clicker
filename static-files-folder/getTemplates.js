@@ -5,3 +5,11 @@ function getMuffins(){
     }
     return mList;
 }
+
+function getCupcakes(){
+    let mList = [];
+    for(let i = 1; i<15;i++){//cupcake length               
+        mList.push("/s/Cupcakes/Cupcake-"+i+".png");        
+    }
+    return mList;
+}

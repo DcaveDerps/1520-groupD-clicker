@@ -79,7 +79,7 @@ button:hover{
     padding-right: 20px;
 }
 
-#template-muffins{
+#template-muffins,#template-cupcakes,#template-cookies{
     display:flex; 
     justify-content: left;
     gap: 20px;
@@ -96,7 +96,7 @@ button:hover{
 
 #user-image{
     position:absolute;
-    border-radius: 50px;
+    border-radius: 55px;
     z-index: 0;
 }
 
