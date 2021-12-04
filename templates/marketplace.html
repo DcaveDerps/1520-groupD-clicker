@@ -12,16 +12,17 @@
             <div class = "centered">
             <p id = "inputElement">Search in Global Images:&nbsp;</p><input id="search-bar" type="text" name="search" style="width:50%">
             <input type="Submit">
+            <span id = 'clear-info' class = 'clear-info'>Clear Search</span>
+            <span id = 'clearsearch' name = "vis"  class = 'clear' onclick = "clearSearch()" onmouseover="iconHover(this.id)" onmouseout="clearIconHover(this.id)">&times;</span>   
+        
             </div>
         </form>
         {% if user is defined %}
         <div class = 'mode'>
         <image id = 'mode-changer' name = "Global" src = '/s/Global.png' onclick="switchMode(this.id)" onmouseover = 'iconHover(this.id)' onmouseout="clearIconHover(this.id)">
         <p id = 'mode-info' class = 'mode-info'>View Claimed Images Only</p>
-        <p id = 'clear-info' class = 'clear-info'>Clear Search</p>
-        <p id = 'clearsearch' name = "vis"  class = 'clear' onclick = "clearSearch()" onmouseover="iconHover(this.id)" onmouseout="clearIconHover(this.id)">&times;</p>
         </div>
-        {% endif %}      
+        {% endif %}   
         <br>
         <div id = "images" class = "img-container">            
             <div id = "div template" class = "img" style = "display:none">
@@ -36,6 +37,7 @@
             </div>
             
         </div>
+        <a id = 'to-top' class = 'arrow' href = "#topOfPage">^</a>
 
         <script src="/s/ajaxRequests.js"></script>
         <script src = "/s/marketHandling.js"></script>
@@ -66,6 +68,12 @@
             }else{
                 grabNextXSearch(searchLen,search);
             }
+        }
+
+        if(window.scrollY-200>0){
+            document.getElementById('to-top').style.visibility='visible';
+        }else{
+            document.getElementById('to-top').style.visibility='hidden';
         }
         });
 
