@@ -169,6 +169,7 @@ def handle_create_account_request():
     new_user['collectible_label_p'] = 'Collectibles'
     new_user['sel_img'] = ''
     new_user['sel_template'] = ''
+    new_user['colors'] = '#-#-#-#-#'
     session['username'] = user_name
 
     print('Created the entity')

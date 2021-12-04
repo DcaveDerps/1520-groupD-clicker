@@ -1,5 +1,6 @@
 from google.cloud import datastore
-import datetime
+import time
+import math
 from google.cloud import storage
 from PIL import Image
 from io import BytesIO
@@ -205,9 +206,23 @@ def get_user_account(username): #for logging in
     key = ds_client.key('user_account', username)
     return ds_client.get(key)
 
+def update_all_users():
+    ds_client = get_datastore_client()
+    query = ds_client.query(kind='user_account')
+    now = int(time.mktime(time.gmtime()));
+    for acc in query.fetch():
+        user_time = math.floor(acc['left_game']/1000);
+        if user_time>0:
+            acc['collectibles'] = acc['collectibles'] + (now-user_time)*acc['cps']
+            acc['left_game'] = now*1000
+            update_entity(acc)
+
+
+
 
 #Get leaderboard list
 def get_leaderboard():
+    update_all_users()
     results = []
     client = get_datastore_client()
     query = client.query(kind="user_account")
