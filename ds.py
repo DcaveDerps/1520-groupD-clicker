@@ -45,6 +45,8 @@ def upload_img(title,img_file,username,width,height,top,left):
     gcs_client = storage.Client()
     bucket = gcs_client.get_bucket('1520-img-bucket')
     img = Image.open(img_file)
+    img = img.resize((width,height))
+    img = img.crop((left,top,left+500,top+500))    
     c_type = (img_file.content_type).split('/')[-1]
     blob = bucket.blob(img_file.filename)
 

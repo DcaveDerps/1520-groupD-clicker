@@ -271,6 +271,7 @@ button:hover{
 
 .clear{
     position:absolute;
+    visibility: hidden;
     cursor: default;
     color: #000;
     bottom: -10%;
