@@ -50,11 +50,11 @@
                 <h3 style = "text-align: center"><strong>Template Selection</strong></h3>
                 <div>
                 <h4 style = "text-align: center"><strong>Muffins</strong></h4>                
-                <div id = 'template-muffins'>  
+                <div class='innerNav' id = 'template-muffins'>  
 
                 </div> 
                 <h4 style = "text-align: center"><strong>Cookies</strong></h4>
-                <div id = 'template-muffins'>  
+                <div class='innerNav' id = 'template-cookies'>  
 
                 </div>  
                 </div>
@@ -64,9 +64,39 @@
                 
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav6()">&times;</a>
                 <h3 style = "text-align: center"><strong>Image Selection</strong></h3>
-                <div id = 'user-imgs'>  
+                <div class='innerNav' id = 'user-imgs'>  
 
                 </div>  
+            </div> 
+
+            <div class = "nav" id = "colorPicker">
+                
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav7()">&times;</a>
+                <h3 style = "text-align: center"><strong>Color Selection</strong></h3>
+                <div id = 'color-pickers'>
+                    <div class = 'color-box'>
+                        <p>Background</p>                      
+                        <input id = 'bg' oninput="changeColor(this.id)" type="color" class = 'color-box'>
+                    </div>
+                    <div class = 'color-box'>
+                        <p>Game Space</p>
+                        <input id = 'gs' oninput="changeColor(this.id)" type="color" class = 'color-box'>
+                    </div>
+                    <div class = 'color-box'>
+                        <p>Ribbons</p>
+                        <input id = 'r' oninput="changeColor(this.id)" type="color" class = 'color-box'>
+                    </div>
+                    <div class = 'color-box'>
+                        <p>Sidebar</p>
+                        <input id = 's' oninput="changeColor(this.id)" type="color" class = 'color-box'>
+                    </div>
+                    <div class = 'color-box'>
+                        <p>Navigation</p>
+                        <input id = 'n' oninput="changeColor(this.id)" type="color" class = 'color-box'>
+                    </div>
+                </div>  
+                <br><br>
+                <input onclick="resetColors()" id = 'resetColors', type = 'button' value = 'Reset' class = 'color-reset'></div>                
             </div>  
 
             <div class = "column" style='float:left; width:10%'>
@@ -82,11 +112,14 @@
                 <div class = "box" id = "4" onclick="openNav4()">
                     <span style="font-size:20px;cursor:pointer;">Collectible</span>
                 </div>
-                <div class = "box" id = "4" onclick="openNav5()">
+                <div class = "box" id = "5" onclick="openNav5()">
                     <span style="font-size:20px;cursor:pointer;">Template</span>
                 </div>
-                <div class = "box" id = "4" onclick="openNav6()">
+                <div class = "box" id = "6" onclick="openNav6()">
                     <span style="font-size:20px;cursor:pointer;">Image</span>
+                </div>
+                <div class = "box" id = "7" onclick="openNav7()">
+                    <span style="font-size:20px;cursor:pointer;">Color</span>
                 </div>
             </div>
 
@@ -110,6 +143,15 @@
             let userObj = cleanAccountJson( {{ user|tojson }} );
             let chosenImage = "/s/click-object.png";
             let chosenTemplate = "/s/Null_Template.png";
+            
+            let colors = userObj.colors.split('-');
+            let variations = ['bg','gs','r','s','n'];
+
+            for(let i = 0;i<colors.length;i++){
+                if(colors[i]!="#"){
+                    changeColorStart(variations[i],colors[i])
+                }
+            }
 
             
             // check if user gained collectibles offline
@@ -261,7 +303,133 @@
                     userObj.sel_template=chosenTemplate;
                 }    
                 saveAndUpdateLocal(userObj);
-            };        
+            };   
+            
+            function changeColor(id){
+                var c = document.getElementById(id).value;
+                if(id=='bg'){
+                    var items = document.querySelectorAll("body");
+                    for(let i = 0; i<items.length;i++){
+                        items[i].style.backgroundColor = c;
+                    }
+                    colors[0] = c;
+                }else if(id=='gs'){
+                    document.getElementById("gameArea").style.backgroundColor = c;
+                    colors[1] = c;
+                }else if(id=='r'){
+                    var items = document.querySelectorAll("div.nav");
+                    for(let i = 0; i<items.length;i++){
+                        items[i].style.backgroundColor = c;
+                    }
+                    colors[2] = c;
+                    c = c.replace('1','0');
+                    c = c.replace('2','0');
+                    c = c.replace('3','1');
+                    c = c.replace('4','2');
+                    c = c.replace('5','3');
+                    c = c.replace('6','4');
+                    c = c.replace('7','5');
+                    c = c.replace('8','6');
+                    c = c.replace('9','7');
+                    c = c.replace('a','8');
+                    c = c.replace('b','9');
+                    c = c.replace('c','a');
+                    c = c.replace('d','b');
+                    c = c.replace('e','c');
+                    c = c.replace('f','d');
+
+                    var items = document.querySelectorAll("div.innerNav");
+                    for(let i = 0; i<items.length;i++){
+                        items[i].style.backgroundColor = c;
+                    }
+                                        
+                }else if(id=='s'){
+                    var items = document.querySelectorAll("div.box");
+                    for(let i = 0; i<items.length;i++){
+                        items[i].style.backgroundColor = c;
+                    }
+                    colors[3] = c;
+                }else if(id=='n'){
+                    document.getElementById("topOfPage").style.backgroundColor = c;
+                    colors[4] = c;
+                }
+                
+            }
+
+            function changeColorStart(id,c){
+                if(id=='bg'){
+                    var items = document.querySelectorAll("body");
+                    for(let i = 0; i<items.length;i++){
+                        items[i].style.backgroundColor = c;
+                    }
+                    document.getElementById(id).value=c;                    
+                }else if(id=='gs'){
+                    document.getElementById("gameArea").style.backgroundColor = c;
+                    document.getElementById(id).value=c;
+                }else if(id=='r'){
+                    var items = document.querySelectorAll("div.nav");
+                    for(let i = 0; i<items.length;i++){
+                        items[i].style.backgroundColor = c;
+                    }
+                    document.getElementById(id).value=c;
+                    c = c.replace('1','0');
+                    c = c.replace('2','0');
+                    c = c.replace('3','1');
+                    c = c.replace('4','2');
+                    c = c.replace('5','3');
+                    c = c.replace('6','4');
+                    c = c.replace('7','5');
+                    c = c.replace('8','6');
+                    c = c.replace('9','7');
+                    c = c.replace('a','8');
+                    c = c.replace('b','9');
+                    c = c.replace('c','a');
+                    c = c.replace('d','b');
+                    c = c.replace('e','c');
+                    c = c.replace('f','d');
+
+                    var items = document.querySelectorAll("div.innerNav");
+                    for(let i = 0; i<items.length;i++){
+                        items[i].style.backgroundColor = c;
+                    }
+                                        
+                }else if(id=='s'){
+                    var items = document.querySelectorAll("div.box");
+                    for(let i = 0; i<items.length;i++){
+                        items[i].style.backgroundColor = c;
+                    }
+                    document.getElementById(id).value=c;
+                }else if(id=='n'){
+                    document.getElementById("topOfPage").style.backgroundColor = c;
+                    document.getElementById(id).value=c;
+                }
+                
+            }
+
+            function resetColors(){
+                var items = document.querySelectorAll("body");
+                for(let i = 0; i<items.length;i++){
+                    items[i].style.backgroundColor = 'lightblue';
+                }
+                document.getElementById("gameArea").style.backgroundColor = 'lightblue';
+                items = document.querySelectorAll("div.nav");
+                for(let i = 0; i<items.length;i++){
+                    items[i].style.backgroundColor = 'rgb(94, 122, 115)';
+                }
+
+                items = document.querySelectorAll("div.innerNav");
+                for(let i = 0; i<items.length;i++){
+                    items[i].style.backgroundColor = '#213458';
+                }
+                items = document.querySelectorAll("div.box");
+                for(let i = 0; i<items.length;i++){
+                    items[i].style.backgroundColor = 'rgba(89, 155, 152, 0.801)';
+                }
+                document.getElementById("topOfPage").style.backgroundColor = '#58727f';
+                for(let i = 0; i<colors.length;i++){
+                    colors[i] = '#';
+                }
+            }
 
         {% else %}
             let count = 0;
@@ -270,6 +438,12 @@
         function saveAndUpdateLocal(){
             //updateAccountFromJson(userObj); < deprecated
             // convert the JSON into a string, sendBeacon doesn't take JSON objects
+            let tmp = ''
+            for(let i = 0; i<colors.length;i++){
+                tmp = tmp + '-' + colors[i];
+            }
+            tmp = tmp.substring(1);
+            userObj.colors = tmp;
             let userStr = JSON.stringify(userObj);
             // sendBeacon makes a POST request, but tells the browser to make it whenever it can
             // Allows the POST request to be sent even if the page that requested it isn't loaded
@@ -434,6 +608,14 @@
 
             function closeNav6() {
                 document.getElementById("imageNav").style.width = "0";
+            }
+
+            function openNav7() {
+                document.getElementById("colorPicker").style.width = "100%";
+            }
+
+            function closeNav7() {
+                document.getElementById("colorPicker").style.width = "0";
             }
 
             function updateCollectionLabel() {

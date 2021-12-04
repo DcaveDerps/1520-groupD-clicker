@@ -59,13 +59,18 @@
     </div>
     {% endif %}
     <script>
-        function createRedirectURL(){
-            let newUrl = document.getElementById('userSearch').value;
-            console.log(newUrl);
-            window.location.href=newUrl;
-        }
 
         {% if visiting %}
+        cols = "{{ colors }}";         
+        let colors = cols.split('-');
+        
+        let variations = ['bg','gs','r','s','n'];
+
+        for(let i = 0;i<colors.length;i++){
+            if(colors[i]!="#"){
+                changeColorStart(variations[i],colors[i])
+            }
+        }
 
         let count = {{visiting['collectibles']}} + (Math.floor((Date.now() - {{visiting['left_game']}}) / 1000) * {{visiting['cps']}});
         
@@ -75,7 +80,57 @@
 
         setInterval(function() { count = count + {{visiting['cps']}}; document.getElementById("total").textContent = count.toLocaleString(); }, 1000);
 
+        function changeColorStart(id,c){
+                if(id=='bg'){
+                    var items = document.querySelectorAll("body");
+                    for(let i = 0; i<items.length;i++){
+                        items[i].style.backgroundColor = c;
+                    }
+                }else if(id=='gs'){
+                    document.getElementById("gameArea").style.backgroundColor = c;
+                }else if(id=='r'){
+                    var items = document.querySelectorAll("div.nav");
+                    for(let i = 0; i<items.length;i++){
+                        items[i].style.backgroundColor = c;
+                    }
+
+                    c = c.replace('1','0');
+                    c = c.replace('2','0');
+                    c = c.replace('3','1');
+                    c = c.replace('4','2');
+                    c = c.replace('5','3');
+                    c = c.replace('6','4');
+                    c = c.replace('7','5');
+                    c = c.replace('8','6');
+                    c = c.replace('9','7');
+                    c = c.replace('a','8');
+                    c = c.replace('b','9');
+                    c = c.replace('c','a');
+                    c = c.replace('d','b');
+                    c = c.replace('e','c');
+                    c = c.replace('f','d');
+
+                    var items = document.querySelectorAll("div.innerNav");
+                    for(let i = 0; i<items.length;i++){
+                        items[i].style.backgroundColor = c;
+                    }
+                                        
+                }else if(id=='s'){
+                    var items = document.querySelectorAll("div.box");
+                    for(let i = 0; i<items.length;i++){
+                        items[i].style.backgroundColor = c;
+                    }
+                }else if(id=='n'){                  
+                    document.getElementById("topOfPage").style.backgroundColor = c;
+                }
+                
+            }
         {% endif %}
         
+        function createRedirectURL(){
+            let newUrl = document.getElementById('userSearch').value;
+            console.log(newUrl);
+            window.location.href=newUrl;
+        }
     </script>
 {% endblock %}

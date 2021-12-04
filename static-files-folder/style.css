@@ -104,6 +104,22 @@ button:hover{
     z-index: 1;
 }
 
+#color-pickers{
+    display: flex;
+    justify-content: space-around;
+}
+
+.color-reset{
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    height: 20%;    
+}
+
+#colorPicker{
+    height: 270px;
+}
+
 #imageNav{
     overflow-y: hidden;
     height: 270px;

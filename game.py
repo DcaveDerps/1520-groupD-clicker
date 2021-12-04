@@ -62,6 +62,7 @@ def updateAccountFromJson():
     acc['collectible_label_p'] = accJson['collectible_label_p']
     acc['sel_img'] = accJson['sel_img']
     acc['sel_template'] = accJson['sel_template']
+    acc['colors'] = accJson['colors']
     ds.update_entity(acc)
     print(str(acc['uname']) + " now has " + str(acc['collectibles']) + " collectibles\n" + str(acc['cps']) + " cps\n" + str(acc['factories']))
     response = dict(success=True)
@@ -84,6 +85,7 @@ def getAccountJson():
     acc_dict['collectible_label_p'] = acc['collectible_label_p']
     acc_dict['sel_img'] = acc['sel_img']
     acc_dict['sel_template'] = acc['sel_template']
+    acc_dict['colors'] = acc['colors']
     #print("gonna try and return " + acc_dict)
     return flask.Response(json.dumps(acc_dict), mimetype='application/json')
 
@@ -107,5 +109,6 @@ def getAccountDict(userName: str):
     acc_dict['collectible_label_p'] = acc['collectible_label_p']
     acc_dict['sel_img'] = acc['sel_img']
     acc_dict['sel_template'] = acc['sel_template']
+    acc_dict['colors'] = acc['colors']
     #print("gonna try and return " + acc_dict.__str__())
     return acc_dict
