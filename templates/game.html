@@ -150,6 +150,18 @@
             for(let i = 0;i<colors.length;i++){
                 if(colors[i]!="#"){
                     changeColorStart(variations[i],colors[i])
+                }else{
+                    if(i==0){
+                        document.getElementById('bg').value='#add8e6';
+                    }else if(i==1){
+                        document.getElementById('gs').value='#add8e6';
+                    }else if(i==2){
+                        document.getElementById('r').value='#213458';
+                    }else if(i==3){
+                        document.getElementById('s').value='#599b98';
+                    }else if(i==4){
+                        document.getElementById('n').value='#58727f';
+                    }
                 }
             }
 
@@ -411,24 +423,31 @@
                 for(let i = 0; i<items.length;i++){
                     items[i].style.backgroundColor = 'lightblue';
                 }
+                document.getElementById('bg').value='#add8e6';
                 document.getElementById("gameArea").style.backgroundColor = 'lightblue';
+                document.getElementById('gs').value='#add8e6';
                 items = document.querySelectorAll("div.nav");
                 for(let i = 0; i<items.length;i++){
                     items[i].style.backgroundColor = 'rgb(94, 122, 115)';
                 }
-
                 items = document.querySelectorAll("div.innerNav");
                 for(let i = 0; i<items.length;i++){
                     items[i].style.backgroundColor = '#213458';
                 }
+                document.getElementById('r').value='#213458';
+
                 items = document.querySelectorAll("div.box");
                 for(let i = 0; i<items.length;i++){
                     items[i].style.backgroundColor = 'rgba(89, 155, 152, 0.801)';
                 }
+                document.getElementById('s').value='#599b98';
+
                 document.getElementById("topOfPage").style.backgroundColor = '#58727f';
+                document.getElementById('n').value='#58727f';
                 for(let i = 0; i<colors.length;i++){
                     colors[i] = '#';
                 }
+                saveAndUpdateLocal();
             }
 
         {% else %}
