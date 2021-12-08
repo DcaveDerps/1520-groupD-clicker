@@ -5,12 +5,12 @@
     <br><br>
     <div class = "container">
         <div class = "row">
-            <div class = "nav" id = "buildingNav">
+            <!--<div class = "nav" id = "buildingNav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                 <a id = "building" ondragstart="move(this.id);">  
                     <img width="100px" src="/s/building.png" border="0">
                 </a>           
-            </div>
+            </div>-->
 
             <div class = "nav" id = "searchNav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a>
@@ -104,9 +104,10 @@
             </div>  
 
             <div class = "column" style='float:left; width:10%'>
+                <!--
                 <div class = "box" id = "1" onclick="openNav()">
                     <span style="font-size:20px;cursor:pointer;">Buildings</span>
-                </div>
+                </div> -->
                 <div class = "box" id = "2" onclick="openNav2()">
                     <span style="font-size:20px;cursor:pointer;" >Friend Search</span>
                 </div>
@@ -558,6 +559,7 @@
             {% endif %}
         });
 
+        /*
         //drag stuff
         building.onmousedown = function(event) {
 
@@ -603,6 +605,7 @@
             function closeNav() {
             document.getElementById("buildingNav").style.width = "0";
             }
+            */
 
             function openNav2() {
             document.getElementById("searchNav").style.width = "250px";
