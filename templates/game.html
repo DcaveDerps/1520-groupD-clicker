@@ -16,12 +16,15 @@
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a>
                 <a>  
                     <tr>
+                        
                         <td id = "inputElement">
+                                                    
                         <label for="uname">Search:</label>
                         </td>
                         <td id = "inputElement">
                         <input type="text" id="uname" name="uname">
                         </td>
+                        
                     </tr>
                 </a>           
             </div>
@@ -143,6 +146,7 @@
 
     <script src="/s/ajaxRequests.js"></script>
     <script src="/s/getTemplates.js"></script>
+    
     <script>
         {% if user is defined %}
             let userObj = cleanAccountJson( {{ user|tojson }} );
