@@ -100,7 +100,7 @@ def visit_user(visit_user_name=''):
     elif game.getAccountDict(visit_user_name)['uname'] == None:
         if session_user != None:
             return flask.render_template('visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=session_user)
-        return flask.render_template('/visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name)
+        return flask.render_template('/visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=session_user)
     
     template = '/s/Null_Template.png'    
     tmp = game.getAccountDict(visit_user_name)
