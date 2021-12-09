@@ -26,6 +26,11 @@
         
     </table>
      
+
+    <br>
+    <br>
+    {% if user is defined %}    
+    <p>See how your friends are doing. Click their username to visit their page!</p>
         <table>
         <tr>
             <td><strong>Name</strong></td>
@@ -49,7 +54,7 @@
         {% endfor %}
 
     </table>
-
+{%end if%}
 
 
     
