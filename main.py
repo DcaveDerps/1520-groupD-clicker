@@ -30,21 +30,14 @@ def root():
 @app.route('/game.html')
 def game_page():
     if 'username' in session:
-        return flask.render_template('/game.html', page_title='Game',user = ds.get_user_account(session['username']))
+        user = ds.get_user_account(session['username'])
+        player_list = user['friend_list'].split(',')        
+        return flask.render_template('/game.html', page_title='Game',user = ds.get_user_account(session['username']), players = player_list)
     return flask.render_template('/game.html', page_title='Game Demo')
-
-@app.route('/game')
-@app.route('/game.html')
-def friends():
-    alist = ds.get_user_account(flask.request.values['friend_list'])
-    player_list = alist.split(',')
-    if 'username' in session:
-        return flask.render_template('/game.html',players=player_list, user = ds.get_user_account(session['username']))
-    return flask.render_template('/game.html',players=player_list)    
 
 @app.route('/login')
 @app.route('/login.html')
-def login():
+def login():    
   return flask.render_template('/login.html', page_title='Login')
 
 @app.route('/leaderboard')
@@ -343,14 +336,6 @@ def check_user_existence():
         return flask.Response(json.dumps(''), mimetype='application/json')
     
     return flask.Response(json.dumps(username), mimetype='application/json')
-
-'''
-@app.route('/getFriendlist', methods=['POST'])
-def getFriends():
-    friends = ds.friend_list()
-    return flask.Response(json.dumps(friends), mimetype='application/json')
-    '''
-    
 
 
 if __name__ == '__main__':

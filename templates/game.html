@@ -28,10 +28,14 @@
             <div class = "nav" id = "listNav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav3()">&times;</a>
                 <a>  
-                    {% if user is defined %}<tr><td>&nbsp<strong>{{user['uname']}}</strong>'s Friend List</td></tr>{% endif%}
-                    <p></p>                    
+                    {% if user is defined %}<tr><td>&nbsp<strong>{{user['uname']}}</strong>'s Friend List</td></tr>
+                    {% endif%}      
                     {% for player in players %}
+                    <tr>
                         <td><a class = 'visit-links' href = 'visit/{{player['uname']}}'>{{player['uname']}}</a></td>
+                    </tr>
+                    {% else %}
+                    <tr><a>No players found.</a></tr>
                     {% endfor %}
                 </a>           
             </div>

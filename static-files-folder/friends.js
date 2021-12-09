@@ -40,6 +40,9 @@ function checkFriend(){
                 userObj.friend_list += ',' + result;
             }
         }
+        else
+            alert('User does not exist!');
+            
         return result;
     });
     
