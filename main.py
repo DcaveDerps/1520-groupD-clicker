@@ -33,8 +33,11 @@ def root():
 def game_page():
     if 'username' in session:
         alist = ds.get_user_account(session['username'])['friend_list']
-        player_list = alist.split(',')        
-        return flask.render_template('/game.html', page_title='Game',players=player_list, user = ds.get_user_account(session['username']))
+        player_list = alist.split(',')           
+        if alist=="":
+            return flask.render_template('/game.html', page_title='Game', user = ds.get_user_account(session['username']))
+        else: 
+            return flask.render_template('/game.html', page_title='Game',players=player_list, user = ds.get_user_account(session['username']))
     return flask.render_template('/game.html', page_title='Game Demo')    
 
 @app.route('/login')

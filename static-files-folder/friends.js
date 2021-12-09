@@ -41,16 +41,15 @@ function checkFriend(){
             }
             document.getElementById('friend-stat').innerHTML = "Successfully added " + result + " to your friend list!";
             //friend-list
-            
+            if(document.getElementById('no-players')){
+                document.getElementById('no-players').remove();
+            }
             document.getElementById('friend-list').innerHTML+="<span class = 'visit-flow' id = 'span friend "+result+"'><a class = 'visit-links' href = 'visit/"+result+"'>"+result+"</a><p class = 'friend-rm' id = 'friend "+result+"' onclick='removeFriend(this.id)'>Remove</p></span>";
 
         }else{
             document.getElementById('friend-stat').innerHTML = "Error: User not found!";
         
         }
-        else
-            alert('User does not exist!');
-            
         return result;
     });
     
