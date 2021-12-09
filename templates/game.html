@@ -28,12 +28,24 @@
 
             <div class = "nav" id = "listNav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav3()">&times;</a>
+<<<<<<< HEAD
                 <div>  
                     {% if user is defined %}<tr><td>&nbsp<strong>{{user['uname']}}</strong>'s Friend List</td></tr>{% endif%}
                     <p></p>  
                     <div id = 'friend-list'>                                      
                     {% for player in players %}
                         <span class = 'visit-flow' id = 'span friend {{player}}'><a class = 'visit-links' href = 'visit/{{player}}'>{{player}}</a><p class = 'friend-rm' id = 'friend {{player}}' onclick='removeFriend(this.id)'>Remove</p></span>
+=======
+                <a>  
+                    {% if user is defined %}<tr><td>&nbsp<strong>{{user['uname']}}</strong>'s Friend List</td></tr>
+                    {% endif%}      
+                    {% for player in players %}
+                    <tr>
+                        <td><a class = 'visit-links' href = 'visit/{{player['uname']}}'>{{player['uname']}}</a></td>
+                    </tr>
+                    {% else %}
+                    <tr><a>No players found.</a></tr>
+>>>>>>> 5a503561378a363a4918aaa2ab039485d5da98b0
                     {% endfor %}
                     </div>
                 </div>           

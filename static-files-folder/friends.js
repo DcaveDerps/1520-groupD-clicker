@@ -48,6 +48,9 @@ function checkFriend(){
             document.getElementById('friend-stat').innerHTML = "Error: User not found!";
         
         }
+        else
+            alert('User does not exist!');
+            
         return result;
     });
     
