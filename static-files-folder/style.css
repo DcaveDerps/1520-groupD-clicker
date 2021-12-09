@@ -262,7 +262,8 @@ button:hover{
 
 .outer{
     overflow: hidden;    
-    width: 100vw;   
+    width: 100%;
+    margin: 0px !important;   
 }
 
 .ribbon{
@@ -404,6 +405,11 @@ body {
     font-family: Helvetica, sans-serif;
 }
 
+.indexBody {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
 table, th {    
     border: 1px solid black;
     border-collapse: collapse;
@@ -434,9 +440,24 @@ td {
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 10px;
+    max-width: 1887px;
     color: white;
     font-family: Helvetica, sans-serif
 
+}
+
+#topOfPageIndex {
+    background-color: #58727f; 
+    padding-top: 5px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    margin-left: 8px;
+    margin-right: 8px;
+    max-width: 1887px;
+    color: white;
+    font-family: Helvetica, sans-serif
 }
 
 h1{
