@@ -21,3 +21,19 @@ function getCookies(){
     }
     return cList;
 }
+
+function getCroissants(){
+    let crList = [];
+    for(let i = 1; i<15; i++){
+        crList.push("/s/Croissants/Croissant-"+i+".png");
+    }
+    return crList;
+}
+
+function getCake(){
+    let caList = [];
+    for(let i = 1; i<15; i++){
+        caList.push("/s/Cakes/Cake-"+i+".png");
+    }
+    return caList;
+}

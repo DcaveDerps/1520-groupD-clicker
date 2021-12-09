@@ -79,7 +79,7 @@ button:hover{
     padding-right: 20px;
 }
 
-#template-muffins,#template-cupcakes,#template-cookies{
+.innerNav{
     display:flex; 
     justify-content: left;
     gap: 20px;
@@ -122,7 +122,7 @@ button:hover{
 
 #imageNav{
     overflow-y: hidden;
-    height: 270px;
+    height: 330px;
 }
 
 #templateNav{
@@ -257,12 +257,13 @@ button:hover{
     display:flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 5vh;
+    gap: 2vh;
 }
 
 .outer{
     overflow: hidden;    
-    width: 100vw;   
+    width: 100%;
+    margin: 0px !important;   
 }
 
 .ribbon{
@@ -398,10 +399,17 @@ button:hover{
     font-size: x-large;
 }
 
+
+
 body {
     overflow-y:scroll;
     background-color: lightblue;  
     font-family: Helvetica, sans-serif;
+}
+
+.indexBody {
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 table, th {    
@@ -434,9 +442,24 @@ td {
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 10px;
+    max-width: 1887px;
     color: white;
     font-family: Helvetica, sans-serif
 
+}
+
+#topOfPageIndex {
+    background-color: #58727f; 
+    padding-top: 5px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    margin-left: 8px;
+    margin-right: 8px;
+    max-width: 1887px;
+    color: white;
+    font-family: Helvetica, sans-serif
 }
 
 h1{

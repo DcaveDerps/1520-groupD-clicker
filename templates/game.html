@@ -68,6 +68,14 @@
                 <h4 style = "text-align: center"><strong>Cookies</strong></h4>
                 <div class='innerNav' id = 'template-cookies'>  
 
+                </div> 
+                <h4 style = "text-align: center"><strong>Croissants</strong></h4>
+                <div class='innerNav' id = 'template-croissant'>  
+
+                </div> 
+                <h4 style = "text-align: center"><strong>Cakes</strong></h4>
+                <div class='innerNav' id = 'template-cake'>  
+
                 </div>  
                 </div>
             </div>  
@@ -229,7 +237,17 @@
             let cookieList = getCookies();
             for(let i = 0; i < cookieList.length; i++){
                 createTemplateElement(cookieList[i], 'template-cookies');
-            }            
+            }   
+            
+            let croissantList = getCroissants();
+            for(let i = 0; i<croissantList.length;i++){
+                createTemplateElement(croissantList[i],'template-croissant');
+            }
+
+            let cakeList = getCake();
+            for(let i = 0; i < cakeList.length; i++){
+                createTemplateElement(cakeList[i], 'template-cake');
+            }  
 
             sendJsonRequest({'search':search}, '/getAllClaimedImages', function(result, targetUrl, params) {                
                 navCallback(result);

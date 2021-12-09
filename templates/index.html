@@ -1,5 +1,5 @@
 
-{% extends '_base.html' %}
+{% extends '_index.html' %}
 {% block content %}
 <div id='content'>
     <div class = "outer" id = 'outer'>    
@@ -45,7 +45,7 @@
 
     let userTotal = 0n;
     let userTotalCps = 0n;
-    {% for user in users %}
+    {% for user in players %}
         userTotal = userTotal + BigInt({{user['collectibles']}});
         userTotalCps = userTotalCps + BigInt({{user['cps']}});
     {% endfor %}
@@ -66,6 +66,8 @@
     allTemplates = allTemplates.concat(getMuffins());
     allTemplates = allTemplates.concat(getCupcakes());
     allTemplates = allTemplates.concat(getCookies());
+    allTemplates = allTemplates.concat(getCroissants());
+    allTemplates = allTemplates.concat(getCake());
 
     sendJsonRequest({}, '/getAllImages', function(result, targetUrl, params) {               
         navCallback(result);
