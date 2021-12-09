@@ -79,7 +79,7 @@ button:hover{
     padding-right: 20px;
 }
 
-#template-muffins,#template-cupcakes,#template-cookies{
+.innerNav{
     display:flex; 
     justify-content: left;
     gap: 20px;
