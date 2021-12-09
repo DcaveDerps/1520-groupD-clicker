@@ -214,9 +214,9 @@ def get_user_friends(username): #for logging in
 def update_all_users():
     ds_client = get_datastore_client()
     query = ds_client.query(kind='user_account')
-    now = int(time.mktime(time.gmtime()));
+    now = int(time.mktime(time.gmtime()))
     for acc in query.fetch():
-        user_time = math.floor(acc['left_game']/1000);
+        user_time = math.floor(acc['left_game']/1000)
         if user_time>0:
             acc['collectibles'] = acc['collectibles'] + (now-user_time)*acc['cps']
             acc['left_game'] = now*1000
