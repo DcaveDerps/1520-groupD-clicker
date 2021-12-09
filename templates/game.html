@@ -28,7 +28,11 @@
             <div class = "nav" id = "listNav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav3()">&times;</a>
                 <a>  
-                    List Here.
+                    {% if user is defined %}<tr><td>&nbsp<strong>{{user['uname']}}</strong>'s Friend List</td></tr>{% endif%}
+                    <p></p>                    
+                    {% for player in players %}
+                        <td><a class = 'visit-links' href = 'visit/{{player['uname']}}'>{{player['uname']}}</a></td>
+                    {% endfor %}
                 </a>           
             </div>
             <div class = "nav" id = "customNav">
@@ -617,7 +621,7 @@
             }
 
             function openNav3() {
-            document.getElementById("listNav").style.width = "250px";
+            document.getElementById("listNav").style.width = "300px";
             }
 
             function closeNav3() {

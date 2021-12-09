@@ -231,6 +231,7 @@ def get_leaderboard():
         results.append(entity)
     return results
 
+
 # incredibly unsafe debug function
 def list_account_entities():
 

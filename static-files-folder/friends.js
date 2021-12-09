@@ -14,17 +14,23 @@ function checkFriend(){
     sendJsonRequest({'username': username}, '/searchFriend', function(result, targetUrl, params) {
         if(result != '')
         {
-            //alert(result);
-            list = userObj.friend_list.split();
 
-            for (let index = 0; index < list.length; index++) {
-                if(list[index] = result)
+            //alert(result);
+            listing = userObj.friend_list.split(',');
+
+                //alert(list[0]);
+                //alert(list[1]);
+                
+            
+            for (let index = 0; index < listing.length; index++) {
+                if(listing[index] == result)
                 {
                     alert('Already added this user!')
                     return;
                 }
                 
             }
+            
             if(userObj.friend_list == '')
             {
                 userObj.friend_list += result;
@@ -38,4 +44,3 @@ function checkFriend(){
     });
     
 }
-
