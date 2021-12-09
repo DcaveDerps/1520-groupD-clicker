@@ -257,7 +257,7 @@ button:hover{
     display:flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 5vh;
+    gap: 2vh;
 }
 
 .outer{
@@ -398,6 +398,8 @@ button:hover{
 .count{
     font-size: x-large;
 }
+
+
 
 body {
     overflow-y:scroll;
