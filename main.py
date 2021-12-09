@@ -53,7 +53,10 @@ def leaderboard():
     if 'username' in session:
         friends = ds.get_user_account(session['username'])['friend_list']
         friends = friends.split(',')
-        return flask.render_template('/leaderboard.html',page_title='Leaderboard',players=player_list,friend_list=friends, user = ds.get_user_account(session['username']))
+        friend_entities = []
+        for uname in friends:
+            friend_entities.append(ds.get_user_account(uname))
+        return flask.render_template('/leaderboard.html',page_title='Leaderboard',players=player_list,friend_list=friend_entities, user = ds.get_user_account(session['username']))
     return flask.render_template('/leaderboard.html',page_title='Leaderboard',players=player_list)
 
 @app.route('/marketplace')
