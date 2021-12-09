@@ -320,6 +320,17 @@ def search_claimed():
     selections = selections.split(',')
     return market.search_claimed_images(int(flask.request.values['low']),int(flask.request.values['high']),selections,search)
 
+@app.route('/searchFriend', methods=['POST'])
+def check_user_existence():
+    username = flask.request.values['username']
+
+    if ds.get_user_account(username) == None:
+        print("Username doesn't exist!")
+        return flask.Response(json.dumps(''), mimetype='application/json')
+    
+    return flask.Response(json.dumps(username), mimetype='application/json')
+    
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8080, debug=True)

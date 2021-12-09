@@ -16,13 +16,9 @@
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a>
                 <a>  
                     <tr>
-                        
-                        <td id = "inputElement">
-                                                    
-                        <label for="uname">Search:</label>
-                        </td>
-                        <td id = "inputElement">
-                        <input type="text" id="uname" name="uname">
+                        <form onsubmit = "checkFriend();return false">
+                            <td id = "unameToSearch">Search:</td><input id="username" type="text" name="search" style="width:75%">
+                            <input type="Submit">                        
                         </td>
                         
                     </tr>
@@ -146,6 +142,7 @@
 
     <script src="/s/ajaxRequests.js"></script>
     <script src="/s/getTemplates.js"></script>
+    <script src="/s/friends.js"></script>    
     
     <script>
         {% if user is defined %}
@@ -612,7 +609,7 @@
             */
 
             function openNav2() {
-            document.getElementById("searchNav").style.width = "250px";
+            document.getElementById("searchNav").style.width = "400px";
             }
 
             function closeNav2() {
