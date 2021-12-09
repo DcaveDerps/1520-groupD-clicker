@@ -13,3 +13,11 @@ function getCupcakes(){
     }
     return mList;
 }
+
+function getCookies(){
+    let cList = [];
+    for(let i = 1; i<15; i++){
+        cList.push("s/Cookies/Cookie-"+i+".png");
+    }
+    return cList;
+}
