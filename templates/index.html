@@ -45,7 +45,7 @@
 
     let userTotal = 0n;
     let userTotalCps = 0n;
-    {% for user in users %}
+    {% for user in players %}
         userTotal = userTotal + BigInt({{user['collectibles']}});
         userTotalCps = userTotalCps + BigInt({{user['cps']}});
     {% endfor %}
