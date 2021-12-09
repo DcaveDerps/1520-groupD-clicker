@@ -206,6 +206,11 @@ def get_user_account(username): #for logging in
     key = ds_client.key('user_account', username)
     return ds_client.get(key)
 
+def get_user_friends(username): #for logging in
+    ds_client = get_datastore_client()
+    key = ds_client.key('user_account', username)
+    return ds_client.get(key)
+
 def update_all_users():
     ds_client = get_datastore_client()
     query = ds_client.query(kind='user_account')
@@ -216,8 +221,6 @@ def update_all_users():
             acc['collectibles'] = acc['collectibles'] + (now-user_time)*acc['cps']
             acc['left_game'] = now*1000
             update_entity(acc)
-
-
 
 
 #Get leaderboard list
