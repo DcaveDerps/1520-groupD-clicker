@@ -23,7 +23,37 @@
         {% else %}
         <tr><td>No players found.</td></tr>
         {% endfor %}
+        
     </table>
+     
+        <table>
+        <tr>
+            <td><strong>Name</strong></td>
+            <td><strong>Collectibles</strong></td>
+            <td><strong>Collectibles per Second</strong></td>
+        </tr>
+        {% for player in friend_list %}
+        <tr>
+            {%if user and player['uname'] == user['uname'] %}
+            <td><strong>{{player['uname']}}</strong></td>
+            <td name = 'number'><strong>{{player['collectibles']}}</strong></td>
+            <td name = 'number'><strong>{{player['cps']}}</strong></td>
+            {% else %}
+            <td><a class = 'visit-links' href = 'visit/{{player['uname']}}'>{{player['uname']}}</a></td>
+            <td name = 'number'>{{player['collectibles']}}</td>
+            <td name = 'number'>{{player['cps']}}</td>
+            {% endif %}
+        </tr>
+        {% else %}
+        <tr><td>No players found.</td></tr>
+        {% endfor %}
+
+    </table>
+
+
+
+    
+
     <script>
         numbers = document.getElementsByName('number');
         for(let i = 0; i<numbers.length;i++){
