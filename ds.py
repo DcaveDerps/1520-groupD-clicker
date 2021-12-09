@@ -234,8 +234,8 @@ def get_leaderboard():
         results.append(entity)
     return results
 
-def get_friend_list():
-    
+
+
 # incredibly unsafe debug function
 def list_account_entities():
 
