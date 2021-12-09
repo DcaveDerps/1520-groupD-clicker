@@ -334,6 +334,26 @@ button:hover{
     justify-content: center;
 }
 
+.visit-flow{
+    display:flex;
+    flex-flow: row;
+}
+
+.friend-rm{
+    cursor: default;
+    position:relative;
+    top:-16px;
+    left:50px;
+    color: gray;
+    font-weight: lighter;    
+}
+
+.friend-rm:hover{
+    color:red;
+    font-weight: bolder;  
+    transition: .3s;
+}
+
 .visit-links{
     color: lightseagreen;
     text-decoration: none;
@@ -342,6 +362,40 @@ button:hover{
 .visit-links:hover{
     font-weight: bold;
     color: lightblue;
+}
+
+.demo-links{
+    color: #eee;
+    text-decoration: none;
+}
+
+.demo-links:hover{
+    transition: .3s;
+    color: #66f;
+}
+
+#count1{
+    position: absolute;
+    left:10%;
+}
+
+#count2{
+    position: absolute;
+    left:90%;
+}
+
+#count3{
+    position: absolute;
+    left:80%;
+}
+
+#count4{
+    position: absolute;
+    left:20%;
+}
+
+.count{
+    font-size: x-large;
 }
 
 body {

@@ -22,25 +22,20 @@ WEBPAGE ROUTING
 def root():
     # Commenting this out for now, since we have a log out button now
     # session.pop('username',None)
+    player_list = ds.get_leaderboard()
     if 'username' in session:
-        return flask.render_template('/index.html', page_title='Boulangerie',user = ds.get_user_account(session['username']))
-    return flask.render_template('/index.html', page_title='Boulangerie')
+        return flask.render_template('/index.html', page_title='Boulangerie',user = ds.get_user_account(session['username']),players=player_list)
+    return flask.render_template('/index.html', page_title='Boulangerie',players=player_list)
+
 
 @app.route('/game')
 @app.route('/game.html')
 def game_page():
     if 'username' in session:
-        return flask.render_template('/game.html', page_title='Game',user = ds.get_user_account(session['username']))
-    return flask.render_template('/game.html', page_title='Game Demo')
-
-@app.route('/game')
-@app.route('/game.html')
-def friends():
-    alist = ds.get_user_account(flask.request.values['friend_list'])
-    player_list = alist.split(',')
-    if 'username' in session:
-        return flask.render_template('/game.html',players=player_list, user = ds.get_user_account(session['username']))
-    return flask.render_template('/game.html',players=player_list)    
+        alist = ds.get_user_account(session['username'])['friend_list']
+        player_list = alist.split(',')        
+        return flask.render_template('/game.html', page_title='Game',players=player_list, user = ds.get_user_account(session['username']))
+    return flask.render_template('/game.html', page_title='Game')    
 
 @app.route('/login')
 @app.route('/login.html')
@@ -139,10 +134,7 @@ def handle_upload_img():
         ds.upload_gif(title,img_file,session['username'])
     else:    
         ds.upload_img(title,img_file,session['username'],w,h,-top,-left) 
-
-
-    #TODO: MAKE UPLOAD DISPLAY AN IMAGE WITH SUCCESS AND AUTO CLAIM
-    #      MAKE CLEAR SEARCH BUTTON    
+ 
     return redirect("/marketplace.html", code=302)
 
 
@@ -155,7 +147,6 @@ def handle_create_account_request():
 
     user_name = flask.request.values['uname']
 
-    # TODO enforce only having one account Entity per username
     #       - If there already exists an Entity (account) with a username, abort account creation
     if ds.get_user_account(user_name) != None:
         print("Username taken!")
@@ -163,7 +154,6 @@ def handle_create_account_request():
 
     user_password = flask.request.values['password']
     if user_password != flask.request.values['password-confirm']:
-        # TODO Have a Passwords don't match message appear on the page
         print("Passwords don't match!")
 
         return flask.render_template('/create.html', page_title = 'Create Account',err='Passwords do not match') # if passwords don't match, abort account creation
@@ -196,11 +186,6 @@ def handle_create_account_request():
     print('New account for user %s created successfully!' % new_user['uname'])
 
     ds.list_account_entities()
-
-    # NEED a return statement that goes to another page (or the same page)
-
-    # Essentially, when a request is processed, it takes the user away from the page,
-    # so you need to send them somewhere or else it will give a server error
 
     #return redirect("/game.html", code=302)
     return flask.render_template('/game.html', page_title='Game', user=ds.get_user_account(user_name))
@@ -238,7 +223,9 @@ def handle_login_request():
     print("Login successful!")
 
     #return redirect("/game.html", code=302)
-    return flask.render_template('/game.html', page_title='Game', user=user_account)
+    alist = user_account['friend_list']
+    player_list = alist.split(',')
+    return flask.render_template('/game.html', page_title='Game',players=player_list, user = ds.get_user_account(session['username']))
 
 """
 HELPER FUNCTIONS

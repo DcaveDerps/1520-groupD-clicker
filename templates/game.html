@@ -22,18 +22,21 @@
                         </td>
                         
                     </tr>
-                </a>           
+                </a>  
+                <p id = 'friend-stat'></p>                         
             </div>
 
             <div class = "nav" id = "listNav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav3()">&times;</a>
-                <a>  
+                <div>  
                     {% if user is defined %}<tr><td>&nbsp<strong>{{user['uname']}}</strong>'s Friend List</td></tr>{% endif%}
-                    <p></p>                    
+                    <p></p>  
+                    <div id = 'friend-list'>                                      
                     {% for player in players %}
-                        <td><a class = 'visit-links' href = 'visit/{{player['uname']}}'>{{player['uname']}}</a></td>
+                        <span class = 'visit-flow' id = 'span friend {{player}}'><a class = 'visit-links' href = 'visit/{{player}}'>{{player}}</a><p class = 'friend-rm' id = 'friend {{player}}' onclick='removeFriend(this.id)'>Remove</p></span>
                     {% endfor %}
-                </a>           
+                    </div>
+                </div>           
             </div>
             <div class = "nav" id = "customNav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav4()">&times;</a>
@@ -107,6 +110,7 @@
             </div>  
 
             <div class = "column" style='float:left; width:10%'>
+                {% if user is defined %}
                 <!--
                 <div class = "box" id = "1" onclick="openNav()">
                     <span style="font-size:20px;cursor:pointer;">Buildings</span>
@@ -129,6 +133,14 @@
                 <div class = "box" id = "7" onclick="openNav7()">
                     <span style="font-size:20px;cursor:pointer;">Color</span>
                 </div>
+                {% else %}
+                <div class = "box"">
+                    <a class = 'demo-links' href = '/login' style="font-size:20px;cursor:pointer;">Login!</a>
+                </div>
+                <div class = "box"">
+                    <a class = 'demo-links' href = '/create' style="font-size:20px;cursor:pointer;">Create Account!</a>
+                </div>
+                {% endif %}
             </div>
 
             <div  class = "column" id = "gameArea" style='float:left; width:75%; margin-left:40px'>
@@ -622,6 +634,7 @@
             }
 
             function closeNav2() {
+                document.getElementById('friend-stat').innerHTML = "";
             document.getElementById("searchNav").style.width = "0";
             }
 
