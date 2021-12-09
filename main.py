@@ -53,7 +53,7 @@ def leaderboard():
     if 'username' in session:
         friends = ds.get_user_account(session['username'])['friend_list']
         if friends == '':
-            return flask.render_template('/leaderboard.html',page_title='Leaderboard',players=player_list)
+            return flask.render_template('/leaderboard.html',page_title='Leaderboard',players=player_list, user = ds.get_user_account(session['username']))
         friends = friends.split(',')
         friend_entities = []
         
