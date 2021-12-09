@@ -33,6 +33,7 @@
 
     allTemplates = allTemplates.concat(getMuffins());
     allTemplates = allTemplates.concat(getCupcakes());
+    allTemplates = allTemplates.concat(getCookies());
 
     sendJsonRequest({}, '/getAllImages', function(result, targetUrl, params) {               
         navCallback(result);
