@@ -10,7 +10,14 @@
     <div class = 'scores'>
 
     </div>
-    <h2>Bienvenue!</h2>
+    <h1>Bienvenue!</h1>
+    <div class='gamePageStatsUI'>
+        <div class='homePageStat'>
+            <strong>Users have generated</strong>
+            <strong id= 'userTotal' class=homePageCounter>...</strong>
+            <strong>Collectibles so far!</strong>
+        </div>
+    </div>
     <div class = 'scores'>
  
     </div>
@@ -19,6 +26,11 @@
     
     </div>
     </div>
+
+    <div>
+
+    </div>
+
 </div>
 
 <script src="/s/ajaxRequests.js"></script>
@@ -30,6 +42,26 @@
     var left = 100000000; 
     var rect = document.getElementById('outer').getBoundingClientRect();  
     var right = parseInt(rect.right);
+
+    let userTotal = 0n;
+    let userTotalCps = 0n;
+    {% for user in users %}
+        userTotal = userTotal + BigInt({{user['collectibles']}});
+        userTotalCps = userTotalCps + BigInt({{user['cps']}});
+    {% endfor %}
+
+    document.getElementById("userTotal").textContent = userTotal.toLocaleString();
+    console.log('userTotal: ' + userTotal + ' | userTotalCps: ' + userTotalCps);
+
+    if (userTotalCps != 0n) {
+        setInterval(addCPSLocal, 1000);
+    }
+
+    function addCPSLocal(){    
+            userTotal += userTotalCps;
+            document.getElementById("userTotal").textContent = userTotal.toLocaleString();
+        }    
+    
 
     allTemplates = allTemplates.concat(getMuffins());
     allTemplates = allTemplates.concat(getCupcakes());

@@ -22,9 +22,10 @@ WEBPAGE ROUTING
 def root():
     # Commenting this out for now, since we have a log out button now
     # session.pop('username',None)
+    player_list = ds.get_leaderboard()
     if 'username' in session:
-        return flask.render_template('/index.html', page_title='Boulangerie',user = ds.get_user_account(session['username']))
-    return flask.render_template('/index.html', page_title='Boulangerie')
+        return flask.render_template('/index.html', page_title='Boulangerie',user = ds.get_user_account(session['username']),users=player_list)
+    return flask.render_template('/index.html', page_title='Boulangerie',users=player_list)
 
 @app.route('/game')
 @app.route('/game.html')
@@ -92,7 +93,7 @@ def visit_user(visit_user_name=''):
     elif game.getAccountDict(visit_user_name)['uname'] == None:
         if session_user != None:
             return flask.render_template('visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=session_user)
-        return flask.render_template('/visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name, user=session_user)
+        return flask.render_template('/visit.html', page_title='Visit Page', noUser=True, attemptedVisit=visit_user_name)
     
     template = '/s/Null_Template.png'    
     tmp = game.getAccountDict(visit_user_name)
