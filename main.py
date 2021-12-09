@@ -48,11 +48,11 @@ def login():
 @app.route('/leaderboard')
 @app.route('/leaderboard.html')
 def leaderboard():
-    
+    player_list = ds.get_leaderboard()
     
     if 'username' in session:
-        friend_list = ds.get_user_account(session['username'])['friend_list']
-        friend_list = friend_list.split(',')
+        friends = ds.get_user_account(session['username'])['friend_list']
+        friends = friends.split(',')
         return flask.render_template('/leaderboard.html',page_title='Leaderboard',players=player_list,friend_list=friends, user = ds.get_user_account(session['username']))
     return flask.render_template('/leaderboard.html',page_title='Leaderboard',players=player_list,friend_list=friends)
 
