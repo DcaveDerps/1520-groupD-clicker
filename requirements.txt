@@ -1,4 +1,4 @@
-flask==2.0.1
+flask==2.2.5
 Pillow==9.3.0
 google-cloud-datastore
 google-cloud-storage
